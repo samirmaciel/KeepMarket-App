@@ -1,4 +1,4 @@
-package com.sm.keepmarket.ui.theme
+package com.sm.keepmarket.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,6 +1,5 @@
-package com.sm.keepmarket.ui.theme
+package com.sm.keepmarket.presentation.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
