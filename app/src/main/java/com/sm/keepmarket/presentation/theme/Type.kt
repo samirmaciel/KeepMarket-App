@@ -19,22 +19,22 @@ val Typography = Typography(
     titleLarge = TextStyle(
         fontFamily = poppinsFontFamily,
         fontWeight = FontWeight.Black,
-        fontSize = 45.sp
+        fontSize = 30.sp
     ),
     labelLarge = TextStyle(
         fontFamily = poppinsFontFamily,
         fontWeight = FontWeight.Black,
-        fontSize = 32.sp
+        fontSize = 22.sp
     ),
     labelMedium = TextStyle(
         fontFamily = poppinsFontFamily,
         fontWeight = FontWeight.Black,
-        fontSize = 22.sp
+        fontSize = 16.sp
     ),
     labelSmall = TextStyle(
         fontFamily = poppinsFontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp
+        fontSize = 10.sp
     )
 
 )
