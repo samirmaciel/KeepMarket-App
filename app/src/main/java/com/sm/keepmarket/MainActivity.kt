@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
 import androidx.compose.ui.unit.sp
+import com.sm.keepmarket.presentation.home.HomeView
 import com.sm.keepmarket.presentation.theme.KeepMarketTheme
 
 class MainActivity : ComponentActivity() {
@@ -12,6 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             KeepMarketTheme {
+                HomeView()
             }
         }
     }
