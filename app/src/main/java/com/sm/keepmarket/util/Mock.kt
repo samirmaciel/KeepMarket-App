@@ -1,0 +1,129 @@
+package com.sm.keepmarket.util
+
+import com.sm.keepmarket.R
+import com.sm.keepmarket.domain.FeaturedCard
+import com.sm.keepmarket.domain.Highlight
+import com.sm.keepmarket.domain.Route
+import java.time.LocalDateTime
+
+object Mock {
+
+
+
+    fun getFeatureCard(): List<FeaturedCard>{
+        return listOf(
+            FeaturedCard(
+                id = "123",
+                type = "Pantry",
+                title = "My Pantry 1",
+                route = getRoute("Pantry"),
+                date = LocalDateTime.now()
+            ),
+            FeaturedCard(
+                id = "321",
+                type = "Marktet",
+                title = "My Market 1",
+                route = getRoute("Marktet"),
+                date = LocalDateTime.now()
+            ),
+            FeaturedCard(
+                id = "321",
+                type = "Marktet",
+                title = "My Market 2",
+                route = getRoute("Marktet"),
+                date = LocalDateTime.now()
+            ),
+            FeaturedCard(
+                id = "321",
+                type = "Marktet",
+                title = "My Market 3",
+                route = getRoute("Marktet"),
+                date = LocalDateTime.now()
+            )
+        )
+    }
+
+    fun getRoute(name: String): Route{
+
+        val route = Route()
+        route.addRoute("TEST/${name}")
+
+        return route
+    }
+
+    fun getHighlight(): List<Highlight> {
+        return listOf(
+            Highlight(
+                id = "1",
+                title = "Sliced Bread",
+                subTitle = "2 days ago",
+                icon = R.drawable.arrowiconupicon,
+                infoText = "R$0,30"
+            ),
+            Highlight(
+                id = "2",
+                title = "Milk",
+                subTitle = "1 day ago",
+                icon = R.drawable.arrowdowngreenicon,
+                infoText = "R$4,50"
+            ),
+            Highlight(
+                id = "3",
+                title = "Rice",
+                subTitle = "Today",
+                icon = R.drawable.arrowiconupicon,
+                infoText = "R$23,00"
+            ),
+            Highlight(
+                id = "4",
+                title = "Beans",
+                subTitle = "Yesterday",
+                icon = R.drawable.arrowdowngreenicon,
+                infoText = "R$8,90"
+            ),
+            Highlight(
+                id = "5",
+                title = "Eggs (12u)",
+                subTitle = "3 days ago",
+                icon = R.drawable.arrowiconupicon,
+                infoText = "R$12,00"
+            ),
+            Highlight(
+                id = "6",
+                title = "Tomatoes",
+                subTitle = "Today",
+                icon = R.drawable.arrowdowngreenicon,
+                infoText = "R$6,70"
+            ),
+            Highlight(
+                id = "7",
+                title = "Pasta",
+                subTitle = "5 days ago",
+                icon = R.drawable.arrowiconupicon,
+                infoText = "R$5,20"
+            ),
+            Highlight(
+                id = "8",
+                title = "Cheese",
+                subTitle = "2 days ago",
+                icon = R.drawable.arrowdowngreenicon,
+                infoText = "R$18,50"
+            ),
+            Highlight(
+                id = "9",
+                title = "Chicken",
+                subTitle = "Today",
+                icon = R.drawable.arrowiconupicon,
+                infoText = "R$22,90"
+            ),
+            Highlight(
+                id = "10",
+                title = "Coffee",
+                subTitle = "Yesterday",
+                icon = R.drawable.arrowdowngreenicon,
+                infoText = "R$15,00"
+            )
+        )
+    }
+
+}

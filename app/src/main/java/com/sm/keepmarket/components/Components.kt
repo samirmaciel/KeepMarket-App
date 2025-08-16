@@ -1,10 +1,12 @@
 package com.sm.keepmarket.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,6 +28,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
+import com.sm.keepmarket.domain.FeaturedCard
+import com.sm.keepmarket.domain.Highlight
+import com.sm.keepmarket.domain.Route
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.ButtonDefault
@@ -91,16 +96,40 @@ fun BottomMenu() {
 }
 
 @Composable
-fun MiddleItemHighlights() {
+fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
 
-    Box(modifier = Modifier.padding(5.dp)){
+    Box(modifier = Modifier.padding(5.dp).clickable(enabled = true, onClick = { onClick(featuredCard.route) })){
         Column(modifier = Modifier.size(width = 150.dp, height = 150.dp).background(Blue, RoundedCornerShape(10.dp)).padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(modifier = Modifier.size(30.dp).padding(end = 10.dp), painter = painterResource(R.drawable.settingsicon), tint = Color.White, contentDescription = "")
-                Text("My pantry 1", style = MaterialTheme.typography.labelSmall, color = Color.White, fontSize = 10.sp)
+                Text(featuredCard.type, style = MaterialTheme.typography.labelSmall, color = Color.White, fontSize = 10.sp)
             }
-            Text(modifier = Modifier.padding(top = 20.dp), text ="Pantry", style = MaterialTheme.typography.labelMedium, color = Color.White)
-            Text(modifier = Modifier.padding(top = 20.dp), text = "October 20, 2020", style = MaterialTheme.typography.labelSmall, color = Color.White, fontSize = 8.sp)
+            Text(modifier = Modifier.padding(top = 20.dp), text = featuredCard.title, style = MaterialTheme.typography.labelMedium, color = Color.White)
+            Text(modifier = Modifier.padding(top = 20.dp), text = featuredCard.date.toString(), style = MaterialTheme.typography.labelSmall, color = Color.White, fontSize = 8.sp)
+        }
+    }
+}
+
+@Composable
+fun HighlightItem(highlight: Highlight) {
+
+    Row(modifier = Modifier.fillMaxWidth().background(Color.White, shape = RoundedCornerShape(10.dp)).padding(vertical = 5.dp, horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+        Box(modifier = Modifier.size(50.dp).background(color = Blue, shape = RoundedCornerShape(10.dp)), contentAlignment = Alignment.Center){
+            Icon(painter = painterResource(R.drawable.todolisticon), tint = Color.White, contentDescription = "")
+        }
+
+        Column(modifier = Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.Center) {
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(modifier = Modifier, text = highlight.title, style = MaterialTheme.typography.titleLarge, fontSize = 15.sp)
+                Spacer(modifier = Modifier.size(10.dp))
+                Icon(modifier = Modifier.size(15.dp), painter = painterResource(highlight.icon), tint = Color.Unspecified , contentDescription = "")
+                Spacer(modifier = Modifier.size(10.dp))
+
+                if(!highlight.infoText.isNullOrBlank()){
+                    Text(modifier = Modifier, text = highlight.infoText, style = MaterialTheme.typography.titleLarge, fontSize = 15.sp)
+                }
+            }
+            Text(highlight.subTitle, style = MaterialTheme.typography.labelSmall, fontSize = 12.sp, color = ButtonDefault)
         }
     }
 }

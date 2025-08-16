@@ -1,15 +1,17 @@
 package com.sm.keepmarket.presentation.home
 
-import androidx.compose.foundation.background
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,15 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.BottomMenu
-import com.sm.keepmarket.components.MiddleItemHighlights
+import com.sm.keepmarket.components.FeaturedCardButton
+import com.sm.keepmarket.components.HighlightItem
 import com.sm.keepmarket.presentation.theme.Background
-import com.sm.keepmarket.presentation.theme.Blue
-import com.sm.keepmarket.presentation.theme.KeepMarketTheme
+import com.sm.keepmarket.util.Mock
 
 @Composable
 fun HomeView() {
@@ -51,6 +52,7 @@ fun HomeView() {
                     Icon(painter = painterResource(R.drawable.settingsicon), contentDescription = "Settings button")
                 }
             }
+
             Column(modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp), horizontalAlignment = Alignment.Start) {
@@ -82,26 +84,28 @@ fun HomeView() {
                 }
             }
 
-            Row(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-                MiddleItemHighlights()
-                MiddleItemHighlights()
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)) {
+
+                LazyRow {
+                    items(Mock.getFeatureCard()){ featuredCard ->
+                        FeaturedCardButton(featuredCard = featuredCard){ route ->
+                            Log.d("DEVTEST", "Route: ${route.getRoute()}")
+                        }
+                    }
+                }
+
             }
 
             Text(modifier = Modifier.padding(16.dp), text = "Highlights", style = MaterialTheme.typography.labelMedium)
 
-            LazyColumn() {
-
+            LazyColumn(modifier = Modifier.padding(16.dp)) {
+                items(Mock.getHighlight()){ hightlight ->
+                    HighlightItem(hightlight)
+                    Spacer(modifier = Modifier.size(5.dp))
+                }
             }
         }
-    }
-}
-
-
-@Composable
-@Preview
-fun Preview(modifier: Modifier = Modifier) {
-
-    KeepMarketTheme {
-        HomeView()
     }
 }
