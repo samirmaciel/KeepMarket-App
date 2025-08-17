@@ -3,7 +3,9 @@ package com.sm.keepmarket.util
 import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.FeaturedCard
 import com.sm.keepmarket.domain.Highlight
+import com.sm.keepmarket.domain.MarketItem
 import com.sm.keepmarket.domain.Route
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 object Mock {
@@ -124,6 +126,34 @@ object Mock {
                 infoText = "R$15,00"
             )
         )
+    }
+
+    fun getMarketItemList(): List<MarketItem>{
+        val list = mutableListOf<MarketItem>()
+
+        val marketItem1 = MarketItem(
+            id = "123",
+            name = "Milk"
+        )
+
+        val marketItem2 = MarketItem(
+            id = "123",
+            name = "Chicken"
+        )
+
+        val marketItem3 = MarketItem(
+            id = "123",
+            name = "Apple"
+        )
+
+        marketItem1.price = BigDecimal(1.25)
+        marketItem1.amount = 5
+
+        list.add(marketItem1)
+        list.add(marketItem2)
+        list.add(marketItem3)
+
+        return list
     }
 
 }
