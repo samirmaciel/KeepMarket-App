@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.sm.keepmarket.components.BottomMenu
 import com.sm.keepmarket.presentation.marketList.MarketListView
+import com.sm.keepmarket.presentation.pantryList.PantryListView
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.KeepMarketTheme
 
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     containerColor = Background,
                     bottomBar = { BottomMenu() }) { padding ->
 
-                    MarketListView(padding)
+                    PantryListView(padding)
 
                 }
             }

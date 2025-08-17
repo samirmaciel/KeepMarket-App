@@ -4,8 +4,10 @@ import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.FeaturedCard
 import com.sm.keepmarket.domain.Highlight
 import com.sm.keepmarket.domain.MarketItem
+import com.sm.keepmarket.domain.PantryItem
 import com.sm.keepmarket.domain.Route
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 object Mock {
@@ -152,6 +154,21 @@ object Mock {
         list.add(marketItem1)
         list.add(marketItem2)
         list.add(marketItem3)
+
+        return list
+    }
+
+    fun getPantryItemList(): List<PantryItem>{
+        val list = mutableListOf<PantryItem>()
+
+        val item1 = PantryItem("123", "Milk", LocalDate.of(2025, 10, 10))
+        val item2 = PantryItem("123", "Chicken", LocalDate.of(2025, 7, 18))
+
+        item1.amount = 1
+        item2.amount = 4
+
+        list.add(item1)
+        list.add(item2)
 
         return list
     }
