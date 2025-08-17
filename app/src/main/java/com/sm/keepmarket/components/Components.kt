@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,15 +27,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.FeaturedCard
 import com.sm.keepmarket.domain.Highlight
+import com.sm.keepmarket.domain.MarketItem
 import com.sm.keepmarket.domain.Route
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.ButtonDefault
+import java.math.BigDecimal
 
 @Composable
 fun BottomMenu() {
@@ -130,6 +135,95 @@ fun HighlightItem(highlight: Highlight) {
                 }
             }
             Text(highlight.subTitle, style = MaterialTheme.typography.labelSmall, fontSize = 12.sp, color = ButtonDefault)
+        }
+    }
+}
+
+@Composable
+fun MarketListItem(marketItem: MarketItem) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp)
+            .background(color = Color.White, shape = RoundedCornerShape(10.dp)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        var checked by remember { mutableStateOf(false) }
+        var expanded by remember { mutableStateOf(false) }
+
+        Checkbox(
+            checked = checked,
+            onCheckedChange = { checked = it }
+        )
+        Text(
+            marketItem.name,
+            style = MaterialTheme.typography.titleLarge.copy(textDecoration = if (checked) TextDecoration.LineThrough else null),
+            fontSize = 15.sp
+        )
+
+        Spacer(modifier = Modifier
+            .size(10.dp)
+            .weight(1f))
+
+        if (marketItem.price > BigDecimal.ZERO) {
+            Text(
+                modifier = Modifier.padding(end = 5.dp),
+                text = marketItem.getFormattedTotalPrice(),
+                style = MaterialTheme.typography.titleLarge,
+                fontSize = 15.sp
+            )
+            Text(
+                modifier = Modifier.padding(end = 5.dp),
+                text = "● ${marketItem.amount}",
+                style = MaterialTheme.typography.titleLarge,
+                fontSize = 15.sp
+            )
+        }
+
+        Box() {
+            IconButton(onClick = {
+                expanded = true
+            }) {
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(R.drawable.moreverticon),
+                    tint = Color.Black,
+                    contentDescription = "More button"
+                )
+            }
+
+            DropdownMenu(
+                modifier = Modifier.background(color = Color.White),
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(35.dp)
+                        .clickable { }
+                        .padding(8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.editicon),
+                        contentDescription = "Editar"
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .size(35.dp)
+                        .clickable { }
+                        .padding(8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.deleteicon),
+                        contentDescription = "Excluir"
+                    )
+                }
+            }
         }
     }
 }
