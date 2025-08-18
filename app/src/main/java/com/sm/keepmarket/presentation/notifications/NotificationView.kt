@@ -1,14 +1,12 @@
-package com.sm.keepmarket.presentation.pantryList
+package com.sm.keepmarket.presentation.notifications
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,16 +21,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sm.keepmarket.R
-import com.sm.keepmarket.components.PantryListItem
+import com.sm.keepmarket.components.NotificationItemView
 import com.sm.keepmarket.presentation.theme.Background
-import com.sm.keepmarket.presentation.theme.Blue
+import com.sm.keepmarket.presentation.theme.KeepMarketTheme
 import com.sm.keepmarket.presentation.theme.Red
 import com.sm.keepmarket.util.Mock
 
 @Composable
-fun PantryListView(paddingValues: PaddingValues) {
+fun NotificationView(paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,7 +51,7 @@ fun PantryListView(paddingValues: PaddingValues) {
 
         Text(
             modifier = Modifier.padding(16.dp),
-            text = "Pantry List Name",
+            text = "Notifications",
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -61,23 +60,6 @@ fun PantryListView(paddingValues: PaddingValues) {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically
         ) {
-            Button(
-                onClick = {
-
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Blue
-                ),
-                shape = RoundedCornerShape(5.dp)
-            ) {
-                Text("Add new Item", style = MaterialTheme.typography.labelSmall)
-            }
-
-            Spacer(
-                modifier = Modifier
-                    .size(10.dp)
-                    .weight(1f)
-            )
 
             Button(
                 onClick = {
@@ -88,15 +70,24 @@ fun PantryListView(paddingValues: PaddingValues) {
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
-                Text("Remove expired items", style = MaterialTheme.typography.labelSmall)
+                Text("Remove all notifications", style = MaterialTheme.typography.labelSmall)
             }
         }
 
         LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-            items(Mock.getPantryItemList()) { item ->
-                PantryListItem(item)
+            items(Mock.getNotificationItemList()) { item ->
+                NotificationItemView(item)
             }
         }
     }
 }
 
+
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview() {
+    KeepMarketTheme {
+        NotificationView(PaddingValues(16.dp))
+    }
+}
