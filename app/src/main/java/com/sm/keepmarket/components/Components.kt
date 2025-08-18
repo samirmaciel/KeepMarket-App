@@ -31,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.FeaturedCard
 import com.sm.keepmarket.domain.Highlight
@@ -38,6 +39,7 @@ import com.sm.keepmarket.domain.MarketItem
 import com.sm.keepmarket.domain.NotificationItem
 import com.sm.keepmarket.domain.PantryItem
 import com.sm.keepmarket.domain.Route
+import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.ButtonDefault
@@ -45,7 +47,9 @@ import java.math.BigDecimal
 
 @Composable
 fun BottomMenu() {
+
     var selectedIndex by remember { mutableStateOf(0) }
+    val navController = LocalNavHostController.current
 
     BottomAppBar(
         modifier = Modifier.fillMaxWidth(),
@@ -54,7 +58,10 @@ fun BottomMenu() {
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
 
-            IconButton(modifier = Modifier.size(50.dp), onClick = { selectedIndex = 0 }) {
+            IconButton(modifier = Modifier.size(50.dp), onClick = {
+                selectedIndex = 0
+                navController.navigate(Dest.HomeView)
+            }) {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(R.drawable.homeicon),
@@ -63,7 +70,10 @@ fun BottomMenu() {
                 )
             }
 
-            IconButton(modifier = Modifier.size(50.dp), onClick = { selectedIndex = 1 }) {
+            IconButton(modifier = Modifier.size(50.dp), onClick = {
+                selectedIndex = 1
+                navController.navigate(Dest.PantryListView)
+            }) {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(R.drawable.calendaricon),
@@ -72,7 +82,10 @@ fun BottomMenu() {
                 )
             }
 
-            IconButton(modifier = Modifier.size(50.dp), onClick = { selectedIndex = 2 }) {
+            IconButton(modifier = Modifier.size(50.dp), onClick = {
+                selectedIndex = 2
+                navController.navigate(Dest.MarketListView)
+            }) {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(R.drawable.marketlisticon),
@@ -81,7 +94,10 @@ fun BottomMenu() {
                 )
             }
 
-            IconButton(modifier = Modifier.size(50.dp), onClick = { selectedIndex = 3 }) {
+            IconButton(modifier = Modifier.size(50.dp), onClick = {
+                selectedIndex = 3
+                navController.navigate(Dest.NotificationView)
+            }) {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(R.drawable.notificationicon),
@@ -106,14 +122,46 @@ fun BottomMenu() {
 @Composable
 fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
 
-    Box(modifier = Modifier.padding(5.dp).clickable(enabled = true, onClick = { onClick(featuredCard.route) })){
-        Column(modifier = Modifier.size(width = 150.dp, height = 150.dp).background(Blue, RoundedCornerShape(10.dp)).padding(16.dp)) {
+    Box(
+        modifier = Modifier
+            .padding(5.dp)
+            .clickable(enabled = true, onClick = { onClick(featuredCard.route) })
+    ) {
+        Column(
+            modifier = Modifier
+                .size(width = 150.dp, height = 150.dp)
+                .background(Blue, RoundedCornerShape(10.dp))
+                .padding(16.dp)
+        ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(modifier = Modifier.size(30.dp).padding(end = 10.dp), painter = painterResource(R.drawable.settingsicon), tint = Color.White, contentDescription = "")
-                Text(featuredCard.type, style = MaterialTheme.typography.labelSmall, color = Color.White, fontSize = 10.sp)
+                Icon(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .padding(end = 10.dp),
+                    painter = painterResource(R.drawable.settingsicon),
+                    tint = Color.White,
+                    contentDescription = ""
+                )
+                Text(
+                    featuredCard.type,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White,
+                    fontSize = 10.sp
+                )
             }
-            Text(modifier = Modifier.padding(top = 20.dp), text = featuredCard.title, style = MaterialTheme.typography.labelMedium, color = Color.White)
-            Text(modifier = Modifier.padding(top = 20.dp), text = featuredCard.date.toString(), style = MaterialTheme.typography.labelSmall, color = Color.White, fontSize = 8.sp)
+            Text(
+                modifier = Modifier.padding(top = 20.dp),
+                text = featuredCard.title,
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.White
+            )
+            Text(
+                modifier = Modifier.padding(top = 20.dp),
+                text = featuredCard.date.toString(),
+                style = MaterialTheme.typography.labelSmall,
+                color = Color.White,
+                fontSize = 8.sp
+            )
         }
     }
 }
@@ -121,23 +169,66 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
 @Composable
 fun HighlightItem(highlight: Highlight) {
 
-    Row(modifier = Modifier.fillMaxWidth().background(Color.White, shape = RoundedCornerShape(10.dp)).padding(vertical = 5.dp, horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-        Box(modifier = Modifier.size(50.dp).background(color = Blue, shape = RoundedCornerShape(10.dp)), contentAlignment = Alignment.Center){
-            Icon(painter = painterResource(R.drawable.todolisticon), tint = Color.White, contentDescription = "")
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White, shape = RoundedCornerShape(10.dp))
+            .padding(vertical = 5.dp, horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(50.dp)
+                .background(color = Blue, shape = RoundedCornerShape(10.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.todolisticon),
+                tint = Color.White,
+                contentDescription = ""
+            )
         }
 
-        Column(modifier = Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.Center) {
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text(modifier = Modifier, text = highlight.title, style = MaterialTheme.typography.titleLarge, fontSize = 15.sp)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier,
+                    text = highlight.title,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontSize = 15.sp
+                )
                 Spacer(modifier = Modifier.size(10.dp))
-                Icon(modifier = Modifier.size(15.dp), painter = painterResource(highlight.icon), tint = Color.Unspecified , contentDescription = "")
+                Icon(
+                    modifier = Modifier.size(15.dp),
+                    painter = painterResource(highlight.icon),
+                    tint = Color.Unspecified,
+                    contentDescription = ""
+                )
                 Spacer(modifier = Modifier.size(10.dp))
 
-                if(!highlight.infoText.isNullOrBlank()){
-                    Text(modifier = Modifier, text = highlight.infoText, style = MaterialTheme.typography.titleLarge, fontSize = 15.sp)
+                if (!highlight.infoText.isNullOrBlank()) {
+                    Text(
+                        modifier = Modifier,
+                        text = highlight.infoText,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontSize = 15.sp
+                    )
                 }
             }
-            Text(highlight.subTitle, style = MaterialTheme.typography.labelSmall, fontSize = 12.sp, color = ButtonDefault)
+            Text(
+                highlight.subTitle,
+                style = MaterialTheme.typography.labelSmall,
+                fontSize = 12.sp,
+                color = ButtonDefault
+            )
         }
     }
 }
@@ -165,9 +256,11 @@ fun MarketListItem(marketItem: MarketItem) {
             fontSize = 15.sp
         )
 
-        Spacer(modifier = Modifier
-            .size(10.dp)
-            .weight(1f))
+        Spacer(
+            modifier = Modifier
+                .size(10.dp)
+                .weight(1f)
+        )
 
         if (marketItem.price > BigDecimal.ZERO) {
             Text(
@@ -242,22 +335,44 @@ fun NotificationItemView(notificationItem: NotificationItem) {
     ) {
 
         Column(modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp)) {
-            Box(modifier = Modifier.background(Blue, shape = RoundedCornerShape(10.dp)).padding(10.dp), contentAlignment = Alignment.Center) {
-                Icon(modifier = Modifier.size(20.dp), painter = painterResource(R.drawable.notificationicon), tint = Color.Unspecified, contentDescription = "Notification icon")
+            Box(
+                modifier = Modifier
+                    .background(Blue, shape = RoundedCornerShape(10.dp))
+                    .padding(10.dp), contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(R.drawable.notificationicon),
+                    tint = Color.Unspecified,
+                    contentDescription = "Notification icon"
+                )
             }
         }
 
         Column(modifier = Modifier.padding(start = 10.dp)) {
             Text(text = notificationItem.title, style = MaterialTheme.typography.labelMedium)
-            Text(text = notificationItem.subTitle, style = MaterialTheme.typography.labelSmall, fontSize = 12.sp, color = Color.Gray)
+            Text(
+                text = notificationItem.subTitle,
+                style = MaterialTheme.typography.labelSmall,
+                fontSize = 12.sp,
+                color = Color.Gray
+            )
         }
 
-        Spacer(modifier = Modifier.size(10.dp).weight(1f))
+        Spacer(
+            modifier = Modifier
+                .size(10.dp)
+                .weight(1f)
+        )
 
         IconButton(onClick = {
 
         }) {
-            Icon(painter = painterResource(R.drawable.deleteicon), tint = Color.Unspecified, contentDescription = "Delete notification button")
+            Icon(
+                painter = painterResource(R.drawable.deleteicon),
+                tint = Color.Unspecified,
+                contentDescription = "Delete notification button"
+            )
         }
 
     }
@@ -293,9 +408,11 @@ fun PantryListItem(pantryItem: PantryItem) {
             )
         }
 
-        Spacer(modifier = Modifier
-            .size(10.dp)
-            .weight(1f))
+        Spacer(
+            modifier = Modifier
+                .size(10.dp)
+                .weight(1f)
+        )
 
 
         Text(
