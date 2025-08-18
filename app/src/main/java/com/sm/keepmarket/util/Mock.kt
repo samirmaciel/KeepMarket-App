@@ -7,6 +7,7 @@ import com.sm.keepmarket.domain.MarketItem
 import com.sm.keepmarket.domain.NotificationItem
 import com.sm.keepmarket.domain.PantryItem
 import com.sm.keepmarket.domain.Route
+import com.sm.keepmarket.domain.SearchItem
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -186,6 +187,22 @@ object Mock {
                 "Bread",
                 "4 days ago to expiration"
             )
+        )
+    }
+
+    fun getSearchItemList(): List<SearchItem>{
+        return listOf(
+            SearchItem(
+                "123",
+                "Price increase",
+                getHighlight().take(2)
+            ),
+            SearchItem(
+                "123",
+                "Price decrease",
+                getHighlight().take(4)
+            )
+
         )
     }
 

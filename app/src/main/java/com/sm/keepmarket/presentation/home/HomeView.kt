@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.FeaturedCardButton
-import com.sm.keepmarket.components.HighlightItem
+import com.sm.keepmarket.components.HighlightItemView
 import com.sm.keepmarket.util.Mock
 
 @Composable
@@ -131,7 +131,7 @@ fun HomeView(paddingValues: PaddingValues) {
 
         LazyColumn(modifier = Modifier.padding(16.dp)) {
             items(Mock.getHighlight()) { hightlight ->
-                HighlightItem(hightlight)
+                HighlightItemView(hightlight)
                 Spacer(modifier = Modifier.size(5.dp))
             }
         }

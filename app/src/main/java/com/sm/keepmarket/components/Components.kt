@@ -1,5 +1,6 @@
 package com.sm.keepmarket.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -39,6 +41,7 @@ import com.sm.keepmarket.domain.MarketItem
 import com.sm.keepmarket.domain.NotificationItem
 import com.sm.keepmarket.domain.PantryItem
 import com.sm.keepmarket.domain.Route
+import com.sm.keepmarket.domain.SearchItem
 import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
@@ -106,7 +109,10 @@ fun BottomMenu() {
                 )
             }
 
-            IconButton(modifier = Modifier.size(50.dp), onClick = { selectedIndex = 4 }) {
+            IconButton(modifier = Modifier.size(50.dp), onClick = {
+                selectedIndex = 4
+                navController.navigate(Dest.SearchView)
+            }) {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(R.drawable.searchicon),
@@ -167,13 +173,13 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
 }
 
 @Composable
-fun HighlightItem(highlight: Highlight) {
+fun HighlightItemView(highlight: Highlight) {
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White, shape = RoundedCornerShape(10.dp))
-            .padding(vertical = 5.dp, horizontal = 16.dp),
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -470,4 +476,41 @@ fun PantryListItem(pantryItem: PantryItem) {
         }
     }
 
+}
+
+@Composable
+fun SearchItemView(searchItem: SearchItem) {
+
+    var expanded by remember { mutableStateOf(false) }
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp)
+                .clickable { expanded = !expanded },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(searchItem.title, style = MaterialTheme.typography.titleMedium)
+            Spacer(modifier = Modifier.size(10.dp))
+            Icon(
+                modifier = Modifier
+                    .size(12.dp)
+                    .graphicsLayer(scaleY = if (expanded) -1f else 1f),
+                painter = painterResource(R.drawable.arrowdownblackicon),
+                tint = Color.Unspecified,
+                contentDescription = "Arrow down"
+            )
+        }
+
+        AnimatedVisibility(expanded) {
+            Column {
+                searchItem.items.forEach { item ->
+                    HighlightItemView(item)
+                    Spacer(modifier = Modifier.size(10.dp))
+                }
+            }
+
+        }
+    }
 }
