@@ -4,6 +4,7 @@ import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.FeaturedCard
 import com.sm.keepmarket.domain.Highlight
 import com.sm.keepmarket.domain.MarketItem
+import com.sm.keepmarket.domain.NotificationItem
 import com.sm.keepmarket.domain.PantryItem
 import com.sm.keepmarket.domain.Route
 import java.math.BigDecimal
@@ -171,6 +172,21 @@ object Mock {
         list.add(item2)
 
         return list
+    }
+
+    fun getNotificationItemList(): List<NotificationItem>{
+        return listOf(
+            NotificationItem(
+                "123",
+                "Sliced Bread",
+                "2 days ago to expiration"
+            ),
+            NotificationItem(
+                "123",
+                "Bread",
+                "4 days ago to expiration"
+            )
+        )
     }
 
 }

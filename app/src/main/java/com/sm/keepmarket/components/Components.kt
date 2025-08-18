@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,6 +35,8 @@ import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.FeaturedCard
 import com.sm.keepmarket.domain.Highlight
 import com.sm.keepmarket.domain.MarketItem
+import com.sm.keepmarket.domain.NotificationItem
+import com.sm.keepmarket.domain.PantryItem
 import com.sm.keepmarket.domain.Route
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
@@ -226,4 +229,128 @@ fun MarketListItem(marketItem: MarketItem) {
             }
         }
     }
+}
+
+@Composable
+fun NotificationItemView(notificationItem: NotificationItem) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp)
+            .background(color = Color.White, shape = RoundedCornerShape(10.dp)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Column(modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp)) {
+            Box(modifier = Modifier.background(Blue, shape = RoundedCornerShape(10.dp)).padding(10.dp), contentAlignment = Alignment.Center) {
+                Icon(modifier = Modifier.size(20.dp), painter = painterResource(R.drawable.notificationicon), tint = Color.Unspecified, contentDescription = "Notification icon")
+            }
+        }
+
+        Column(modifier = Modifier.padding(start = 10.dp)) {
+            Text(text = notificationItem.title, style = MaterialTheme.typography.labelMedium)
+            Text(text = notificationItem.subTitle, style = MaterialTheme.typography.labelSmall, fontSize = 12.sp, color = Color.Gray)
+        }
+
+        Spacer(modifier = Modifier.size(10.dp).weight(1f))
+
+        IconButton(onClick = {
+
+        }) {
+            Icon(painter = painterResource(R.drawable.deleteicon), tint = Color.Unspecified, contentDescription = "Delete notification button")
+        }
+
+    }
+}
+
+@Composable
+fun PantryListItem(pantryItem: PantryItem) {
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp)
+            .height(60.dp)
+            .background(color = pantryItem.getDueColor(), shape = RoundedCornerShape(10.dp)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        var expanded by remember { mutableStateOf(false) }
+
+        Column(modifier = Modifier.padding(start = 16.dp)) {
+            Text(
+                pantryItem.name,
+                style = MaterialTheme.typography.titleLarge,
+                fontSize = 15.sp,
+                color = Color.White
+            )
+
+            Text(
+                pantryItem.getTimeLeft(),
+                style = MaterialTheme.typography.labelSmall,
+                fontSize = 12.sp,
+                color = Color.White
+            )
+        }
+
+        Spacer(modifier = Modifier
+            .size(10.dp)
+            .weight(1f))
+
+
+        Text(
+            modifier = Modifier.padding(end = 5.dp),
+            text = "● ${pantryItem.amount}",
+            style = MaterialTheme.typography.titleLarge,
+            fontSize = 15.sp,
+            color = Color.White
+        )
+
+
+        Box() {
+            IconButton(onClick = {
+                expanded = true
+            }) {
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(R.drawable.moreverticon),
+                    tint = Color.White,
+                    contentDescription = "More button"
+                )
+            }
+
+            DropdownMenu(
+                modifier = Modifier.background(color = Color.White),
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(35.dp)
+                        .clickable { }
+                        .padding(8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.editicon),
+                        contentDescription = "Editar"
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .size(35.dp)
+                        .clickable { }
+                        .padding(8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.deleteicon),
+                        contentDescription = "Excluir"
+                    )
+                }
+            }
+        }
+    }
+
 }
