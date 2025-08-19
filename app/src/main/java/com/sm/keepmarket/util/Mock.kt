@@ -2,9 +2,9 @@ package com.sm.keepmarket.util
 
 import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.FeaturedCard
-import com.sm.keepmarket.domain.HighlightItem
+import com.sm.keepmarket.domain.Highlight
 import com.sm.keepmarket.domain.MarketItem
-import com.sm.keepmarket.domain.NotificationItem
+import com.sm.keepmarket.domain.Notification
 import com.sm.keepmarket.domain.PantryItem
 import com.sm.keepmarket.domain.Route
 import com.sm.keepmarket.domain.SearchItem
@@ -53,9 +53,9 @@ object Mock {
         return route
     }
 
-    fun getHighlight(): List<HighlightItem> {
+    fun getHighlight(): List<Highlight> {
         return listOf(
-            HighlightItem(
+            Highlight(
                 id = "1",
                 title = "Sliced Bread",
                 subTitle = "2 days ago",
@@ -63,7 +63,7 @@ object Mock {
                 type = HighlightType.NEARING_EXPIRATION,
                 description = "R$0,30"
             ),
-            HighlightItem(
+            Highlight(
                 id = "2",
                 title = "Milk",
                 subTitle = "1 day ago",
@@ -71,7 +71,7 @@ object Mock {
                 type = HighlightType.NEARING_EXPIRATION,
                 description = "R$4,50"
             ),
-            HighlightItem(
+            Highlight(
                 id = "3",
                 title = "Rice",
                 subTitle = "Today",
@@ -79,7 +79,7 @@ object Mock {
                 type = HighlightType.NEARING_EXPIRATION,
                 description = "R$23,00"
             ),
-            HighlightItem(
+            Highlight(
                 id = "4",
                 title = "Beans",
                 subTitle = "Yesterday",
@@ -87,7 +87,7 @@ object Mock {
                 type = HighlightType.NEARING_EXPIRATION,
                 description = "R$8,90"
             ),
-            HighlightItem(
+            Highlight(
                 id = "5",
                 title = "Eggs (12u)",
                 subTitle = "3 days ago",
@@ -95,7 +95,7 @@ object Mock {
                 type = HighlightType.PRICE_INCREASE,
                 description = "R$12,00"
             ),
-            HighlightItem(
+            Highlight(
                 id = "6",
                 title = "Tomatoes",
                 subTitle = "Today",
@@ -103,7 +103,7 @@ object Mock {
                 type = HighlightType.PRICE_DECREASE,
                 description = "R$6,70"
             ),
-            HighlightItem(
+            Highlight(
                 id = "7",
                 title = "Pasta",
                 subTitle = "5 days ago",
@@ -111,7 +111,7 @@ object Mock {
                 type = HighlightType.PRICE_INCREASE,
                 description = "R$5,20"
             ),
-            HighlightItem(
+            Highlight(
                 id = "8",
                 title = "Cheese",
                 subTitle = "2 days ago",
@@ -119,7 +119,7 @@ object Mock {
                 type = HighlightType.PRICE_DECREASE,
                 description = "R$18,50"
             ),
-            HighlightItem(
+            Highlight(
                 id = "9",
                 title = "Chicken",
                 subTitle = "Today",
@@ -127,7 +127,7 @@ object Mock {
                 type = HighlightType.PRICE_INCREASE,
                 description = "R$22,90"
             ),
-            HighlightItem(
+            Highlight(
                 id = "10",
                 title = "Coffee",
                 subTitle = "Yesterday",
@@ -181,14 +181,14 @@ object Mock {
         return list
     }
 
-    fun getNotificationItemList(): List<NotificationItem>{
+    fun getNotificationItemList(): List<Notification>{
         return listOf(
-            NotificationItem(
+            Notification(
                 "123",
                 "Sliced Bread",
                 "2 days ago to expiration"
             ),
-            NotificationItem(
+            Notification(
                 "123",
                 "Bread",
                 "4 days ago to expiration"

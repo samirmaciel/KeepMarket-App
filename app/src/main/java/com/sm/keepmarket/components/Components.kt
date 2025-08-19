@@ -36,9 +36,9 @@ import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.FeaturedCard
-import com.sm.keepmarket.domain.HighlightItem
+import com.sm.keepmarket.domain.Highlight
 import com.sm.keepmarket.domain.MarketItem
-import com.sm.keepmarket.domain.NotificationItem
+import com.sm.keepmarket.domain.Notification
 import com.sm.keepmarket.domain.PantryItem
 import com.sm.keepmarket.domain.Route
 import com.sm.keepmarket.domain.SearchItem
@@ -174,7 +174,7 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
 }
 
 @Composable
-fun HighlightItemView(highlightItem: HighlightItem) {
+fun HighlightItemView(highlight: Highlight) {
 
     Row(
         modifier = Modifier
@@ -208,30 +208,30 @@ fun HighlightItemView(highlightItem: HighlightItem) {
             ) {
                 Text(
                     modifier = Modifier,
-                    text = highlightItem.title,
+                    text = highlight.title,
                     style = MaterialTheme.typography.titleLarge,
                     fontSize = 15.sp
                 )
                 Spacer(modifier = Modifier.size(10.dp))
                 Icon(
                     modifier = Modifier.size(15.dp),
-                    painter = painterResource(highlightItem.icon),
+                    painter = painterResource(highlight.icon),
                     tint = Color.Unspecified,
                     contentDescription = ""
                 )
                 Spacer(modifier = Modifier.size(10.dp))
 
-                if (!highlightItem.description.isNullOrBlank()) {
+                if (!highlight.description.isNullOrBlank()) {
                     Text(
                         modifier = Modifier,
-                        text = highlightItem.description,
+                        text = highlight.description,
                         style = MaterialTheme.typography.titleLarge,
                         fontSize = 15.sp
                     )
                 }
             }
             Text(
-                highlightItem.subTitle,
+                highlight.subTitle,
                 style = MaterialTheme.typography.labelSmall,
                 fontSize = 12.sp,
                 color = ButtonDefault
@@ -347,7 +347,7 @@ fun MarketListItem(marketItem: MarketItem) {
 }
 
 @Composable
-fun NotificationItemView(notificationItem: NotificationItem) {
+fun NotificationItemView(notification: Notification) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -372,9 +372,9 @@ fun NotificationItemView(notificationItem: NotificationItem) {
         }
 
         Column(modifier = Modifier.padding(start = 10.dp)) {
-            Text(text = notificationItem.title, style = MaterialTheme.typography.labelMedium)
+            Text(text = notification.title, style = MaterialTheme.typography.labelMedium)
             Text(
-                text = notificationItem.subTitle,
+                text = notification.subTitle,
                 style = MaterialTheme.typography.labelSmall,
                 fontSize = 12.sp,
                 color = Color.Gray
