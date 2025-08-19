@@ -2,7 +2,7 @@ package com.sm.keepmarket.util
 
 import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.FeaturedCard
-import com.sm.keepmarket.domain.Highlight
+import com.sm.keepmarket.domain.HighlightItem
 import com.sm.keepmarket.domain.MarketItem
 import com.sm.keepmarket.domain.NotificationItem
 import com.sm.keepmarket.domain.PantryItem
@@ -20,31 +20,27 @@ object Mock {
         return listOf(
             FeaturedCard(
                 id = "123",
-                type = "Pantry",
-                title = "My Pantry 1",
-                route = getRoute("Pantry"),
-                date = LocalDateTime.now()
+                name = "My Pantry 1",
+                featureType = FeatureType.PANTRY,
+                lastUpdate = LocalDateTime.now()
             ),
             FeaturedCard(
                 id = "321",
-                type = "Marktet",
-                title = "My Market 1",
-                route = getRoute("Marktet"),
-                date = LocalDateTime.now()
+                name = "My Market 1",
+                featureType = FeatureType.MARKET,
+                lastUpdate = LocalDateTime.now()
             ),
             FeaturedCard(
                 id = "321",
-                type = "Marktet",
-                title = "My Market 2",
-                route = getRoute("Marktet"),
-                date = LocalDateTime.now()
+                name = "My Market 2",
+                featureType = FeatureType.MARKET,
+                lastUpdate = LocalDateTime.now()
             ),
             FeaturedCard(
                 id = "321",
-                type = "Marktet",
-                title = "My Market 3",
-                route = getRoute("Marktet"),
-                date = LocalDateTime.now()
+                name = "My Market 3",
+                featureType = FeatureType.MARKET,
+                lastUpdate = LocalDateTime.now()
             )
         )
     }
@@ -57,72 +53,72 @@ object Mock {
         return route
     }
 
-    fun getHighlight(): List<Highlight> {
+    fun getHighlight(): List<HighlightItem> {
         return listOf(
-            Highlight(
+            HighlightItem(
                 id = "1",
                 title = "Sliced Bread",
                 subTitle = "2 days ago",
                 icon = R.drawable.arrowiconupicon,
                 infoText = "R$0,30"
             ),
-            Highlight(
+            HighlightItem(
                 id = "2",
                 title = "Milk",
                 subTitle = "1 day ago",
                 icon = R.drawable.arrowdowngreenicon,
                 infoText = "R$4,50"
             ),
-            Highlight(
+            HighlightItem(
                 id = "3",
                 title = "Rice",
                 subTitle = "Today",
                 icon = R.drawable.arrowiconupicon,
                 infoText = "R$23,00"
             ),
-            Highlight(
+            HighlightItem(
                 id = "4",
                 title = "Beans",
                 subTitle = "Yesterday",
                 icon = R.drawable.arrowdowngreenicon,
                 infoText = "R$8,90"
             ),
-            Highlight(
+            HighlightItem(
                 id = "5",
                 title = "Eggs (12u)",
                 subTitle = "3 days ago",
                 icon = R.drawable.arrowiconupicon,
                 infoText = "R$12,00"
             ),
-            Highlight(
+            HighlightItem(
                 id = "6",
                 title = "Tomatoes",
                 subTitle = "Today",
                 icon = R.drawable.arrowdowngreenicon,
                 infoText = "R$6,70"
             ),
-            Highlight(
+            HighlightItem(
                 id = "7",
                 title = "Pasta",
                 subTitle = "5 days ago",
                 icon = R.drawable.arrowiconupicon,
                 infoText = "R$5,20"
             ),
-            Highlight(
+            HighlightItem(
                 id = "8",
                 title = "Cheese",
                 subTitle = "2 days ago",
                 icon = R.drawable.arrowdowngreenicon,
                 infoText = "R$18,50"
             ),
-            Highlight(
+            HighlightItem(
                 id = "9",
                 title = "Chicken",
                 subTitle = "Today",
                 icon = R.drawable.arrowiconupicon,
                 infoText = "R$22,90"
             ),
-            Highlight(
+            HighlightItem(
                 id = "10",
                 title = "Coffee",
                 subTitle = "Yesterday",

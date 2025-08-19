@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.FeaturedCard
-import com.sm.keepmarket.domain.Highlight
+import com.sm.keepmarket.domain.HighlightItem
 import com.sm.keepmarket.domain.MarketItem
 import com.sm.keepmarket.domain.NotificationItem
 import com.sm.keepmarket.domain.PantryItem
@@ -157,13 +157,13 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
             }
             Text(
                 modifier = Modifier.padding(top = 20.dp),
-                text = featuredCard.title,
+                text = featuredCard.name,
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.White
             )
             Text(
                 modifier = Modifier.padding(top = 20.dp),
-                text = featuredCard.date.toString(),
+                text = featuredCard.lastUpdate.toString(),
                 style = MaterialTheme.typography.labelSmall,
                 color = Color.White,
                 fontSize = 8.sp
@@ -173,7 +173,7 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
 }
 
 @Composable
-fun HighlightItemView(highlight: Highlight) {
+fun HighlightItemView(highlightItem: HighlightItem) {
 
     Row(
         modifier = Modifier
@@ -207,30 +207,30 @@ fun HighlightItemView(highlight: Highlight) {
             ) {
                 Text(
                     modifier = Modifier,
-                    text = highlight.title,
+                    text = highlightItem.title,
                     style = MaterialTheme.typography.titleLarge,
                     fontSize = 15.sp
                 )
                 Spacer(modifier = Modifier.size(10.dp))
                 Icon(
                     modifier = Modifier.size(15.dp),
-                    painter = painterResource(highlight.icon),
+                    painter = painterResource(highlightItem.icon),
                     tint = Color.Unspecified,
                     contentDescription = ""
                 )
                 Spacer(modifier = Modifier.size(10.dp))
 
-                if (!highlight.infoText.isNullOrBlank()) {
+                if (!highlightItem.infoText.isNullOrBlank()) {
                     Text(
                         modifier = Modifier,
-                        text = highlight.infoText,
+                        text = highlightItem.infoText,
                         style = MaterialTheme.typography.titleLarge,
                         fontSize = 15.sp
                     )
                 }
             }
             Text(
-                highlight.subTitle,
+                highlightItem.subTitle,
                 style = MaterialTheme.typography.labelSmall,
                 fontSize = 12.sp,
                 color = ButtonDefault
