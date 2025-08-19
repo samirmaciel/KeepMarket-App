@@ -19,13 +19,20 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.PantryListItem
+import com.sm.keepmarket.presentation.modal.AddNewItemModal
+import com.sm.keepmarket.presentation.modal.AddNewPantryItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.Red
@@ -33,6 +40,9 @@ import com.sm.keepmarket.util.Mock
 
 @Composable
 fun PantryListView(paddingValues: PaddingValues) {
+
+    var showAddNewItemModal by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,14 +73,20 @@ fun PantryListView(paddingValues: PaddingValues) {
         ) {
             Button(
                 onClick = {
-
+                    showAddNewItemModal = true
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Blue
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
-                Text("Add new Item", style = MaterialTheme.typography.labelSmall)
+                Text("Add new Item", style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
+            }
+
+            if(showAddNewItemModal){
+                AddNewPantryItemModal(onDismiss = { showAddNewItemModal = false }) { itemName, itemAmount, itemDueDate ->
+                    showAddNewItemModal = false
+                }
             }
 
             Spacer(
@@ -88,7 +104,7 @@ fun PantryListView(paddingValues: PaddingValues) {
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
-                Text("Remove expired items", style = MaterialTheme.typography.labelSmall)
+                Text(text = "Remove expired items", style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
             }
         }
 

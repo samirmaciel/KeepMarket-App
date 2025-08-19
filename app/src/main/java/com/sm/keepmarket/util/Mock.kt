@@ -60,70 +60,80 @@ object Mock {
                 title = "Sliced Bread",
                 subTitle = "2 days ago",
                 icon = R.drawable.arrowiconupicon,
-                infoText = "R$0,30"
+                type = HighlightType.NEARING_EXPIRATION,
+                description = "R$0,30"
             ),
             HighlightItem(
                 id = "2",
                 title = "Milk",
                 subTitle = "1 day ago",
                 icon = R.drawable.arrowdowngreenicon,
-                infoText = "R$4,50"
+                type = HighlightType.NEARING_EXPIRATION,
+                description = "R$4,50"
             ),
             HighlightItem(
                 id = "3",
                 title = "Rice",
                 subTitle = "Today",
                 icon = R.drawable.arrowiconupicon,
-                infoText = "R$23,00"
+                type = HighlightType.NEARING_EXPIRATION,
+                description = "R$23,00"
             ),
             HighlightItem(
                 id = "4",
                 title = "Beans",
                 subTitle = "Yesterday",
                 icon = R.drawable.arrowdowngreenicon,
-                infoText = "R$8,90"
+                type = HighlightType.NEARING_EXPIRATION,
+                description = "R$8,90"
             ),
             HighlightItem(
                 id = "5",
                 title = "Eggs (12u)",
                 subTitle = "3 days ago",
                 icon = R.drawable.arrowiconupicon,
-                infoText = "R$12,00"
+                type = HighlightType.PRICE_INCREASE,
+                description = "R$12,00"
             ),
             HighlightItem(
                 id = "6",
                 title = "Tomatoes",
                 subTitle = "Today",
                 icon = R.drawable.arrowdowngreenicon,
-                infoText = "R$6,70"
+                type = HighlightType.PRICE_DECREASE,
+                description = "R$6,70"
             ),
             HighlightItem(
                 id = "7",
                 title = "Pasta",
                 subTitle = "5 days ago",
                 icon = R.drawable.arrowiconupicon,
-                infoText = "R$5,20"
+                type = HighlightType.PRICE_INCREASE,
+                description = "R$5,20"
             ),
             HighlightItem(
                 id = "8",
                 title = "Cheese",
                 subTitle = "2 days ago",
                 icon = R.drawable.arrowdowngreenicon,
-                infoText = "R$18,50"
+                type = HighlightType.PRICE_DECREASE,
+                description = "R$18,50"
             ),
             HighlightItem(
                 id = "9",
                 title = "Chicken",
                 subTitle = "Today",
                 icon = R.drawable.arrowiconupicon,
-                infoText = "R$22,90"
+                type = HighlightType.PRICE_INCREASE,
+                description = "R$22,90"
             ),
             HighlightItem(
                 id = "10",
                 title = "Coffee",
                 subTitle = "Yesterday",
                 icon = R.drawable.arrowdowngreenicon,
-                infoText = "R$15,00"
+                type = HighlightType.PRICE_DECREASE,
+                description = "R$15,00"
             )
         )
     }
