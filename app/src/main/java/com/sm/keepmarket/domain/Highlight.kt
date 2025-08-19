@@ -3,7 +3,7 @@ package com.sm.keepmarket.domain
 import androidx.annotation.DrawableRes
 import com.sm.keepmarket.util.HighlightType
 
-data class HighlightItem(
+data class Highlight(
     val id: String,
     val title: String,
     val subTitle: String,
