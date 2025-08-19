@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.presentation.home.HomeView
 import com.sm.keepmarket.presentation.marketList.MarketListView
+import com.sm.keepmarket.presentation.modal.DatePickerDocked
 import com.sm.keepmarket.presentation.notifications.NotificationView
 import com.sm.keepmarket.presentation.pantryList.PantryListView
 import com.sm.keepmarket.presentation.search.SearchView

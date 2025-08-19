@@ -21,6 +21,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.FeaturedCardButton
 import com.sm.keepmarket.components.HighlightItemView
+import com.sm.keepmarket.presentation.modal.CreateNewListModal
 import com.sm.keepmarket.util.Mock
 
 @Composable
@@ -62,9 +67,12 @@ fun HomeView(paddingValues: PaddingValues) {
             Text("Have a nice day.", style = MaterialTheme.typography.labelSmall)
         }
 
+        var showCreateMarketList by remember { mutableStateOf(false) }
+
         Row(modifier = Modifier.fillMaxWidth()) {
             Button(
-                modifier = Modifier.padding(start = 10.dp), onClick = {},
+                modifier = Modifier.padding(start = 10.dp),
+                onClick = { showCreateMarketList = true },
                 shape = RoundedCornerShape(25.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White
@@ -105,6 +113,15 @@ fun HomeView(paddingValues: PaddingValues) {
                     fontSize = 12.sp
                 )
             }
+        }
+
+        if (showCreateMarketList) {
+            CreateNewListModal(
+                hint = "Market list name",
+                onDismiss = { showCreateMarketList = false },
+                onFinish = { marketListName ->
+                    showCreateMarketList = false
+                })
         }
 
         Row(

@@ -43,6 +43,7 @@ import com.sm.keepmarket.domain.PantryItem
 import com.sm.keepmarket.domain.Route
 import com.sm.keepmarket.domain.SearchItem
 import com.sm.keepmarket.presentation.Dest
+import com.sm.keepmarket.presentation.modal.CheckMarketItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.ButtonDefault
@@ -131,7 +132,7 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
     Box(
         modifier = Modifier
             .padding(5.dp)
-            .clickable(enabled = true, onClick = { onClick(featuredCard.route) })
+            .clickable(enabled = true, onClick = { })
     ) {
         Column(
             modifier = Modifier
@@ -149,7 +150,7 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
                     contentDescription = ""
                 )
                 Text(
-                    featuredCard.type,
+                    featuredCard.featureType.value,
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White,
                     fontSize = 10.sp
@@ -220,10 +221,10 @@ fun HighlightItemView(highlightItem: HighlightItem) {
                 )
                 Spacer(modifier = Modifier.size(10.dp))
 
-                if (!highlightItem.infoText.isNullOrBlank()) {
+                if (!highlightItem.description.isNullOrBlank()) {
                     Text(
                         modifier = Modifier,
-                        text = highlightItem.infoText,
+                        text = highlightItem.description,
                         style = MaterialTheme.typography.titleLarge,
                         fontSize = 15.sp
                     )
@@ -251,11 +252,26 @@ fun MarketListItem(marketItem: MarketItem) {
 
         var checked by remember { mutableStateOf(false) }
         var expanded by remember { mutableStateOf(false) }
+        var showCheckItem by remember { mutableStateOf(false) }
 
         Checkbox(
             checked = checked,
-            onCheckedChange = { checked = it }
+            onCheckedChange = {
+                checked = it
+                showCheckItem = it
+            }
         )
+
+        if (showCheckItem) {
+            CheckMarketItemModal(
+                onDismiss = {
+                    checked = false
+                    showCheckItem = false },
+                onFinish = { amount, price ->
+                    showCheckItem = false
+                })
+        }
+
         Text(
             marketItem.name,
             style = MaterialTheme.typography.titleLarge.copy(textDecoration = if (checked) TextDecoration.LineThrough else null),

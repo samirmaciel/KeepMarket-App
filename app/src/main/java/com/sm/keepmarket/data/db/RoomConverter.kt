@@ -1,11 +1,22 @@
 package com.sm.keepmarket.data.db
 
 import androidx.room.TypeConverter
+import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class RoomConverter {
+
+    @TypeConverter
+    fun fromBigDecimal(value: BigDecimal?): String? {
+        return value?.toPlainString()
+    }
+
+    @TypeConverter
+    fun toBigDecimal(value: String?): BigDecimal? {
+        return value?.let { BigDecimal(it) }
+    }
 
     @TypeConverter
     fun stringToLocalDateTime(value: String?): LocalDateTime? {
