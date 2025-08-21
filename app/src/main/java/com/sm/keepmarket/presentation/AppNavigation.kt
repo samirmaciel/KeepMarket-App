@@ -1,0 +1,74 @@
+package com.sm.keepmarket.presentation
+
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.sm.keepmarket.LocalNavHostController
+import com.sm.keepmarket.presentation.home.HomeView
+import com.sm.keepmarket.presentation.marketList.MarketListView
+import com.sm.keepmarket.presentation.modal.DatePickerDocked
+import com.sm.keepmarket.presentation.notifications.NotificationView
+import com.sm.keepmarket.presentation.pantryList.PantryListView
+import com.sm.keepmarket.presentation.search.SearchView
+
+@Composable
+fun AppNavigation(paddingValues: PaddingValues) {
+    val navController = LocalNavHostController.current
+
+    NavHost(navController = navController, startDestination = Dest.HomeView) {
+
+        composable<Dest.HomeView>(
+            enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { -it }) },
+            popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
+            HomeView(paddingValues)
+        }
+
+        composable<Dest.MarketListView>(
+            enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) },
+            popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
+            MarketListView(paddingValues)
+        }
+
+        composable<Dest.SettingsView>(
+            enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) },
+            popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
+
+        }
+
+        composable<Dest.PantryListView>(
+            enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) },
+            popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
+            PantryListView(paddingValues)
+        }
+
+        composable<Dest.SearchView>(
+            enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) },
+            popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
+            SearchView(paddingValues)
+        }
+
+        composable<Dest.NotificationView>(
+            enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) },
+            popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
+            NotificationView(paddingValues)
+        }
+
+    }
+}

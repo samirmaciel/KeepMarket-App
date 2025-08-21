@@ -3,45 +3,47 @@ package com.sm.keepmarket
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.sm.keepmarket.ui.theme.KeepMarketTheme
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.sm.keepmarket.components.BottomMenu
+import com.sm.keepmarket.presentation.AppNavigation
+import com.sm.keepmarket.presentation.marketList.MarketListView
+import com.sm.keepmarket.presentation.notifications.NotificationView
+import com.sm.keepmarket.presentation.pantryList.PantryListView
+import com.sm.keepmarket.presentation.theme.Background
+import com.sm.keepmarket.presentation.theme.KeepMarketTheme
 
+
+val LocalNavHostController =
+    staticCompositionLocalOf<NavHostController> { error("Error while creating NavHostController") }
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
+            val navHostController = rememberNavController()
+
             KeepMarketTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+
+                CompositionLocalProvider(
+                    LocalNavHostController provides navHostController,
+                ) {
+
+                    Scaffold(
+                        modifier = Modifier.fillMaxSize(),
+                        containerColor = Background,
+                        bottomBar = { BottomMenu() }) { padding ->
+
+                        AppNavigation(padding)
+
+                    }
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    KeepMarketTheme {
-        Greeting("Android")
-    }
-}
