@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,14 +32,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.FeaturedCardButton
 import com.sm.keepmarket.components.HighlightItemView
+import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.modal.CreateNewListModal
-import com.sm.keepmarket.util.Mock
+import com.sm.keepmarket.util.FeaturedType
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeView(paddingValues: PaddingValues) {
+
+    val nav = LocalNavHostController.current
+    val viewModel : HomeViewModel = koinViewModel()
+    val featuredCardList by viewModel.featuredCardList.collectAsState()
+    val highlightList by viewModel.highlightList.collectAsState()
 
     Column(
         modifier = Modifier
@@ -131,9 +140,12 @@ fun HomeView(paddingValues: PaddingValues) {
         ) {
 
             LazyRow {
-                items(Mock.getFeatureCard()) { featuredCard ->
-                    FeaturedCardButton(featuredCard = featuredCard) { route ->
-                        Log.d("DEVTEST", "Route: ${route.getRoute()}")
+                items(featuredCardList) { featuredCard ->
+                    FeaturedCardButton(featuredCard = featuredCard) { featuredCard ->
+                        when(featuredCard.featuredType){
+                            FeaturedType.MARKET -> nav.navigate(Dest.MarketListView)
+                            FeaturedType.PANTRY -> nav.navigate(Dest.PantryListView)
+                        }
                     }
                 }
             }
@@ -147,7 +159,7 @@ fun HomeView(paddingValues: PaddingValues) {
         )
 
         LazyColumn(modifier = Modifier.padding(16.dp)) {
-            items(Mock.getHighlight()) { hightlight ->
+            items(highlightList) { hightlight ->
                 HighlightItemView(hightlight)
                 Spacer(modifier = Modifier.size(5.dp))
             }

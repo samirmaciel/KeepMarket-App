@@ -1,6 +1,6 @@
 package com.sm.keepmarket.data.repository.repositoryInterface
 
-import com.sm.keepmarket.domain.Notification
+import com.sm.keepmarket.domain.model.Notification
 import kotlinx.coroutines.flow.Flow
 
 interface INotificationRepository {

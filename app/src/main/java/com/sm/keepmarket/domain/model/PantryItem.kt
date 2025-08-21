@@ -1,4 +1,4 @@
-package com.sm.keepmarket.domain
+package com.sm.keepmarket.domain.model
 
 import androidx.compose.ui.graphics.Color
 import com.sm.keepmarket.presentation.theme.Green

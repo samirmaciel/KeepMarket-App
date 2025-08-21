@@ -2,7 +2,7 @@ package com.sm.keepmarket.data.repository
 
 import com.sm.keepmarket.data.datasource.datasourceInterface.IPantryItemDatasource
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryItemRepository
-import com.sm.keepmarket.domain.PantryItem
+import com.sm.keepmarket.domain.model.PantryItem
 import kotlinx.coroutines.flow.Flow
 
 class PantryItemRepositoryImpl(pantryItemDatasource: IPantryItemDatasource) :

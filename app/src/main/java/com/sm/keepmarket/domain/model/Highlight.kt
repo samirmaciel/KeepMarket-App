@@ -1,4 +1,4 @@
-package com.sm.keepmarket.domain
+package com.sm.keepmarket.domain.model
 
 import androidx.annotation.DrawableRes
 import com.sm.keepmarket.util.HighlightType

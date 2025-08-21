@@ -1,4 +1,4 @@
-package com.sm.keepmarket.domain
+package com.sm.keepmarket.domain.model
 
 import java.math.BigDecimal
 import java.text.NumberFormat

@@ -1,4 +1,4 @@
-package com.sm.keepmarket.domain
+package com.sm.keepmarket.domain.model
 
 class Route(){
     private var route: String = ""

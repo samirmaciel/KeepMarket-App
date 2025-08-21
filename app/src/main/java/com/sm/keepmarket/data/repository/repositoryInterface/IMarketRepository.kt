@@ -1,6 +1,6 @@
 package com.sm.keepmarket.data.repository.repositoryInterface
 
-import com.sm.keepmarket.domain.Market
+import com.sm.keepmarket.domain.model.Market
 import kotlinx.coroutines.flow.Flow
 
 interface IMarketRepository {

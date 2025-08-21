@@ -1,9 +1,8 @@
 package com.sm.keepmarket.data.repository
 
 import com.sm.keepmarket.data.datasource.datasourceInterface.INotificationDatasource
-import com.sm.keepmarket.data.model.NotificationEntity
 import com.sm.keepmarket.data.repository.repositoryInterface.INotificationRepository
-import com.sm.keepmarket.domain.Notification
+import com.sm.keepmarket.domain.model.Notification
 import kotlinx.coroutines.flow.Flow
 
 class NotificationRepositoryImpl(notificationDatasource: INotificationDatasource) :

@@ -1,6 +1,6 @@
 package com.sm.keepmarket.data.repository.repositoryInterface
 
-import com.sm.keepmarket.domain.Highlight
+import com.sm.keepmarket.domain.model.Highlight
 import kotlinx.coroutines.flow.Flow
 
 interface IHighlightRepository {
