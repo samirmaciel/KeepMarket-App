@@ -1,13 +1,14 @@
 package com.sm.keepmarket.util
 
 import com.sm.keepmarket.R
-import com.sm.keepmarket.domain.FeaturedCard
-import com.sm.keepmarket.domain.Highlight
-import com.sm.keepmarket.domain.MarketItem
-import com.sm.keepmarket.domain.Notification
-import com.sm.keepmarket.domain.PantryItem
-import com.sm.keepmarket.domain.Route
-import com.sm.keepmarket.domain.SearchItem
+import com.sm.keepmarket.domain.model.FeaturedCard
+import com.sm.keepmarket.domain.model.Highlight
+import com.sm.keepmarket.domain.model.Market
+import com.sm.keepmarket.domain.model.MarketItem
+import com.sm.keepmarket.domain.model.Notification
+import com.sm.keepmarket.domain.model.Pantry
+import com.sm.keepmarket.domain.model.PantryItem
+import com.sm.keepmarket.domain.model.SearchItem
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -19,41 +20,29 @@ object Mock {
     fun getFeatureCard(): List<FeaturedCard>{
         return listOf(
             FeaturedCard(
-                id = "123",
                 name = "My Pantry 1",
-                featureType = FeatureType.PANTRY,
+                featuredType = FeaturedType.PANTRY,
                 lastUpdate = LocalDateTime.now()
             ),
             FeaturedCard(
-                id = "321",
                 name = "My Market 1",
-                featureType = FeatureType.MARKET,
+                featuredType = FeaturedType.MARKET,
                 lastUpdate = LocalDateTime.now()
             ),
             FeaturedCard(
-                id = "321",
                 name = "My Market 2",
-                featureType = FeatureType.MARKET,
+                featuredType = FeaturedType.MARKET,
                 lastUpdate = LocalDateTime.now()
             ),
             FeaturedCard(
-                id = "321",
                 name = "My Market 3",
-                featureType = FeatureType.MARKET,
+                featuredType = FeaturedType.MARKET,
                 lastUpdate = LocalDateTime.now()
             )
         )
     }
 
-    fun getRoute(name: String): Route{
-
-        val route = Route()
-        route.addRoute("TEST/${name}")
-
-        return route
-    }
-
-    fun getHighlight(): List<Highlight> {
+    fun getHighlightList(): List<Highlight> {
         return listOf(
             Highlight(
                 id = "1",
@@ -201,14 +190,50 @@ object Mock {
             SearchItem(
                 "123",
                 "Price increase",
-                getHighlight().take(2)
+                getHighlightList().take(2)
             ),
             SearchItem(
                 "123",
                 "Price decrease",
-                getHighlight().take(4)
+                getHighlightList().take(4)
             )
 
+        )
+    }
+
+    fun getMarketList() : List<Market>{
+        return listOf(
+            Market(
+                "123",
+                "Mercado da semana",
+                LocalDateTime.now(),
+                getMarketItemList()
+            ),
+            Market(
+                "124",
+                "Padaria",
+                LocalDateTime.now().plusDays(2),
+                getMarketItemList()
+            ),
+            Market(
+                "125",
+                "Mercado do mês",
+                LocalDateTime.now().plusDays(4),
+                getMarketItemList()
+            ),
+        )
+    }
+
+    fun getPantryList(): List<Pantry> {
+        return listOf(
+            Pantry(
+                "123",
+                "Minha dispensa",
+                FeaturedType.PANTRY,
+                LocalDateTime.now().plusMinutes(1),
+                getPantryItemList(),
+
+            ),
         )
     }
 

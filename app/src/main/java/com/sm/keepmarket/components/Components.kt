@@ -31,17 +31,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
-import com.sm.keepmarket.domain.FeaturedCard
-import com.sm.keepmarket.domain.Highlight
-import com.sm.keepmarket.domain.MarketItem
-import com.sm.keepmarket.domain.Notification
-import com.sm.keepmarket.domain.PantryItem
-import com.sm.keepmarket.domain.Route
-import com.sm.keepmarket.domain.SearchItem
+import com.sm.keepmarket.domain.model.FeaturedCard
+import com.sm.keepmarket.domain.model.Highlight
+import com.sm.keepmarket.domain.model.MarketItem
+import com.sm.keepmarket.domain.model.Notification
+import com.sm.keepmarket.domain.model.PantryItem
+import com.sm.keepmarket.domain.model.Route
+import com.sm.keepmarket.domain.model.SearchItem
 import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.modal.CheckMarketItemModal
 import com.sm.keepmarket.presentation.theme.Background
@@ -127,12 +128,12 @@ fun BottomMenu() {
 }
 
 @Composable
-fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
+fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (FeaturedCard) -> Unit) {
 
     Box(
         modifier = Modifier
             .padding(5.dp)
-            .clickable(enabled = true, onClick = { })
+            .clickable(enabled = true, onClick = { onClick(featuredCard) })
     ) {
         Column(
             modifier = Modifier
@@ -150,7 +151,7 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
                     contentDescription = ""
                 )
                 Text(
-                    featuredCard.featureType.value,
+                    featuredCard.featuredType.value,
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White,
                     fontSize = 10.sp
@@ -160,6 +161,8 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (Route) -> Unit) {
                 modifier = Modifier.padding(top = 20.dp),
                 text = featuredCard.name,
                 style = MaterialTheme.typography.labelMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 color = Color.White
             )
             Text(

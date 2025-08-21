@@ -1,6 +1,6 @@
 package com.sm.keepmarket.util
 
-enum class FeatureType(val value: String) {
+enum class FeaturedType(val value: String) {
     MARKET("MARKET"),
     PANTRY("PANTRY")
 }

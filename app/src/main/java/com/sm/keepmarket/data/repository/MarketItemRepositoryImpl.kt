@@ -2,7 +2,7 @@ package com.sm.keepmarket.data.repository
 
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketItemDatasource
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemRepository
-import com.sm.keepmarket.domain.MarketItem
+import com.sm.keepmarket.domain.model.MarketItem
 import kotlinx.coroutines.flow.Flow
 
 class MarketItemRepositoryImpl(marketItemDatasource: IMarketItemDatasource) :
