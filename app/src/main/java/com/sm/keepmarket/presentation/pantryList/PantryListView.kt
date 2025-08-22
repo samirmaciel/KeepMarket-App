@@ -19,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,17 +32,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.PantryListItem
-import com.sm.keepmarket.presentation.modal.AddNewItemModal
 import com.sm.keepmarket.presentation.modal.AddNewPantryItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.Red
-import com.sm.keepmarket.util.Mock
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PantryListView(paddingValues: PaddingValues) {
 
+    val viewModel : PantryViewModel = koinViewModel()
     var showAddNewItemModal by remember { mutableStateOf(false) }
+    val pantry by viewModel.pantry.collectAsState()
+
+    viewModel.getPantry("")
 
     Column(
         modifier = Modifier
@@ -62,7 +66,7 @@ fun PantryListView(paddingValues: PaddingValues) {
 
         Text(
             modifier = Modifier.padding(16.dp),
-            text = "Pantry List Name",
+            text = pantry?.name ?: "Not founded",
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -86,6 +90,7 @@ fun PantryListView(paddingValues: PaddingValues) {
             if(showAddNewItemModal){
                 AddNewPantryItemModal(onDismiss = { showAddNewItemModal = false }) { itemName, itemAmount, itemDueDate ->
                     showAddNewItemModal = false
+                    viewModel.addItem(itemName, itemAmount, itemDueDate)
                 }
             }
 
@@ -97,7 +102,7 @@ fun PantryListView(paddingValues: PaddingValues) {
 
             Button(
                 onClick = {
-
+                    viewModel.removeExpiredItems()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Red
@@ -109,7 +114,7 @@ fun PantryListView(paddingValues: PaddingValues) {
         }
 
         LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-            items(Mock.getPantryItemList()) { item ->
+            items(pantry?.items ?: emptyList()) { item ->
                 PantryListItem(item)
             }
         }

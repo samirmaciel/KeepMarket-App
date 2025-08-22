@@ -8,9 +8,9 @@ import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
 
-class PantryItem(val id: String, val name: String, val dueDate: LocalDate) {
+class PantryItem(val id: String, val name: String, var amount: Int = 0, val dueDate: LocalDate) {
 
-    var amount: Int = 0
+
 
     fun getDueDateFormatted() = dueDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"))
 

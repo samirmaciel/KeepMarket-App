@@ -8,6 +8,6 @@ interface IPantryRepository {
 
     suspend fun getAll(): Flow<List<Pantry>>
     suspend fun getById(id: String): Flow<Pantry?>
-    suspend fun delete(market: Market)
-    suspend fun insert(market: Market)
+    suspend fun delete(pantry: Pantry)
+    suspend fun insert(pantry: Pantry)
 }

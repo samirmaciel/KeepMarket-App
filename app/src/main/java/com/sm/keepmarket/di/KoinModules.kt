@@ -23,10 +23,12 @@ import com.sm.keepmarket.data.repository.PantryItemRepositoryImpl
 import com.sm.keepmarket.data.repository.PantryRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
 import com.sm.keepmarket.presentation.home.HomeViewModel
+import com.sm.keepmarket.presentation.pantryList.PantryViewModel
 import org.koin.dsl.module
 
 val viewModelModules = module {
     single{ HomeViewModel(get(), get(), get()) }
+    single{ PantryViewModel(get(), get()) }
 }
 
 val repositoryModules = module {
