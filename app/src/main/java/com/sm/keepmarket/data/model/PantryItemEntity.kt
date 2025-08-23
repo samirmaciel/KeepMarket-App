@@ -5,16 +5,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDate
 
-@Entity(tableName = "TB_PANTRYITEMENTITY")
+@Entity(tableName = "TB_PANTRYITEM")
 data class PantryItemEntity(
-    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "ID")
     val id: String,
-    @ColumnInfo(name = "pantryId")
+    @ColumnInfo(name = "PANTRY_ID")
     val pantryId: String,
-    @ColumnInfo(name = "name")
+    @ColumnInfo(name = "NAME")
     val name: String,
-    @ColumnInfo(name = "amount")
+    @ColumnInfo(name = "AMOUNT")
     val amount: Int,
-    @ColumnInfo(name = "dueDate")
+    @ColumnInfo(name = "DUE_DATE")
     val dueDate: LocalDate
 )

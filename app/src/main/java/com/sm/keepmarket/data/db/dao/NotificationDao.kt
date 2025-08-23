@@ -16,10 +16,10 @@ interface NotificationDao {
     @Delete
     suspend fun delete(notificationEntity: NotificationEntity)
 
-    @Query("SELECT * FROM TB_NOTIFICATIONENTITY")
+    @Query("SELECT * FROM TB_NOTIFICATION")
     suspend fun getAll(): List<NotificationEntity>
 
-    @Query("SELECT * FROM TB_NOTIFICATIONENTITY WHERE id = :id")
+    @Query("SELECT * FROM TB_NOTIFICATION WHERE ID = :id")
     suspend fun getById(id: String): NotificationEntity?
 
 }

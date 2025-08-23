@@ -17,10 +17,10 @@ interface MarketDao {
     @Delete
     suspend fun delete(marketEntity: MarketEntity)
 
-    @Query("SELECT * FROM TB_MARKETENTITY")
+    @Query("SELECT * FROM TB_MARKET")
     suspend fun getAll(): List<MarketEntity>
 
-    @Query("SELECT * FROM TB_MARKETENTITY WHERE id = :id")
+    @Query("SELECT * FROM TB_MARKET WHERE ID = :id")
     suspend fun getById(id: String): MarketEntity?
 
 }

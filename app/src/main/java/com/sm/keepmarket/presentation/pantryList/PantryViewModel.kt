@@ -53,8 +53,15 @@ class PantryViewModel(private val pantryRepository: IPantryRepository, private v
 
     fun addItem(itemName: String, itemAmount : Int, itemDueDate: LocalDate){
 
+        val pantry = _Pantry.value
+
+        if(pantry == null){
+            return
+        }
+
         val newPantryItem = PantryItem(
             id = UUID.randomUUID().toString(),
+            pantryId = pantry.id,
             name = itemName,
             dueDate = itemDueDate,
             amount = itemAmount

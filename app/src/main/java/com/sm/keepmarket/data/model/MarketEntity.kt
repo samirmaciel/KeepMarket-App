@@ -5,14 +5,14 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 
-@Entity(tableName = "TB_MARKETENTITY")
+@Entity(tableName = "TB_MARKET")
 data class MarketEntity(
-    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "ID")
     val id: String,
-    @ColumnInfo(name = "title")
+    @ColumnInfo(name = "TITLE")
     val name: String,
-    @ColumnInfo(name = "createdDate")
+    @ColumnInfo(name = "CREATED_DATE")
     val createdDate: LocalDateTime,
-    @ColumnInfo(name = "lastUpdate")
-    val lastUpdate: LocalDateTime
+    @ColumnInfo(name = "LAST_UPDATE")
+    var lastUpdate: LocalDateTime
 )

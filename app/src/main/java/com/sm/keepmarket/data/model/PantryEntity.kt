@@ -5,14 +5,14 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 
-@Entity(tableName = "TB_PANTRYENTITY")
+@Entity(tableName = "TB_PANTRY")
 data class PantryEntity(
-    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "ID")
     val id: String,
-    @ColumnInfo(name = "name")
+    @ColumnInfo(name = "NAME")
     val name: String,
-    @ColumnInfo(name = "createdDate")
+    @ColumnInfo(name = "CREATED_DATE")
     val createdDate: LocalDateTime,
-    @ColumnInfo(name = "lastUpdate")
+    @ColumnInfo(name = "LAST_UPDATE")
     val lastUpdate: LocalDateTime
 )

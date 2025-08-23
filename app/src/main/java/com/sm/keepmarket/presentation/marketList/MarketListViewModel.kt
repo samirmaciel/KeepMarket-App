@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.time.LocalDateTime
 import java.util.UUID
 
 class MarketListViewModel(private val marketRepository: IMarketRepository, private val marketItemRepository: IMarketItemRepository): ViewModel() {
@@ -40,8 +41,9 @@ class MarketListViewModel(private val marketRepository: IMarketRepository, priva
 
         val newMarketItem = MarketItem(
             id = UUID.randomUUID().toString(),
-            ownerId = market.id,
-            name = name
+            marketId = market.id,
+            name = name,
+            createdDate = LocalDateTime.now()
 
         )
 
@@ -62,7 +64,7 @@ class MarketListViewModel(private val marketRepository: IMarketRepository, priva
 
         if(items == null) return BigDecimal.ZERO
 
-        return items.sumOf { it.getPriceTotal() }
+        return items.sumOf { it.getTotalPrice() }
     }
 
 }

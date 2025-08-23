@@ -24,7 +24,7 @@ class PantryRepositoryImpl(pantryDatasource: IPantryDatasource): IPantryReposito
             emit(Pantry(
                 id = UUID.randomUUID().toString(),
                 name = "Principal dispensa",
-                featuredType = FeaturedType.PANTRY,
+                createdDate = LocalDateTime.now(),
                 lastUpdate = LocalDateTime.now(),
                 items = Mock.getPantryItemList()
             ))

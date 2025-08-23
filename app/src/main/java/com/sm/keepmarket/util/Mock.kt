@@ -133,20 +133,23 @@ object Mock {
 
         val marketItem1 = MarketItem(
             id = UUID.randomUUID().toString(),
-            ownerId = ownerId,
-            name = "Milk"
+            marketId = ownerId,
+            name = "Milk",
+            createdDate = LocalDateTime.now()
         )
 
         val marketItem2 = MarketItem(
             id = UUID.randomUUID().toString(),
-            ownerId = ownerId,
-            name = "Chicken"
+            marketId = ownerId,
+            name = "Chicken",
+            createdDate = LocalDateTime.now()
         )
 
         val marketItem3 = MarketItem(
             id = UUID.randomUUID().toString(),
-            ownerId = ownerId,
-            name = "Apple"
+            marketId = ownerId,
+            name = "Apple",
+            createdDate = LocalDateTime.now()
         )
 
         marketItem1.price = BigDecimal(1.25)
@@ -162,8 +165,8 @@ object Mock {
     fun getPantryItemList(): List<PantryItem>{
         val list = mutableListOf<PantryItem>()
 
-        val item1 = PantryItem(UUID.randomUUID().toString(), "Milk", 1,LocalDate.of(2025, 10, 10))
-        val item2 = PantryItem(UUID.randomUUID().toString(), "Chicken", 4, LocalDate.now().plusDays(2))
+        val item1 = PantryItem(UUID.randomUUID().toString(),  "123","Milk", amount = 1,LocalDate.of(2025, 10, 10))
+        val item2 = PantryItem(UUID.randomUUID().toString(), "123","Chicken", 4, LocalDate.now().plusDays(2))
 
         list.add(item1)
         list.add(item2)
@@ -208,17 +211,20 @@ object Mock {
                 UUID.randomUUID().toString(),
                 "Mercado da semana",
                 LocalDateTime.now(),
+                LocalDateTime.now(),
                 getMarketItemList(UUID.randomUUID().toString())
             ),
             Market(
                 UUID.randomUUID().toString(),
                 "Padaria",
+                LocalDateTime.now(),
                 LocalDateTime.now().plusDays(2),
                 getMarketItemList(UUID.randomUUID().toString())
             ),
             Market(
                 UUID.randomUUID().toString(),
                 "Mercado do mês",
+                LocalDateTime.now(),
                 LocalDateTime.now().plusDays(4),
                 getMarketItemList(UUID.randomUUID().toString())
             ),
@@ -230,7 +236,7 @@ object Mock {
             Pantry(
                 UUID.randomUUID().toString(),
                 "Minha dispensa",
-                FeaturedType.PANTRY,
+                LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(1),
                 getPantryItemList(),
 
