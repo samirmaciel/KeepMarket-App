@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -20,9 +21,14 @@ import com.sm.keepmarket.R
 import com.sm.keepmarket.components.SearchItemView
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.util.Mock
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SearchView(paddingValues: PaddingValues) {
+
+    val viewModel: SearchViewModel = koinViewModel()
+    val searchItemList = viewModel.searchItemList.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -47,7 +53,7 @@ fun SearchView(paddingValues: PaddingValues) {
         )
 
         LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-            items(Mock.getSearchItemList()) { item ->
+            items(searchItemList.value) { item ->
                 SearchItemView(item)
             }
 

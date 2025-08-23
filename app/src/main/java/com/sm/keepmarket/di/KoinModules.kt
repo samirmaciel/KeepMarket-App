@@ -27,12 +27,14 @@ import com.sm.keepmarket.data.repository.repositoryInterface.INotificationReposi
 import com.sm.keepmarket.presentation.home.HomeViewModel
 import com.sm.keepmarket.presentation.notifications.NotificationsViewModel
 import com.sm.keepmarket.presentation.pantryList.PantryViewModel
+import com.sm.keepmarket.presentation.search.SearchViewModel
 import org.koin.dsl.module
 
 val viewModelModules = module {
     single{ HomeViewModel(get(), get(), get()) }
     single{ PantryViewModel(get(), get()) }
     single{ NotificationsViewModel(get()) }
+    single{ SearchViewModel(get()) }
 }
 
 val repositoryModules = module {
