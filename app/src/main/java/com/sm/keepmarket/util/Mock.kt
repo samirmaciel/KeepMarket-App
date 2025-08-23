@@ -128,21 +128,24 @@ object Mock {
         )
     }
 
-    fun getMarketItemList(): List<MarketItem>{
+    fun getMarketItemList(ownerId: String): List<MarketItem>{
         val list = mutableListOf<MarketItem>()
 
         val marketItem1 = MarketItem(
             id = UUID.randomUUID().toString(),
+            ownerId = ownerId,
             name = "Milk"
         )
 
         val marketItem2 = MarketItem(
             id = UUID.randomUUID().toString(),
+            ownerId = ownerId,
             name = "Chicken"
         )
 
         val marketItem3 = MarketItem(
             id = UUID.randomUUID().toString(),
+            ownerId = ownerId,
             name = "Apple"
         )
 
@@ -205,19 +208,19 @@ object Mock {
                 UUID.randomUUID().toString(),
                 "Mercado da semana",
                 LocalDateTime.now(),
-                getMarketItemList()
+                getMarketItemList(UUID.randomUUID().toString())
             ),
             Market(
                 UUID.randomUUID().toString(),
                 "Padaria",
                 LocalDateTime.now().plusDays(2),
-                getMarketItemList()
+                getMarketItemList(UUID.randomUUID().toString())
             ),
             Market(
                 UUID.randomUUID().toString(),
                 "Mercado do mês",
                 LocalDateTime.now().plusDays(4),
-                getMarketItemList()
+                getMarketItemList(UUID.randomUUID().toString())
             ),
         )
     }
