@@ -19,16 +19,20 @@ import com.sm.keepmarket.data.repository.repositoryInterface.IPantryItemReposito
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryRepository
 import com.sm.keepmarket.data.repository.MarketItemRepositoryImpl
 import com.sm.keepmarket.data.repository.MarketRepositoryImpl
+import com.sm.keepmarket.data.repository.NotificationRepositoryImpl
 import com.sm.keepmarket.data.repository.PantryItemRepositoryImpl
 import com.sm.keepmarket.data.repository.PantryRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
+import com.sm.keepmarket.data.repository.repositoryInterface.INotificationRepository
 import com.sm.keepmarket.presentation.home.HomeViewModel
+import com.sm.keepmarket.presentation.notifications.NotificationsViewModel
 import com.sm.keepmarket.presentation.pantryList.PantryViewModel
 import org.koin.dsl.module
 
 val viewModelModules = module {
     single{ HomeViewModel(get(), get(), get()) }
     single{ PantryViewModel(get(), get()) }
+    single{ NotificationsViewModel(get()) }
 }
 
 val repositoryModules = module {
@@ -37,6 +41,7 @@ val repositoryModules = module {
     single<IMarketItemRepository>{ MarketItemRepositoryImpl(get()) }
     single<IPantryItemRepository> { PantryItemRepositoryImpl(get()) }
     single<IHighlightRepository> { HighlightRepositoryImpl(get()) }
+    single<INotificationRepository> { NotificationRepositoryImpl(get()) }
 }
 
 val datasourceModules = module {
