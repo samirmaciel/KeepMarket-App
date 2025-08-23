@@ -16,10 +16,10 @@ interface HighlightDao {
     @Delete
     suspend fun delete(highlightEntity: HighlightEntity)
 
-    @Query("SELECT * FROM TB_HIGHLIGHTENTITY")
+    @Query("SELECT * FROM TB_HIGHLIGHT")
     suspend fun getAll(): List<HighlightEntity>
 
-    @Query("SELECT * FROM TB_HIGHLIGHTENTITY WHERE id = :id")
+    @Query("SELECT * FROM TB_HIGHLIGHT WHERE ID = :id")
     suspend fun getById(id: String): HighlightEntity?
 
 }

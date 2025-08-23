@@ -7,7 +7,7 @@ import java.util.UUID
 data class Pantry(
     val id: String,
     val name: String,
-    val featuredType: FeaturedType,
+    val createdDate: LocalDateTime,
     var lastUpdate: LocalDateTime,
     var items: List<PantryItem> = emptyList()
 )

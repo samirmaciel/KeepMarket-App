@@ -9,5 +9,5 @@ data class Highlight(
     val subTitle: String,
     val type: HighlightType,
     @DrawableRes val icon: Int,
-    val description: String?
+    val description: String
 )

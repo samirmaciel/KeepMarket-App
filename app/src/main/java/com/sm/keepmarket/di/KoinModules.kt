@@ -8,10 +8,12 @@ import com.sm.keepmarket.data.datasource.datasourceInterface.IPantryDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.IPantryItemDatasource
 import com.sm.keepmarket.data.datasource.MarketDatasourceImpl
 import com.sm.keepmarket.data.datasource.MarketItemDatasourceImpl
+import com.sm.keepmarket.data.datasource.MarketItemStateDatasourceImpl
 import com.sm.keepmarket.data.datasource.NotificationDatasourceImpl
 import com.sm.keepmarket.data.datasource.PantryDatasourceImpl
 import com.sm.keepmarket.data.datasource.PantryItemDatasourceImpl
 import com.sm.keepmarket.data.datasource.datasourceInterface.IHighlightDatasource
+import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketItemStateDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.INotificationDatasource
 import com.sm.keepmarket.data.db.AppDataBase
 import com.sm.keepmarket.data.repository.HighlightRepositoryImpl
@@ -57,6 +59,7 @@ val datasourceModules = module {
     single<IPantryItemDatasource> { PantryItemDatasourceImpl(get()) }
     single<IHighlightDatasource> { HighlightDatasourceImpl(get()) }
     single<INotificationDatasource> { NotificationDatasourceImpl(get()) }
+    single<IMarketItemStateDatasource> { MarketItemStateDatasourceImpl(get()) }
 }
 
 val appDispatchersModule = module {
@@ -81,5 +84,6 @@ val databaseModule = module {
     single { get<AppDataBase>().PantryItemDao() }
     single { get<AppDataBase>().NotificationDao() }
     single { get<AppDataBase>().HighlightDao() }
+    single { get<AppDataBase>().MarketItemStateDao() }
 
 }

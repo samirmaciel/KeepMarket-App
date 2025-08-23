@@ -3,23 +3,16 @@ package com.sm.keepmarket.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.math.BigDecimal
 import java.time.LocalDateTime
 
-@Entity(tableName = "TB_MARKETITEMENTITY")
+@Entity(tableName = "TB_MARKETITEM")
 data class MarketItemEntity(
-    @PrimaryKey (autoGenerate = false) @ColumnInfo(name = "id")
+    @PrimaryKey (autoGenerate = false) @ColumnInfo(name = "ID")
     val id: String,
-    @ColumnInfo(name = "marketId")
-    val marketId: String,
-    @ColumnInfo(name = "name")
+    @ColumnInfo(name = "MARKET_ID")
+    val ownerID: String,
+    @ColumnInfo(name = "NAME")
     val name: String,
-    @ColumnInfo(name = "unitPrice")
-    val unitPrice: BigDecimal,
-    @ColumnInfo(name = "totalPrice")
-    val totalPrice: BigDecimal,
-    @ColumnInfo(name = "amount")
-    val amount: Int,
-    @ColumnInfo(name = "createdDate")
+    @ColumnInfo(name = "CREATED_DATE")
     val createdDate: LocalDateTime
 )

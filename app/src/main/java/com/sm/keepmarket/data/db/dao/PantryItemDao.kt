@@ -16,13 +16,13 @@ interface PantryItemDao {
     @Delete
     suspend fun delete(pantryItemEntity: PantryItemEntity)
 
-    @Query("SELECT * FROM TB_PANTRYITEMENTITY")
+    @Query("SELECT * FROM TB_PANTRYITEM")
     suspend fun getAll(): List<PantryItemEntity>
 
-    @Query("SELECT * FROM TB_PANTRYITEMENTITY WHERE pantryId = :ownerID")
+    @Query("SELECT * FROM TB_PANTRYITEM WHERE PANTRY_ID = :ownerID")
     suspend fun getAllByOwner(ownerID: String): List<PantryItemEntity>
 
-    @Query("SELECT * FROM TB_PANTRYITEMENTITY WHERE id = :id")
+    @Query("SELECT * FROM TB_PANTRYITEM WHERE ID = :id")
     suspend fun getById(id: String): PantryItemEntity?
 
 }

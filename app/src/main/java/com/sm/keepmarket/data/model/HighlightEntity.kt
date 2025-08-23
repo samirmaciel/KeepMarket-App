@@ -7,18 +7,18 @@ import androidx.room.PrimaryKey
 import com.sm.keepmarket.util.HighlightType
 
 
-@Entity(tableName = "TB_HIGHLIGHTENTITY")
+@Entity(tableName = "TB_HIGHLIGHT")
 data class HighlightEntity(
-    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "ID")
     val id: String,
-    @ColumnInfo(name = "title")
+    @ColumnInfo(name = "TITLE")
     val title: String,
-    @ColumnInfo(name = "subTitle")
+    @ColumnInfo(name = "SUBTITLE")
     val subTitle: String,
-    @ColumnInfo(name = "icon")
+    @ColumnInfo(name = "ICON")
     @DrawableRes val icon: Int,
-    @ColumnInfo(name = "infoText")
+    @ColumnInfo(name = "INFOTEXT")
     val description: String,
-    @ColumnInfo("highlightType")
+    @ColumnInfo("HIGHLIGHT_TYPE")
     val type: HighlightType
 )

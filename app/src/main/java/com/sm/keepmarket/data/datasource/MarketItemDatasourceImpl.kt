@@ -5,7 +5,7 @@ import com.sm.keepmarket.data.db.dao.MarketItemDao
 import com.sm.keepmarket.data.model.MarketItemEntity
 import kotlinx.coroutines.flow.Flow
 
-class MarketItemDatasourceImpl(dao: MarketItemDao): IMarketItemDatasource {
+class MarketItemDatasourceImpl(private val dao: MarketItemDao): IMarketItemDatasource {
     override suspend fun getAll(): Flow<List<MarketItemEntity>> {
         TODO("Not yet implemented")
     }

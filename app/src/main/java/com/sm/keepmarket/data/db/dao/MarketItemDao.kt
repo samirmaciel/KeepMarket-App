@@ -16,13 +16,13 @@ interface MarketItemDao {
     @Delete
     suspend fun delete(marketItemEntity: MarketItemEntity)
 
-    @Query("SELECT * FROM TB_MARKETITEMENTITY")
+    @Query("SELECT * FROM TB_MARKETITEM")
     suspend fun getAll(): List<MarketItemEntity>
 
-    @Query("SELECT * FROM TB_MARKETITEMENTITY WHERE marketId = :ownerID")
+    @Query("SELECT * FROM TB_MARKETITEM WHERE MARKET_ID = :ownerID")
     suspend fun getAllByOwner(ownerID: String): List<MarketItemEntity>
 
-    @Query("SELECT * FROM TB_MARKETITEMENTITY WHERE id = :id")
+    @Query("SELECT * FROM TB_MARKETITEM WHERE ID = :id")
     suspend fun getById(id: String): MarketItemEntity?
 
 }
