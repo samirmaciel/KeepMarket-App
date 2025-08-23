@@ -16,14 +16,16 @@ class MarketRepositoryImpl(marketDatasource: IMarketDatasource) : IMarketReposit
     }
 
     override suspend fun getById(id: String): Flow<Market?> {
-        TODO("Not yet implemented")
+        return flow {
+            emit(Mock.getMarketList().first())
+        }
     }
 
     override suspend fun delete(market: Market) {
-        TODO("Not yet implemented")
+
     }
 
     override suspend fun insert(market: Market) {
-        TODO("Not yet implemented")
+
     }
 }

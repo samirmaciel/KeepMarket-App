@@ -20,6 +20,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,16 +33,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.MarketListItem
+import com.sm.keepmarket.domain.model.MarketItem
 import com.sm.keepmarket.presentation.modal.AddNewItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.Red
 import com.sm.keepmarket.util.Mock
+import org.koin.androidx.compose.koinViewModel
+import java.util.UUID
 
 @Composable
 fun MarketListView(paddingValues: PaddingValues) {
 
+    val viewModel: MarketListViewModel = koinViewModel()
     var showAddNewItemModal by remember { mutableStateOf(false) }
+    val market = viewModel.market.collectAsState()
+
+    viewModel.getMarket("")
 
     Column(
         modifier = Modifier
@@ -62,7 +70,7 @@ fun MarketListView(paddingValues: PaddingValues) {
 
         Text(
             modifier = Modifier.padding(16.dp),
-            text = "Market List Name",
+            text = market.value?.name ?: "Not found",
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -84,7 +92,8 @@ fun MarketListView(paddingValues: PaddingValues) {
             }
 
             if (showAddNewItemModal) {
-                AddNewItemModal(onDismiss = { showAddNewItemModal = false }, onFinish = {
+                AddNewItemModal(onDismiss = { showAddNewItemModal = false }, onFinish = { itemName ->
+                    viewModel.addNewItem(itemName)
                     showAddNewItemModal = false
                 })
             }
@@ -113,7 +122,7 @@ fun MarketListView(paddingValues: PaddingValues) {
         }
 
         LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-            items(Mock.getMarketItemList()) { item ->
+            items(market.value?.items ?: emptyList()) { item ->
                 MarketListItem(item)
             }
         }
@@ -131,7 +140,7 @@ fun MarketListView(paddingValues: PaddingValues) {
         ) {
             Text(
                 modifier = Modifier.padding(start = 16.dp),
-                text = "Total: R$1,25",
+                text = "Total: ${viewModel.getTotalItemCheckedValue()}",
                 style = MaterialTheme.typography.labelMedium
             )
             Spacer(modifier = Modifier
@@ -139,7 +148,7 @@ fun MarketListView(paddingValues: PaddingValues) {
                 .weight(1f))
             Text(
                 modifier = Modifier.padding(end = 16.dp),
-                text = "Amount: ${Mock.getMarketItemList().size}",
+                text = "Amount: ${market.value?.items?.filter { it.isChecked }?.size }",
                 style = MaterialTheme.typography.labelMedium
             )
         }

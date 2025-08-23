@@ -8,9 +8,11 @@ import com.sm.keepmarket.data.datasource.datasourceInterface.IPantryDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.IPantryItemDatasource
 import com.sm.keepmarket.data.datasource.MarketDatasourceImpl
 import com.sm.keepmarket.data.datasource.MarketItemDatasourceImpl
+import com.sm.keepmarket.data.datasource.NotificationDatasourceImpl
 import com.sm.keepmarket.data.datasource.PantryDatasourceImpl
 import com.sm.keepmarket.data.datasource.PantryItemDatasourceImpl
 import com.sm.keepmarket.data.datasource.datasourceInterface.IHighlightDatasource
+import com.sm.keepmarket.data.datasource.datasourceInterface.INotificationDatasource
 import com.sm.keepmarket.data.db.AppDataBase
 import com.sm.keepmarket.data.repository.HighlightRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemRepository
@@ -25,6 +27,7 @@ import com.sm.keepmarket.data.repository.PantryRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.INotificationRepository
 import com.sm.keepmarket.presentation.home.HomeViewModel
+import com.sm.keepmarket.presentation.marketList.MarketListViewModel
 import com.sm.keepmarket.presentation.notifications.NotificationsViewModel
 import com.sm.keepmarket.presentation.pantryList.PantryViewModel
 import com.sm.keepmarket.presentation.search.SearchViewModel
@@ -35,6 +38,7 @@ val viewModelModules = module {
     single{ PantryViewModel(get(), get()) }
     single{ NotificationsViewModel(get()) }
     single{ SearchViewModel(get()) }
+    single{ MarketListViewModel(get(), get()) }
 }
 
 val repositoryModules = module {
@@ -52,6 +56,7 @@ val datasourceModules = module {
     single<IMarketItemDatasource> { MarketItemDatasourceImpl(get()) }
     single<IPantryItemDatasource> { PantryItemDatasourceImpl(get()) }
     single<IHighlightDatasource> { HighlightDatasourceImpl(get()) }
+    single<INotificationDatasource> { NotificationDatasourceImpl(get()) }
 }
 
 val appDispatchersModule = module {
