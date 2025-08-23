@@ -3,19 +3,23 @@ package com.sm.keepmarket.data.repository
 import com.sm.keepmarket.data.datasource.datasourceInterface.INotificationDatasource
 import com.sm.keepmarket.data.repository.repositoryInterface.INotificationRepository
 import com.sm.keepmarket.domain.model.Notification
+import com.sm.keepmarket.util.Mock
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class NotificationRepositoryImpl(notificationDatasource: INotificationDatasource) :
     INotificationRepository {
     override suspend fun getAll(): Flow<List<Notification>> {
-        TODO("Not yet implemented")
+       return flow {
+           emit(Mock.getNotificationList())
+       }
     }
 
     override suspend fun insert(notificationEntity: Notification) {
-        TODO("Not yet implemented")
+
     }
 
     override suspend fun delete(notificationEntity: Notification) {
-        TODO("Not yet implemented")
+
     }
 }

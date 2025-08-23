@@ -168,7 +168,7 @@ object Mock {
         return list
     }
 
-    fun getNotificationItemList(): List<Notification>{
+    fun getNotificationList(): List<Notification>{
         return listOf(
             Notification(
                 UUID.randomUUID().toString(),

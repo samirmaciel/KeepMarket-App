@@ -17,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,9 +30,14 @@ import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.KeepMarketTheme
 import com.sm.keepmarket.presentation.theme.Red
 import com.sm.keepmarket.util.Mock
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NotificationView(paddingValues: PaddingValues) {
+
+    val viewModel : NotificationsViewModel = koinViewModel()
+    val notificationsList = viewModel.notificationsList.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,19 +81,9 @@ fun NotificationView(paddingValues: PaddingValues) {
         }
 
         LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-            items(Mock.getNotificationItemList()) { item ->
+            items(notificationsList.value) { item ->
                 NotificationItemView(item)
             }
         }
-    }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    KeepMarketTheme {
-        NotificationView(PaddingValues(16.dp))
     }
 }
