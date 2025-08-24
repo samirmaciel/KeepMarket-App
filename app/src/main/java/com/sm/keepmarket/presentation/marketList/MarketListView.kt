@@ -13,12 +13,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -92,10 +94,12 @@ fun MarketListView(paddingValues: PaddingValues) {
             }
 
             if (showAddNewItemModal) {
-                AddNewItemModal(onDismiss = { showAddNewItemModal = false }, onFinish = { itemName ->
-                    viewModel.addNewItem(itemName)
-                    showAddNewItemModal = false
-                })
+                AddNewItemModal(
+                    onDismiss = { showAddNewItemModal = false },
+                    onFinish = { itemName ->
+                        viewModel.addNewItem(itemName)
+                        showAddNewItemModal = false
+                    })
             }
 
             Spacer(
@@ -121,15 +125,50 @@ fun MarketListView(paddingValues: PaddingValues) {
             }
         }
 
+        var openDeleteDialog by remember { mutableStateOf(false) }
+
         LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
             items(market.value?.items ?: emptyList()) { item ->
-                MarketListItem(item)
+                MarketListItem(
+                    item,
+                    onEdited = { editedItem ->
+
+                    },
+                    onDeleted = { deletedItem ->
+                        openDeleteDialog = true
+                    }
+
+                )
             }
         }
 
-        Spacer(modifier = Modifier
-            .size(1.dp)
-            .weight(1f))
+        if(openDeleteDialog){
+            AlertDialog(
+                onDismissRequest = { openDeleteDialog = false },
+                title = { Text("Confirmação") },
+                text = { Text("Você deseja realmente excluir este item?") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        openDeleteDialog = false
+                    }) {
+                        Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        openDeleteDialog = false
+                    }) {
+                        Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    }
+                }
+            )
+        }
+
+        Spacer(
+            modifier = Modifier
+                .size(1.dp)
+                .weight(1f)
+        )
 
         Row(
             modifier = Modifier
@@ -143,12 +182,14 @@ fun MarketListView(paddingValues: PaddingValues) {
                 text = "Total: ${viewModel.getTotalItemCheckedValue()}",
                 style = MaterialTheme.typography.labelMedium
             )
-            Spacer(modifier = Modifier
-                .size(10.dp)
-                .weight(1f))
+            Spacer(
+                modifier = Modifier
+                    .size(10.dp)
+                    .weight(1f)
+            )
             Text(
                 modifier = Modifier.padding(end = 16.dp),
-                text = "Amount: ${market.value?.items?.filter { it.isChecked }?.size }",
+                text = "Amount: ${market.value?.items?.filter { it.isChecked }?.size}",
                 style = MaterialTheme.typography.labelMedium
             )
         }

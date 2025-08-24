@@ -244,7 +244,7 @@ fun HighlightItemView(highlight: Highlight) {
 }
 
 @Composable
-fun MarketListItem(marketItem: MarketItem) {
+fun MarketListItem(marketItem: MarketItem, onEdited: (MarketItem) -> Unit, onDeleted: (MarketItem) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -322,7 +322,7 @@ fun MarketListItem(marketItem: MarketItem) {
                 Box(
                     modifier = Modifier
                         .size(35.dp)
-                        .clickable { }
+                        .clickable { onEdited(marketItem) }
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -335,7 +335,7 @@ fun MarketListItem(marketItem: MarketItem) {
                 Box(
                     modifier = Modifier
                         .size(35.dp)
-                        .clickable { }
+                        .clickable { onDeleted(marketItem) }
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
