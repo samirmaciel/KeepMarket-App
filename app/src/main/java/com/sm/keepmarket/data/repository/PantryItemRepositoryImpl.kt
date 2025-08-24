@@ -5,7 +5,7 @@ import com.sm.keepmarket.data.repository.repositoryInterface.IPantryItemReposito
 import com.sm.keepmarket.domain.model.PantryItem
 import kotlinx.coroutines.flow.Flow
 
-class PantryItemRepositoryImpl(pantryItemDatasource: IPantryItemDatasource) :
+class PantryItemRepositoryImpl(private val pantryItemDatasource: IPantryItemDatasource) :
     IPantryItemRepository {
     override suspend fun getAll(): Flow<List<PantryItem>> {
         TODO("Not yet implemented")

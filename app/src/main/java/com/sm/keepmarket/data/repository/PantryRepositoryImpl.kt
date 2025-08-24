@@ -11,23 +11,17 @@ import kotlinx.coroutines.flow.flow
 import java.time.LocalDateTime
 import java.util.UUID
 
-class PantryRepositoryImpl(pantryDatasource: IPantryDatasource): IPantryRepository {
+class PantryRepositoryImpl(private val pantryDatasource: IPantryDatasource): IPantryRepository {
 
     override suspend fun getAll(): Flow<List<Pantry>> {
         return flow {
-            emit(Mock.getPantryList())
+            emit(emptyList())
         }
     }
 
     override suspend fun getById(id: String): Flow<Pantry?> {
         return flow {
-            emit(Pantry(
-                id = UUID.randomUUID().toString(),
-                name = "Principal dispensa",
-                createdDate = LocalDateTime.now(),
-                lastUpdate = LocalDateTime.now(),
-                items = Mock.getPantryItemList()
-            ))
+            emit(null)
         }
     }
 
