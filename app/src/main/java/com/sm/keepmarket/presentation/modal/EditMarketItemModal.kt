@@ -15,7 +15,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,10 +30,12 @@ import com.sm.keepmarket.presentation.theme.Red
 import java.math.BigDecimal
 
 @Composable
-fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish: (Int, BigDecimal) -> Unit) {
+fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish: (String, Int, BigDecimal) -> Unit) {
 
-    var amount by remember { mutableIntStateOf(marketItem.amount) }
+    var name by remember { mutableStateOf(marketItem.name) }
+    var amount by remember { mutableStateOf(marketItem.amount) }
     var price by remember { mutableStateOf(marketItem.price) }
+    var showNameErrorMessage by remember { mutableStateOf(false) }
     var showAmountErrorMessage by remember { mutableStateOf(false) }
     var showPriceErrorMessage by remember { mutableStateOf(false) }
 
@@ -45,6 +46,28 @@ fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish
                 .background(color = Color.White, shape = RoundedCornerShape(10.dp))
                 .padding(16.dp)
         ) {
+
+            OutlinedTextField(
+                value = name,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
+                onValueChange = { newName ->
+                    name = newName
+                },
+                label = { Text("Name") },
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            if (showNameErrorMessage) {
+                Text(
+                    modifier = Modifier.padding(top = 5.dp),
+                    text = "Field should be not empty",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontSize = 10.sp,
+                    color = Red
+                )
+            }
 
             OutlinedTextField(
                 value = amount.toString(),
@@ -119,6 +142,10 @@ fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish
             ) {
                 Button(
                     onClick = {
+                        if (name.isEmpty()) {
+                            showNameErrorMessage = true
+                        }
+
                         if (amount <= 0) {
                             showAmountErrorMessage = true
                         }
@@ -127,18 +154,18 @@ fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish
                             showPriceErrorMessage = true
                         }
 
-                        if(showAmountErrorMessage || showPriceErrorMessage){
+                        if(showAmountErrorMessage || showPriceErrorMessage || showNameErrorMessage){
                             return@Button
                         }
 
-                        onFinish(amount, price)
+                        onFinish(name, amount, price)
                     }, colors = ButtonDefaults.buttonColors(
                         containerColor = Blue,
                         contentColor = Color.White
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Check", style = MaterialTheme.typography.labelMedium)
+                    Text("Save", style = MaterialTheme.typography.labelMedium)
                 }
             }
         }

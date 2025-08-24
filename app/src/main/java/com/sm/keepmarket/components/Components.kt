@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
@@ -20,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,10 +43,10 @@ import com.sm.keepmarket.domain.model.Highlight
 import com.sm.keepmarket.domain.model.MarketItem
 import com.sm.keepmarket.domain.model.Notification
 import com.sm.keepmarket.domain.model.PantryItem
-import com.sm.keepmarket.domain.model.Route
 import com.sm.keepmarket.domain.model.SearchItem
 import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.modal.CheckMarketItemModal
+import com.sm.keepmarket.presentation.modal.EditMarketItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.ButtonDefault
@@ -244,7 +246,15 @@ fun HighlightItemView(highlight: Highlight) {
 }
 
 @Composable
-fun MarketListItem(marketItem: MarketItem, onEdited: (MarketItem) -> Unit, onDeleted: (MarketItem) -> Unit) {
+fun MarketListItemView(
+    marketItem: MarketItem,
+    onEdit: (MarketItem) -> Unit,
+    onDeleted: (MarketItem) -> Unit
+) {
+
+    var openEditItemModal by remember { mutableStateOf(false) }
+    var openDeleteDialog by remember { mutableStateOf(false) }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -255,23 +265,34 @@ fun MarketListItem(marketItem: MarketItem, onEdited: (MarketItem) -> Unit, onDel
 
         var checked by remember { mutableStateOf(false) }
         var expanded by remember { mutableStateOf(false) }
-        var showCheckItem by remember { mutableStateOf(false) }
+        var showCheckMarketItemModal by remember { mutableStateOf(false) }
 
         Checkbox(
             checked = checked,
             onCheckedChange = {
                 checked = it
-                showCheckItem = it
+                showCheckMarketItemModal = it
             }
         )
 
-        if (showCheckItem) {
+        if (showCheckMarketItemModal) {
             CheckMarketItemModal(
+                marketItem = marketItem,
                 onDismiss = {
                     checked = false
-                    showCheckItem = false },
+                    marketItem.isChecked = false
+                    showCheckMarketItemModal = false
+                },
                 onFinish = { amount, price ->
-                    showCheckItem = false
+                    val newMarketItem = MarketItem(marketItem.id, marketItem.marketId, marketItem.name, marketItem.createdDate)
+
+                    newMarketItem.amount = amount
+                    newMarketItem.price = price
+                    newMarketItem.isChecked = checked
+
+                    onEdit(newMarketItem)
+
+                    showCheckMarketItemModal = false
                 })
         }
 
@@ -322,7 +343,10 @@ fun MarketListItem(marketItem: MarketItem, onEdited: (MarketItem) -> Unit, onDel
                 Box(
                     modifier = Modifier
                         .size(35.dp)
-                        .clickable { onEdited(marketItem) }
+                        .clickable {
+                            openEditItemModal = true
+                            expanded = false
+                        }
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -335,7 +359,7 @@ fun MarketListItem(marketItem: MarketItem, onEdited: (MarketItem) -> Unit, onDel
                 Box(
                     modifier = Modifier
                         .size(35.dp)
-                        .clickable { onDeleted(marketItem) }
+                        .clickable { openDeleteDialog = true }
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -347,6 +371,42 @@ fun MarketListItem(marketItem: MarketItem, onEdited: (MarketItem) -> Unit, onDel
             }
         }
     }
+
+    if (openDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { openDeleteDialog = false },
+            title = { Text("Confirmação") },
+            text = { Text("Você deseja realmente excluir este item?") },
+            confirmButton = {
+                TextButton(onClick = {
+                    onDeleted(marketItem)
+                    openDeleteDialog = false
+                }) {
+                    Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    openDeleteDialog = false
+                }) {
+                    Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                }
+            }
+        )
+    }
+
+    if (openEditItemModal) {
+        EditMarketItemModal(marketItem, onDismiss = { openEditItemModal = false }, onFinish = { name, amount, price ->
+            val newMarketItem = MarketItem(marketItem.id, marketItem.marketId, name, marketItem.createdDate)
+
+            newMarketItem.amount = amount
+            newMarketItem.price = price
+
+            onEdit(newMarketItem)
+            openEditItemModal = false
+        })
+    }
+
 }
 
 @Composable

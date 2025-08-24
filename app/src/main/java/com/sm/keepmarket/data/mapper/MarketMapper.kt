@@ -3,7 +3,7 @@ package com.sm.keepmarket.data.mapper
 import com.sm.keepmarket.data.model.MarketEntity
 import com.sm.keepmarket.domain.model.Market
 
-class MarketMapper() {
+object MarketMapper {
 
     fun toMarket(entity: MarketEntity): Market {
         return Market(

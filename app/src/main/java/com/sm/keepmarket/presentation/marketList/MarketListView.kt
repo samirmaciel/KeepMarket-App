@@ -1,6 +1,7 @@
 package com.sm.keepmarket.presentation.marketList
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,15 +14,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,24 +35,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
-import com.sm.keepmarket.components.MarketListItem
-import com.sm.keepmarket.domain.model.MarketItem
+import com.sm.keepmarket.components.MarketListItemView
 import com.sm.keepmarket.presentation.modal.AddNewItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.Red
-import com.sm.keepmarket.util.Mock
+import com.sm.keepmarket.util.UiState
 import org.koin.androidx.compose.koinViewModel
-import java.util.UUID
 
 @Composable
 fun MarketListView(paddingValues: PaddingValues) {
 
     val viewModel: MarketListViewModel = koinViewModel()
     var showAddNewItemModal by remember { mutableStateOf(false) }
-    val market = viewModel.market.collectAsState()
+    val uiState = viewModel.uiState.collectAsState()
 
-    viewModel.getMarket("")
+    LaunchedEffect(Unit) {
+        viewModel.getMarket("a2acbf12-cf5f-45f5-abcd-75170a970382")
+    }
 
     Column(
         modifier = Modifier
@@ -70,11 +71,20 @@ fun MarketListView(paddingValues: PaddingValues) {
             )
         }
 
-        Text(
-            modifier = Modifier.padding(16.dp),
-            text = market.value?.name ?: "Not found",
-            style = MaterialTheme.typography.titleLarge
-        )
+        when(uiState.value.state){
+            UiState.LOADING -> {
+                CircularProgressIndicator(modifier = Modifier
+                    .padding(16.dp)
+                    .size(30.dp))
+            }
+            UiState.LOADED -> {
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    text = uiState.value.market?.name ?: "Not found",
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
+        }
 
         Row(
             modifier = Modifier
@@ -125,43 +135,24 @@ fun MarketListView(paddingValues: PaddingValues) {
             }
         }
 
-        var openDeleteDialog by remember { mutableStateOf(false) }
+        when(uiState.value.state){
+            UiState.LOADING -> { Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) { CircularProgressIndicator() }}
+            UiState.LOADED -> {
+                LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
+                    items(uiState.value.market?.items ?: emptyList()) { item ->
+                        MarketListItemView(
+                            item,
+                            onEdit = { editedItem ->
+                                viewModel.editItem(editedItem)
+                            },
+                            onDeleted = { toDeleteItem ->
+                                viewModel.deleteItem(toDeleteItem)
+                            }
 
-        LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-            items(market.value?.items ?: emptyList()) { item ->
-                MarketListItem(
-                    item,
-                    onEdited = { editedItem ->
-
-                    },
-                    onDeleted = { deletedItem ->
-                        openDeleteDialog = true
-                    }
-
-                )
-            }
-        }
-
-        if(openDeleteDialog){
-            AlertDialog(
-                onDismissRequest = { openDeleteDialog = false },
-                title = { Text("Confirmação") },
-                text = { Text("Você deseja realmente excluir este item?") },
-                confirmButton = {
-                    TextButton(onClick = {
-                        openDeleteDialog = false
-                    }) {
-                        Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = {
-                        openDeleteDialog = false
-                    }) {
-                        Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                        )
                     }
                 }
-            )
+            }
         }
 
         Spacer(
@@ -189,7 +180,7 @@ fun MarketListView(paddingValues: PaddingValues) {
             )
             Text(
                 modifier = Modifier.padding(end = 16.dp),
-                text = "Amount: ${market.value?.items?.filter { it.isChecked }?.size}",
+                text = "Amount: ${uiState.value.market?.items?.filter { it.isChecked }?.size}",
                 style = MaterialTheme.typography.labelMedium
             )
         }
