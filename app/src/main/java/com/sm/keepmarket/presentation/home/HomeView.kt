@@ -45,7 +45,7 @@ import org.koin.androidx.compose.koinViewModel
 fun HomeView(paddingValues: PaddingValues) {
 
     val nav = LocalNavHostController.current
-    val viewModel : HomeViewModel = koinViewModel()
+    val viewModel: HomeViewModel = koinViewModel()
     val featuredCardList by viewModel.featuredCardList.collectAsState()
     val highlightList by viewModel.highlightList.collectAsState()
 
@@ -77,6 +77,7 @@ fun HomeView(paddingValues: PaddingValues) {
         }
 
         var showCreateMarketList by remember { mutableStateOf(false) }
+        var showCreatePantryList by remember { mutableStateOf(false) }
 
         Row(modifier = Modifier.fillMaxWidth()) {
             Button(
@@ -88,21 +89,23 @@ fun HomeView(paddingValues: PaddingValues) {
                 )
             ) {
                 Text(
-                    "Prices",
+                    "Create Market List",
                     color = Color.Black,
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 12.sp
                 )
             }
             Button(
-                modifier = Modifier.padding(start = 10.dp), onClick = {},
+                modifier = Modifier.padding(start = 10.dp), onClick = {
+                    showCreatePantryList = true
+                },
                 shape = RoundedCornerShape(25.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White
                 )
             ) {
                 Text(
-                    "Lost items",
+                    "Create Pantry List",
                     color = Color.Black,
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 12.sp
@@ -129,7 +132,18 @@ fun HomeView(paddingValues: PaddingValues) {
                 hint = "Market list name",
                 onDismiss = { showCreateMarketList = false },
                 onFinish = { marketListName ->
+                    viewModel.createMarketList(marketListName)
                     showCreateMarketList = false
+                })
+        }
+
+        if (showCreatePantryList) {
+            CreateNewListModal(
+                hint = "Pantry list name",
+                onDismiss = { showCreatePantryList = false },
+                onFinish = { pantryListName ->
+                    viewModel.createPantryList(pantryListName)
+                    showCreatePantryList = false
                 })
         }
 
@@ -142,7 +156,7 @@ fun HomeView(paddingValues: PaddingValues) {
             LazyRow {
                 items(featuredCardList) { featuredCard ->
                     FeaturedCardButton(featuredCard = featuredCard) { featuredCard ->
-                        when(featuredCard.featuredType){
+                        when (featuredCard.featuredType) {
                             FeaturedType.MARKET -> nav.navigate(Dest.MarketListView)
                             FeaturedType.PANTRY -> nav.navigate(Dest.PantryListView)
                         }

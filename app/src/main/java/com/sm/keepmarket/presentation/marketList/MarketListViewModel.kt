@@ -27,7 +27,7 @@ class MarketListViewModel(private val marketRepository: IMarketRepository, priva
         }
     }
 
-    fun addUpdateItem(marketItem: MarketItem){
+    fun updateItem(marketItem: MarketItem){
         viewModelScope.launch {
             marketItemRepository.insert(marketItem)
         }
@@ -44,7 +44,6 @@ class MarketListViewModel(private val marketRepository: IMarketRepository, priva
             marketId = market.id,
             name = name,
             createdDate = LocalDateTime.now()
-
         )
 
         viewModelScope.launch {
