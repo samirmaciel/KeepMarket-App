@@ -1,5 +1,6 @@
 package com.sm.keepmarket.presentation.marketList
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemRepository
@@ -14,9 +15,13 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID
 
-class MarketListViewModel(private val marketRepository: IMarketRepository, private val marketItemRepository: IMarketItemRepository): ViewModel() {
+class MarketListViewModel(
+    private val marketRepository: IMarketRepository,
+    private val marketItemRepository: IMarketItemRepository
+) : ViewModel() {
 
-    private val _UiState : MutableStateFlow<MarketListUiState> = MutableStateFlow(MarketListUiState())
+    private val _UiState: MutableStateFlow<MarketListUiState> =
+        MutableStateFlow(MarketListUiState())
     val uiState = _UiState.asStateFlow()
 
     init {
@@ -27,7 +32,7 @@ class MarketListViewModel(private val marketRepository: IMarketRepository, priva
         }
     }
 
-    fun getMarket(id: String){
+    fun getMarket(id: String) {
         viewModelScope.launch {
             marketRepository.getById(id).collect { market ->
                 _UiState.update { uiState ->
@@ -40,17 +45,17 @@ class MarketListViewModel(private val marketRepository: IMarketRepository, priva
         }
     }
 
-    fun updateItem(marketItem: MarketItem){
+    fun updateItem(marketItem: MarketItem) {
         viewModelScope.launch {
             marketItemRepository.insert(marketItem)
         }
     }
 
-    fun addNewItem(name: String){
+    fun addNewItem(name: String) {
 
         val market = _UiState.value.market
 
-        if(market?.id == null) return
+        if (market?.id == null) return
 
         val newMarketItem = MarketItem(
             id = UUID.randomUUID().toString(),
@@ -73,7 +78,7 @@ class MarketListViewModel(private val marketRepository: IMarketRepository, priva
         }
     }
 
-    fun deleteMarketItem(marketItem: MarketItem){
+    fun deleteMarketItem(marketItem: MarketItem) {
         viewModelScope.launch {
             marketItemRepository.delete(marketItem)
         }
@@ -83,12 +88,12 @@ class MarketListViewModel(private val marketRepository: IMarketRepository, priva
 
         val items = _UiState.value.market?.items?.filter { it.isChecked }
 
-        if(items == null) return BigDecimal.ZERO
+        if (items == null) return BigDecimal.ZERO
 
         return items.sumOf { it.getTotalPrice() }
     }
 
-    fun deleteItem(marketItem: MarketItem){
+    fun deleteItem(marketItem: MarketItem) {
 
         _UiState.update { currentState ->
             currentState.copy(
@@ -101,7 +106,8 @@ class MarketListViewModel(private val marketRepository: IMarketRepository, priva
             _UiState.update { currentState ->
                 currentState.copy(
                     market = _UiState.value.market?.copy(
-                        items = _UiState.value.market?.items?.filter { it.id != marketItem.id } ?: emptyList()
+                        items = _UiState.value.market?.items?.filter { it.id != marketItem.id }
+                            ?: emptyList()
                     )
                 )
             }
@@ -111,14 +117,18 @@ class MarketListViewModel(private val marketRepository: IMarketRepository, priva
 
     }
 
-    fun editItem(marketItem: MarketItem){
+    fun editItem(marketItem: MarketItem) {
         _UiState.update { currentState ->
             currentState.copy(
                 market = _UiState.value.market?.copy(
-                    items = _UiState.value.market?.items?.map { item -> if(item.id == marketItem.id) marketItem else item } ?: emptyList()
+                    items = _UiState.value.market?.items?.map { item -> if (item.id == marketItem.id) marketItem else item }
+                        ?: emptyList()
                 )
             )
+        }
 
+        _UiState.value.market?.items?.forEach { item ->
+            Log.d("MarketListViewModel", "editItem: IsChecked - ${item.isChecked} Amount - ${item.amount.toString()} Price - ${item.price.toString()}")
         }
 
     }

@@ -152,9 +152,6 @@ object Mock {
             createdDate = LocalDateTime.now()
         )
 
-        marketItem1.price = BigDecimal(1.25)
-        marketItem1.amount = 5
-
         list.add(marketItem1)
         list.add(marketItem2)
         list.add(marketItem3)
