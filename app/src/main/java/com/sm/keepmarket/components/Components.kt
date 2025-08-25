@@ -272,6 +272,13 @@ fun MarketListItemView(
             onCheckedChange = {
                 checked = it
                 showCheckMarketItemModal = it
+
+                if(!it){
+                    val newMarketItem = marketItem.copy(
+                        isChecked = false
+                    )
+                    onEdit(newMarketItem)
+                }
             }
         )
 
@@ -280,15 +287,14 @@ fun MarketListItemView(
                 marketItem = marketItem,
                 onDismiss = {
                     checked = false
-                    marketItem.isChecked = false
                     showCheckMarketItemModal = false
                 },
                 onFinish = { amount, price ->
-                    val newMarketItem = MarketItem(marketItem.id, marketItem.marketId, marketItem.name, marketItem.createdDate)
-
-                    newMarketItem.amount = amount
-                    newMarketItem.price = price
-                    newMarketItem.isChecked = checked
+                    val newMarketItem = marketItem.copy(
+                        isChecked = checked,
+                        amount = amount,
+                        price = price
+                    )
 
                     onEdit(newMarketItem)
 
@@ -397,10 +403,11 @@ fun MarketListItemView(
 
     if (openEditItemModal) {
         EditMarketItemModal(marketItem, onDismiss = { openEditItemModal = false }, onFinish = { name, amount, price ->
-            val newMarketItem = MarketItem(marketItem.id, marketItem.marketId, name, marketItem.createdDate)
-
-            newMarketItem.amount = amount
-            newMarketItem.price = price
+            val newMarketItem = marketItem.copy(
+                name = name,
+                amount = amount,
+                price = price
+            )
 
             onEdit(newMarketItem)
             openEditItemModal = false
