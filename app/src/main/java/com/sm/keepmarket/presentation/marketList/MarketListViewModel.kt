@@ -126,11 +126,6 @@ class MarketListViewModel(
                 )
             )
         }
-
-        _UiState.value.market?.items?.forEach { item ->
-            Log.d("MarketListViewModel", "editItem: IsChecked - ${item.isChecked} Amount - ${item.amount.toString()} Price - ${item.price.toString()}")
-        }
-
     }
 
 }

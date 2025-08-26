@@ -1,65 +1,38 @@
 package com.sm.keepmarket.presentation.modal
 
-import android.app.DatePickerDialog
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.Popup
+import com.sm.keepmarket.domain.model.PantryItem
 import com.sm.keepmarket.presentation.theme.Blue
-import com.sm.keepmarket.presentation.theme.KeepMarketTheme
 import com.sm.keepmarket.presentation.theme.Red
-import java.text.SimpleDateFormat
-import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.util.Date
-import java.util.Locale
 
 @Composable
-fun AddNewPantryItemModal(onDismiss: () -> Unit, onFinish: (String, Int, LocalDate) -> Unit) {
+fun EditPantryItemModal(pantryItem: PantryItem, onDismiss: () -> Unit, onFinish: (String, Int, LocalDate) -> Unit) {
 
-    var itemName by remember { mutableStateOf("") }
-    var itemAmount by remember { mutableStateOf(0) }
-    var itemDueDate = LocalDate.now().minusDays(1)
+    var itemName by remember { mutableStateOf(pantryItem.name) }
+    var itemAmount by remember { mutableStateOf(pantryItem.amount) }
+    var itemDueDate = pantryItem.dueDate
     var showItemNameErrorMessage by remember { mutableStateOf(false) }
     var showItemAmountErrorMessage by remember { mutableStateOf(false) }
     var showItemDueDateErrorMessage by remember { mutableStateOf(false) }
@@ -124,7 +97,7 @@ fun AddNewPantryItemModal(onDismiss: () -> Unit, onFinish: (String, Int, LocalDa
                 )
             }
 
-            DatePickerDocked{ selectedDate ->
+            DatePickerDocked(selectedDate = itemDueDate.toString()){ selectedDate ->
 
                 if(selectedDate.isAfter(LocalDate.now())){
                     showItemDueDateErrorMessage = false
@@ -174,106 +147,9 @@ fun AddNewPantryItemModal(onDismiss: () -> Unit, onFinish: (String, Int, LocalDa
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Add", style = MaterialTheme.typography.labelMedium)
+                    Text("Save", style = MaterialTheme.typography.labelMedium)
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-private fun Preview() {
-
-    KeepMarketTheme {
-
-    }
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DatePickerDocked(selectedDate: String? = null, onSelectedDate: (LocalDate) -> Unit) {
-    var showDatePicker by remember { mutableStateOf(false) }
-    var selectedDate by remember { mutableStateOf(selectedDate ?: "") }
-    val localFocus = LocalFocusManager.current
-
-    Box(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        OutlinedTextField(
-            value = selectedDate,
-            onValueChange = {},
-            label = { Text("Due Date") },
-            readOnly = true,
-            trailingIcon = {
-                IconButton(onClick = { showDatePicker = !showDatePicker }) {
-                    Icon(
-                        imageVector = Icons.Default.DateRange,
-                        contentDescription = "Select date"
-                    )
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp)
-                .onFocusEvent{
-                    if(it.isFocused){
-                        showDatePicker = true
-                    }
-                }
-        )
-
-        if (showDatePicker) {
-            DatePickerModal({ selectedDateMillis ->
-                selectedDate = selectedDateMillis?.let {
-                    convertMillisToDate(it)
-                } ?: ""
-
-                if(selectedDateMillis != null){
-                    onSelectedDate(
-                        Instant.ofEpochMilli(selectedDateMillis)
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDate())
-                }
-
-            }, {
-                showDatePicker = false
-                localFocus.clearFocus()
-            })
-        }
-    }
-}
-
-fun convertMillisToDate(millis: Long): String {
-    val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DatePickerModal(
-    onDateSelected: (Long?) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val datePickerState = rememberDatePickerState()
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = {
-                onDateSelected(datePickerState.selectedDateMillis)
-                onDismiss()
-            }) {
-                Text("OK")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    ) {
-        DatePicker(state = datePickerState)
     }
 }
