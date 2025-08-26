@@ -32,7 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
-import com.sm.keepmarket.components.PantryListItem
+import com.sm.keepmarket.components.PantryListItemView
 import com.sm.keepmarket.presentation.modal.AddNewPantryItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
@@ -42,7 +42,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun PantryListView(paddingValues: PaddingValues) {
 
-    val viewModel : PantryViewModel = koinViewModel()
+    val viewModel: PantryViewModel = koinViewModel()
     var showAddNewItemModal by remember { mutableStateOf(false) }
     val uiState = viewModel.uiState.collectAsState()
 
@@ -90,8 +90,10 @@ fun PantryListView(paddingValues: PaddingValues) {
                 Text("Add new Item", style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
             }
 
-            if(showAddNewItemModal){
-                AddNewPantryItemModal(onDismiss = { showAddNewItemModal = false }) { itemName, itemAmount, itemDueDate ->
+            if (showAddNewItemModal) {
+                AddNewPantryItemModal(onDismiss = {
+                    showAddNewItemModal = false
+                }) { itemName, itemAmount, itemDueDate ->
                     showAddNewItemModal = false
                     viewModel.addNewItem(itemName, itemAmount, itemDueDate)
                 }
@@ -112,13 +114,23 @@ fun PantryListView(paddingValues: PaddingValues) {
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
-                Text(text = "Remove expired items", style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
+                Text(
+                    text = "Remove expired items",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontSize = 12.sp
+                )
             }
         }
 
         LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
             items(uiState.value.pantry?.items ?: emptyList()) { item ->
-                PantryListItem(item)
+                PantryListItemView(item,
+                    onEdit = { editedItem ->
+                        viewModel.editItem(editedItem)
+                    },
+                    onDeleted = { toDeleteItem ->
+                        viewModel.deleteItem(toDeleteItem)
+                    })
             }
         }
     }

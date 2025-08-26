@@ -1,9 +1,11 @@
 package com.sm.keepmarket.presentation.pantryList
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryItemRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryRepository
+import com.sm.keepmarket.domain.model.MarketItem
 import com.sm.keepmarket.domain.model.PantryItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -72,17 +74,40 @@ class PantryViewModel(private val pantryRepository: IPantryRepository, private v
         }
     }
 
-    fun removeItem(pantryItem: PantryItem){
+    fun deleteItem(pantryItem: PantryItem) {
+
+        _UiState.update { currentState ->
+            currentState.copy(
+                lastDeleteItem = pantryItem
+            )
+        }
+
         viewModelScope.launch {
 
             _UiState.update { currentState ->
                 currentState.copy(
-                    lastDeleteItem = pantryItem
+                    pantry = _UiState.value.pantry?.copy(
+                        items = _UiState.value.pantry?.items?.filter { it.id != pantryItem.id }
+                            ?: emptyList()
+                    )
                 )
             }
 
             pantryItemRepository.delete(pantryItem)
         }
+
+    }
+
+    fun editItem(pantryItem: PantryItem) {
+        _UiState.update { currentState ->
+            currentState.copy(
+                pantry = _UiState.value.pantry?.copy(
+                    items = _UiState.value.pantry?.items?.map { item -> if (item.id == pantryItem.id) pantryItem else item }
+                        ?: emptyList()
+                )
+            )
+        }
+
     }
 
 }

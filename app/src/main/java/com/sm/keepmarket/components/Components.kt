@@ -47,6 +47,7 @@ import com.sm.keepmarket.domain.model.SearchItem
 import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.modal.CheckMarketItemModal
 import com.sm.keepmarket.presentation.modal.EditMarketItemModal
+import com.sm.keepmarket.presentation.modal.EditPantryItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.ButtonDefault
@@ -273,7 +274,7 @@ fun MarketListItemView(
                 checked = it
                 showCheckMarketItemModal = it
 
-                if(!it){
+                if (!it) {
                     val newMarketItem = marketItem.copy(
                         isChecked = false
                     )
@@ -402,16 +403,19 @@ fun MarketListItemView(
     }
 
     if (openEditItemModal) {
-        EditMarketItemModal(marketItem, onDismiss = { openEditItemModal = false }, onFinish = { name, amount, price ->
-            val newMarketItem = marketItem.copy(
-                name = name,
-                amount = amount,
-                price = price
-            )
+        EditMarketItemModal(
+            marketItem,
+            onDismiss = { openEditItemModal = false },
+            onFinish = { name, amount, price ->
+                val newMarketItem = marketItem.copy(
+                    name = name,
+                    amount = amount,
+                    price = price
+                )
 
-            onEdit(newMarketItem)
-            openEditItemModal = false
-        })
+                onEdit(newMarketItem)
+                openEditItemModal = false
+            })
     }
 
 }
@@ -471,7 +475,14 @@ fun NotificationItemView(notification: Notification) {
 }
 
 @Composable
-fun PantryListItem(pantryItem: PantryItem) {
+fun PantryListItemView(
+    pantryItem: PantryItem,
+    onEdit: (PantryItem) -> Unit,
+    onDeleted: (PantryItem) -> Unit
+) {
+
+    var openEditItemModal by remember { mutableStateOf(false) }
+    var openDeleteDialog by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -536,7 +547,10 @@ fun PantryListItem(pantryItem: PantryItem) {
                 Box(
                     modifier = Modifier
                         .size(35.dp)
-                        .clickable { }
+                        .clickable {
+                            openEditItemModal = true
+                            expanded = false
+                        }
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -549,7 +563,7 @@ fun PantryListItem(pantryItem: PantryItem) {
                 Box(
                     modifier = Modifier
                         .size(35.dp)
-                        .clickable { }
+                        .clickable { openDeleteDialog = true }
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -560,6 +574,45 @@ fun PantryListItem(pantryItem: PantryItem) {
                 }
             }
         }
+    }
+
+    if (openDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { openDeleteDialog = false },
+            title = { Text("Confirmação") },
+            text = { Text("Você deseja realmente excluir este item?") },
+            confirmButton = {
+                TextButton(onClick = {
+                    onDeleted(pantryItem)
+                    openDeleteDialog = false
+                }) {
+                    Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    openDeleteDialog = false
+                }) {
+                    Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                }
+            }
+        )
+    }
+
+    if (openEditItemModal) {
+        EditPantryItemModal(
+            pantryItem,
+            onDismiss = { openEditItemModal = false },
+            onFinish = { name, amount, dueDate ->
+                val newPantryItem = pantryItem.copy(
+                    name = name,
+                    amount = amount,
+                    dueDate = dueDate
+                )
+
+                onEdit(newPantryItem)
+                openEditItemModal = false
+            })
     }
 
 }
