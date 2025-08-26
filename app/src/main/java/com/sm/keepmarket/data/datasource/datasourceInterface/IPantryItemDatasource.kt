@@ -7,7 +7,7 @@ interface IPantryItemDatasource {
 
     suspend fun getAll(): Flow<List<PantryItemEntity>>
     suspend fun getAllByOwner(ownerId: String): Flow<List<PantryItemEntity>>
-    suspend fun getById(id: String): Flow<PantryItemEntity>
+    suspend fun getById(id: String): Flow<PantryItemEntity?>
     suspend fun delete(pantryItemEntity: PantryItemEntity)
     suspend fun insert(pantryItemEntity: PantryItemEntity)
 }
