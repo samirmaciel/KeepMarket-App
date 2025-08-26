@@ -1,5 +1,6 @@
 package com.sm.keepmarket.data.repository.repositoryInterface
 
+import com.sm.keepmarket.data.model.PantryEntity
 import com.sm.keepmarket.domain.model.Market
 import com.sm.keepmarket.domain.model.Pantry
 import kotlinx.coroutines.flow.Flow

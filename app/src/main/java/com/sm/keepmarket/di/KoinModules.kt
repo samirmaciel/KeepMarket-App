@@ -45,7 +45,7 @@ val viewModelModules = module {
 
 val repositoryModules = module {
     single<IMarketRepository> { MarketRepositoryImpl(get(), get()) }
-    single<IPantryRepository> { PantryRepositoryImpl(get()) }
+    single<IPantryRepository> { PantryRepositoryImpl(get(), get()) }
     single<IMarketItemRepository>{ MarketItemRepositoryImpl(get()) }
     single<IPantryItemRepository> { PantryItemRepositoryImpl(get()) }
     single<IHighlightRepository> { HighlightRepositoryImpl(get()) }

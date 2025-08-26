@@ -3,7 +3,7 @@ package com.sm.keepmarket.data.mapper
 import com.sm.keepmarket.data.model.PantryItemEntity
 import com.sm.keepmarket.domain.model.PantryItem
 
-class PantryItemMapper() {
+object PantryItemMapper {
 
 
     fun toPantryItem(entity: PantryItemEntity): PantryItem {

@@ -19,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,9 +44,11 @@ fun PantryListView(paddingValues: PaddingValues) {
 
     val viewModel : PantryViewModel = koinViewModel()
     var showAddNewItemModal by remember { mutableStateOf(false) }
-    val pantry by viewModel.pantry.collectAsState()
+    val uiState = viewModel.uiState.collectAsState()
 
-    viewModel.getPantry("")
+    LaunchedEffect(Unit) {
+        viewModel.getPantry("ae9e772d-f3ee-4506-abf6-b81b899ff016")
+    }
 
     Column(
         modifier = Modifier
@@ -66,7 +69,7 @@ fun PantryListView(paddingValues: PaddingValues) {
 
         Text(
             modifier = Modifier.padding(16.dp),
-            text = pantry?.name ?: "Not founded",
+            text = uiState.value.pantry?.name ?: "Not founded",
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -90,7 +93,7 @@ fun PantryListView(paddingValues: PaddingValues) {
             if(showAddNewItemModal){
                 AddNewPantryItemModal(onDismiss = { showAddNewItemModal = false }) { itemName, itemAmount, itemDueDate ->
                     showAddNewItemModal = false
-                    viewModel.addItem(itemName, itemAmount, itemDueDate)
+                    viewModel.addNewItem(itemName, itemAmount, itemDueDate)
                 }
             }
 
@@ -114,7 +117,7 @@ fun PantryListView(paddingValues: PaddingValues) {
         }
 
         LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-            items(pantry?.items ?: emptyList()) { item ->
+            items(uiState.value.pantry?.items ?: emptyList()) { item ->
                 PantryListItem(item)
             }
         }
