@@ -35,7 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
-import com.sm.keepmarket.components.MarketListItemView
+import com.sm.keepmarket.components.MarketItemListView
 import com.sm.keepmarket.presentation.modal.AddNewItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
@@ -140,7 +140,7 @@ fun MarketListView(paddingValues: PaddingValues) {
             UiState.LOADED -> {
                 LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
                     items(uiState.value.market?.items ?: emptyList()) { item ->
-                        MarketListItemView(
+                        MarketItemListView(
                             item,
                             onEdit = { editedItem ->
                                 viewModel.editItem(editedItem)
