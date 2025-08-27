@@ -32,7 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
-import com.sm.keepmarket.components.PantryListItemView
+import com.sm.keepmarket.components.PantryItemListView
 import com.sm.keepmarket.presentation.modal.AddNewPantryItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
@@ -124,7 +124,7 @@ fun PantryListView(paddingValues: PaddingValues) {
 
         LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
             items(uiState.value.pantry?.items ?: emptyList()) { item ->
-                PantryListItemView(item,
+                PantryItemListView(item,
                     onEdit = { editedItem ->
                         viewModel.editItem(editedItem)
                     },

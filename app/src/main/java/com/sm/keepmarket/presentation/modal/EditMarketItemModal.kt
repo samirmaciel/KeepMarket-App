@@ -36,8 +36,6 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
     var amount by remember { mutableStateOf(marketItem.amount) }
     var price by remember { mutableStateOf(marketItem.price) }
     var showNameErrorMessage by remember { mutableStateOf(false) }
-    var showAmountErrorMessage by remember { mutableStateOf(false) }
-    var showPriceErrorMessage by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = { onDismiss() }) {
         Column(
@@ -83,24 +81,11 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
 
                     val newAmount = amountValue.toInt()
 
-                    if (newAmount > 0) {
-                        showAmountErrorMessage = false
-                    }
-
                     amount = newAmount
                 },
                 label = { Text("Amount") },
                 modifier = Modifier.fillMaxWidth(),
             )
-            if (showAmountErrorMessage) {
-                Text(
-                    modifier = Modifier.padding(top = 5.dp),
-                    text = "Field should be not empty",
-                    style = MaterialTheme.typography.labelSmall,
-                    fontSize = 10.sp,
-                    color = Red
-                )
-            }
 
             OutlinedTextField(
                 value = price.toString(),
@@ -116,24 +101,11 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
 
                     val newPrice = BigDecimal(priceValue)
 
-                    if (newPrice > BigDecimal.ZERO) {
-                        showPriceErrorMessage = false
-                    }
-
                     price = newPrice
                 },
                 label = { Text("Unit price") },
                 modifier = Modifier.fillMaxWidth(),
             )
-            if (showPriceErrorMessage) {
-                Text(
-                    modifier = Modifier.padding(top = 5.dp),
-                    text = "Field should be not empty",
-                    style = MaterialTheme.typography.labelSmall,
-                    fontSize = 10.sp,
-                    color = Red
-                )
-            }
 
             Row(
                 modifier = Modifier
@@ -144,17 +116,6 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
                     onClick = {
                         if (name.isEmpty()) {
                             showNameErrorMessage = true
-                        }
-
-                        if (amount <= 0) {
-                            showAmountErrorMessage = true
-                        }
-
-                        if (price <= BigDecimal.ZERO) {
-                            showPriceErrorMessage = true
-                        }
-
-                        if(showAmountErrorMessage || showPriceErrorMessage || showNameErrorMessage){
                             return@Button
                         }
 

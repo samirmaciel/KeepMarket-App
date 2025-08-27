@@ -247,14 +247,17 @@ fun HighlightItemView(highlight: Highlight) {
 }
 
 @Composable
-fun MarketListItemView(
+fun MarketItemListView(
     marketItem: MarketItem,
     onEdit: (MarketItem) -> Unit,
     onDeleted: (MarketItem) -> Unit
 ) {
 
-    var openEditItemModal by remember { mutableStateOf(false) }
-    var openDeleteDialog by remember { mutableStateOf(false) }
+    var showEditItemModal by remember { mutableStateOf(false) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    var checked by remember { mutableStateOf(false) }
+    var expandedMoreActions by remember { mutableStateOf(false) }
+    var showCheckMarketItemModal by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -264,9 +267,7 @@ fun MarketListItemView(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        var checked by remember { mutableStateOf(false) }
-        var expanded by remember { mutableStateOf(false) }
-        var showCheckMarketItemModal by remember { mutableStateOf(false) }
+
 
         Checkbox(
             checked = checked,
@@ -332,7 +333,7 @@ fun MarketListItemView(
 
         Box() {
             IconButton(onClick = {
-                expanded = true
+                expandedMoreActions = true
             }) {
                 Icon(
                     modifier = Modifier.size(20.dp),
@@ -344,15 +345,15 @@ fun MarketListItemView(
 
             DropdownMenu(
                 modifier = Modifier.background(color = Color.White),
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
+                expanded = expandedMoreActions,
+                onDismissRequest = { expandedMoreActions = false }
             ) {
                 Box(
                     modifier = Modifier
                         .size(35.dp)
                         .clickable {
-                            openEditItemModal = true
-                            expanded = false
+                            showEditItemModal = true
+                            expandedMoreActions = false
                         }
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
@@ -366,7 +367,7 @@ fun MarketListItemView(
                 Box(
                     modifier = Modifier
                         .size(35.dp)
-                        .clickable { openDeleteDialog = true }
+                        .clickable { showDeleteDialog = true }
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -379,22 +380,24 @@ fun MarketListItemView(
         }
     }
 
-    if (openDeleteDialog) {
+    if (showDeleteDialog) {
         AlertDialog(
-            onDismissRequest = { openDeleteDialog = false },
+            onDismissRequest = { showDeleteDialog = false },
             title = { Text("Confirmação") },
             text = { Text("Você deseja realmente excluir este item?") },
             confirmButton = {
                 TextButton(onClick = {
                     onDeleted(marketItem)
-                    openDeleteDialog = false
+                    showDeleteDialog = false
+                    expandedMoreActions = false
                 }) {
                     Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             },
             dismissButton = {
                 TextButton(onClick = {
-                    openDeleteDialog = false
+                    showDeleteDialog = false
+                    expandedMoreActions = false
                 }) {
                     Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
@@ -402,10 +405,10 @@ fun MarketListItemView(
         )
     }
 
-    if (openEditItemModal) {
+    if (showEditItemModal) {
         EditMarketItemModal(
             marketItem,
-            onDismiss = { openEditItemModal = false },
+            onDismiss = { showEditItemModal = false },
             onFinish = { name, amount, price ->
                 val newMarketItem = marketItem.copy(
                     name = name,
@@ -414,7 +417,7 @@ fun MarketListItemView(
                 )
 
                 onEdit(newMarketItem)
-                openEditItemModal = false
+                showEditItemModal = false
             })
     }
 
@@ -475,14 +478,15 @@ fun NotificationItemView(notification: Notification) {
 }
 
 @Composable
-fun PantryListItemView(
+fun PantryItemListView(
     pantryItem: PantryItem,
     onEdit: (PantryItem) -> Unit,
     onDeleted: (PantryItem) -> Unit
 ) {
 
-    var openEditItemModal by remember { mutableStateOf(false) }
-    var openDeleteDialog by remember { mutableStateOf(false) }
+    var showEditItemModal by remember { mutableStateOf(false) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    var expandedMoreActions by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -492,8 +496,6 @@ fun PantryListItemView(
             .background(color = pantryItem.getDueColor(), shape = RoundedCornerShape(10.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
-        var expanded by remember { mutableStateOf(false) }
 
         Column(modifier = Modifier.padding(start = 16.dp)) {
             Text(
@@ -529,7 +531,7 @@ fun PantryListItemView(
 
         Box() {
             IconButton(onClick = {
-                expanded = true
+                expandedMoreActions = true
             }) {
                 Icon(
                     modifier = Modifier.size(20.dp),
@@ -541,15 +543,15 @@ fun PantryListItemView(
 
             DropdownMenu(
                 modifier = Modifier.background(color = Color.White),
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
+                expanded = expandedMoreActions,
+                onDismissRequest = { expandedMoreActions = false }
             ) {
                 Box(
                     modifier = Modifier
                         .size(35.dp)
                         .clickable {
-                            openEditItemModal = true
-                            expanded = false
+                            showEditItemModal = true
+                            expandedMoreActions = false
                         }
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
@@ -563,7 +565,7 @@ fun PantryListItemView(
                 Box(
                     modifier = Modifier
                         .size(35.dp)
-                        .clickable { openDeleteDialog = true }
+                        .clickable { showDeleteDialog = true }
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -576,22 +578,24 @@ fun PantryListItemView(
         }
     }
 
-    if (openDeleteDialog) {
+    if (showDeleteDialog) {
         AlertDialog(
-            onDismissRequest = { openDeleteDialog = false },
+            onDismissRequest = { showDeleteDialog = false },
             title = { Text("Confirmação") },
             text = { Text("Você deseja realmente excluir este item?") },
             confirmButton = {
                 TextButton(onClick = {
                     onDeleted(pantryItem)
-                    openDeleteDialog = false
+                    showDeleteDialog = false
+                    expandedMoreActions = false
                 }) {
                     Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             },
             dismissButton = {
                 TextButton(onClick = {
-                    openDeleteDialog = false
+                    showDeleteDialog = false
+                    expandedMoreActions = false
                 }) {
                     Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
@@ -599,10 +603,10 @@ fun PantryListItemView(
         )
     }
 
-    if (openEditItemModal) {
+    if (showEditItemModal) {
         EditPantryItemModal(
             pantryItem,
-            onDismiss = { openEditItemModal = false },
+            onDismiss = { showEditItemModal = false },
             onFinish = { name, amount, dueDate ->
                 val newPantryItem = pantryItem.copy(
                     name = name,
@@ -611,7 +615,7 @@ fun PantryListItemView(
                 )
 
                 onEdit(newPantryItem)
-                openEditItemModal = false
+                showEditItemModal = false
             })
     }
 
