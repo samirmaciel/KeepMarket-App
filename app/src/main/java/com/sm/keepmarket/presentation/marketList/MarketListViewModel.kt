@@ -24,19 +24,18 @@ class MarketListViewModel(
         MutableStateFlow(MarketListUiState())
     val uiState = _UiState.asStateFlow()
 
-    init {
-        _UiState.update { currentState ->
-            currentState.copy(
+    fun getMarket(id: String) {
+
+        _UiState.update { uiState ->
+            uiState.copy(
                 state = UiState.LOADING
             )
         }
-    }
 
-    fun getMarket(id: String) {
         viewModelScope.launch {
             marketRepository.getById(id).collect { market ->
-                _UiState.update { uiState ->
-                    uiState.copy(
+                _UiState.update { currentState ->
+                    currentState.copy(
                         market = market,
                         state = UiState.LOADED
                     )

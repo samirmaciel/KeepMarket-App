@@ -40,6 +40,8 @@ class MarketRepositoryImpl(private val marketDatasource: IMarketDatasource, priv
                     }
 
                     emit(market)
+                }.run {
+                    emit(null)
                 }
             }
         }

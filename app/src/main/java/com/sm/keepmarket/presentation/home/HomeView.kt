@@ -14,8 +14,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,7 +42,9 @@ import com.sm.keepmarket.components.FeaturedCardButton
 import com.sm.keepmarket.components.HighlightItemView
 import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.modal.CreateNewListModal
+import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.util.FeaturedType
+import com.sm.keepmarket.util.UiState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -46,136 +52,143 @@ fun HomeView(paddingValues: PaddingValues) {
 
     val nav = LocalNavHostController.current
     val viewModel: HomeViewModel = koinViewModel()
-    val featuredCardList by viewModel.featuredCardList.collectAsState()
-    val highlightList by viewModel.highlightList.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    var showLoading by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp), horizontalArrangement = Arrangement.End
-        ) {
-            IconButton(onClick = {}) {
-                Icon(
-                    painter = painterResource(R.drawable.settingsicon),
-                    contentDescription = "Settings button"
-                )
-            }
+
+    showLoading = when(uiState.state){
+        UiState.LOADING -> true
+        UiState.LOADED -> false
+    }
+
+    if(showLoading){
+        Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+            CircularProgressIndicator()
         }
+        return
+    }
 
+    if (uiState.featuredCardList.isEmpty()) {
+        EmptyHomeView(userName = "User", onCreateMarketList = { viewModel.createMarketList(it) }, onCreatePantryList = { viewModel.createPantryList(it) })
+    }
+
+    if(uiState.featuredCardList.isNotEmpty()){
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp), horizontalAlignment = Alignment.Start
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            Text("Hello User!", style = MaterialTheme.typography.titleLarge)
-            Text("Have a nice day.", style = MaterialTheme.typography.labelSmall)
-        }
-
-        var showCreateMarketList by remember { mutableStateOf(false) }
-        var showCreatePantryList by remember { mutableStateOf(false) }
-
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Button(
-                modifier = Modifier.padding(start = 10.dp),
-                onClick = { showCreateMarketList = true },
-                shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White
-                )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp), horizontalArrangement = Arrangement.End
             ) {
-                Text(
-                    "Create Market List",
-                    color = Color.Black,
-                    style = MaterialTheme.typography.labelSmall,
-                    fontSize = 12.sp
-                )
-            }
-            Button(
-                modifier = Modifier.padding(start = 10.dp), onClick = {
-                    showCreatePantryList = true
-                },
-                shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White
-                )
-            ) {
-                Text(
-                    "Create Pantry List",
-                    color = Color.Black,
-                    style = MaterialTheme.typography.labelSmall,
-                    fontSize = 12.sp
-                )
-            }
-            Button(
-                modifier = Modifier.padding(start = 10.dp), onClick = {},
-                shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White
-                )
-            ) {
-                Text(
-                    "Most used",
-                    color = Color.Black,
-                    style = MaterialTheme.typography.labelSmall,
-                    fontSize = 12.sp
-                )
-            }
-        }
-
-        if (showCreateMarketList) {
-            CreateNewListModal(
-                hint = "Market list name",
-                onDismiss = { showCreateMarketList = false },
-                onFinish = { marketListName ->
-                    viewModel.createMarketList(marketListName)
-                    showCreateMarketList = false
-                })
-        }
-
-        if (showCreatePantryList) {
-            CreateNewListModal(
-                hint = "Pantry list name",
-                onDismiss = { showCreatePantryList = false },
-                onFinish = { pantryListName ->
-                    viewModel.createPantryList(pantryListName)
-                    showCreatePantryList = false
-                })
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-
-            LazyRow {
-                items(featuredCardList) { featuredCard ->
-                    FeaturedCardButton(featuredCard = featuredCard) { featuredCard ->
-                        when (featuredCard.featuredType) {
-                            FeaturedType.MARKET -> nav.navigate(Dest.MarketListView)
-                            FeaturedType.PANTRY -> nav.navigate(Dest.PantryListView)
-                        }
-                    }
+                IconButton(onClick = {}) {
+                    Icon(
+                        painter = painterResource(R.drawable.settingsicon),
+                        contentDescription = "Settings button"
+                    )
                 }
             }
 
-        }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp), horizontalAlignment = Alignment.Start
+            ) {
+                Text("Hello User!", style = MaterialTheme.typography.titleLarge)
+                Text("Have a nice day.", style = MaterialTheme.typography.labelSmall)
+            }
 
-        Text(
-            modifier = Modifier.padding(16.dp),
-            text = "Highlights",
-            style = MaterialTheme.typography.labelMedium
-        )
+            var showCreateMarketList by remember { mutableStateOf(false) }
+            var showCreatePantryList by remember { mutableStateOf(false) }
 
-        LazyColumn(modifier = Modifier.padding(16.dp)) {
-            items(highlightList) { hightlight ->
-                HighlightItemView(hightlight)
-                Spacer(modifier = Modifier.size(5.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                Button(
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 5.dp)
+                        .weight(1f),
+                    onClick = { showCreateMarketList = true },
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Blue
+                    )
+                ) {
+                    Text(
+                        "Create Market List",
+                        style = MaterialTheme.typography.labelSmall,
+                        fontSize = 12.sp
+                    )
+                }
+                Button(
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 5.dp)
+                        .weight(1f), onClick = {
+                        showCreatePantryList = true
+                    },
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Blue
+                    )
+                ) {
+                    Text(
+                        "Create Pantry List",
+                        style = MaterialTheme.typography.labelSmall,
+                        fontSize = 12.sp,
+                    )
+                }
+            }
+
+            if (showCreateMarketList) {
+                CreateNewListModal(
+                    hint = "Market list name",
+                    onDismiss = { showCreateMarketList = false },
+                    onFinish = { marketListName ->
+                        viewModel.createMarketList(marketListName)
+                        showCreateMarketList = false
+                    })
+            }
+
+            if (showCreatePantryList) {
+                CreateNewListModal(
+                    hint = "Pantry list name",
+                    onDismiss = { showCreatePantryList = false },
+                    onFinish = { pantryListName ->
+                        viewModel.createPantryList(pantryListName)
+                        showCreatePantryList = false
+                    })
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+
+                LazyRow {
+                    items(uiState.featuredCardList) { featuredCard ->
+                        FeaturedCardButton(featuredCard = featuredCard) { featuredCard ->
+                            when (featuredCard.featuredType) {
+                                FeaturedType.MARKET -> nav.navigate(Dest.MarketListView)
+                                FeaturedType.PANTRY -> nav.navigate(Dest.PantryListView)
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text = "Highlights",
+                style = MaterialTheme.typography.labelMedium
+            )
+
+            LazyColumn(modifier = Modifier.padding(16.dp)) {
+                items(uiState.highlightList) { hightlight ->
+                    HighlightItemView(hightlight)
+                    Spacer(modifier = Modifier.size(5.dp))
+                }
             }
         }
     }

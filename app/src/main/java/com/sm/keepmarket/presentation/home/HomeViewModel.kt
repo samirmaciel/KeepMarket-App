@@ -6,13 +6,15 @@ import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepositor
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryRepository
 import com.sm.keepmarket.domain.model.FeaturedCard
-import com.sm.keepmarket.domain.model.Highlight
 import com.sm.keepmarket.domain.model.Market
 import com.sm.keepmarket.domain.model.Pantry
 import com.sm.keepmarket.util.FeaturedType
+import com.sm.keepmarket.util.UiState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.UUID
@@ -24,10 +26,8 @@ class HomeViewModel(
 ) : ViewModel() {
 
 
-    private val _FeaturedCardList: MutableStateFlow<List<FeaturedCard>> = MutableStateFlow(emptyList())
-    private val _HighlightList: MutableStateFlow<List<Highlight>> = MutableStateFlow(emptyList())
-    var featuredCardList = _FeaturedCardList.asStateFlow()
-    var highlightList = _HighlightList.asStateFlow()
+    private val _UiState: MutableStateFlow<HomeViewUiState> = MutableStateFlow(HomeViewUiState())
+    var uiState = _UiState.asStateFlow()
 
 
     init {
@@ -36,8 +36,13 @@ class HomeViewModel(
     }
 
     private fun getAllFeaturedCardList() {
-        viewModelScope.launch {
 
+        _UiState.update { currentState ->
+            currentState.copy(state = UiState.LOADING)
+        }
+
+        viewModelScope.launch {
+            delay(2000)
             combine(
                 marketRepository.getAll(),
                 pantryRepository.getAll()
@@ -61,23 +66,32 @@ class HomeViewModel(
                 marketCards + pantryCards
             }.collect { featuredCardList ->
 
-                _FeaturedCardList.value = featuredCardList.sortedByDescending {
-                    it.lastUpdate
+                _UiState.update { currentState ->
+                    currentState.copy(
+                        featuredCardList = featuredCardList,
+                        state = UiState.LOADED
+                    )
                 }
 
             }
         }
     }
 
-    private fun getAllHighlight(){
+    private fun getAllHighlight() {
         viewModelScope.launch {
             highlightRepository.getAll().collect { highlightList ->
-                _HighlightList.value = highlightList
+                _UiState.update { currentState ->
+                    currentState.copy(highlightList = highlightList)
+                }
             }
         }
     }
 
-    fun createMarketList(name: String){
+    fun createMarketList(name: String) {
+
+        _UiState.update { currentState ->
+            currentState.copy(state = UiState.LOADING)
+        }
 
         val newMarketList = Market(
             id = UUID.randomUUID().toString(),
@@ -88,12 +102,26 @@ class HomeViewModel(
         )
 
         viewModelScope.launch {
+            delay(2000)
             marketRepository.insert(newMarketList)
-        }
 
+            _UiState.update { currentState ->
+
+                val newFeaturedCardList = currentState.featuredCardList + FeaturedCard(
+                    name = name,
+                    featuredType = FeaturedType.MARKET,
+                    lastUpdate = LocalDateTime.now()
+                )
+
+                currentState.copy(
+                    featuredCardList = newFeaturedCardList,
+                    state = UiState.LOADED
+                )
+            }
+        }
     }
 
-    fun createPantryList(name: String){
+    fun createPantryList(name: String) {
 
         val newPantryList = Pantry(
             id = UUID.randomUUID().toString(),
@@ -105,7 +133,23 @@ class HomeViewModel(
 
         viewModelScope.launch {
             pantryRepository.insert(newPantryList)
+
+            _UiState.update { currentState ->
+
+                val newFeaturedCardList = currentState.featuredCardList + FeaturedCard(
+                    name = name,
+                    featuredType = FeaturedType.MARKET,
+                    lastUpdate = LocalDateTime.now()
+                )
+
+                currentState.copy(
+                    featuredCardList = newFeaturedCardList,
+                    state = UiState.LOADED
+                )
+            }
         }
+
+
     }
 
 
