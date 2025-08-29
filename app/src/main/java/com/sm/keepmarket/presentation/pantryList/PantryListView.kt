@@ -47,7 +47,7 @@ fun PantryListView(paddingValues: PaddingValues) {
     val uiState = viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getPantry("ae9e772d-f3ee-4506-abf6-b81b899ff016")
+        viewModel.getPantry("8ae17770-d58a-4096-9fe2-cc2a6214f0f9")
     }
 
     Column(

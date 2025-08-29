@@ -42,7 +42,6 @@ class HomeViewModel(
         }
 
         viewModelScope.launch {
-            delay(2000)
             combine(
                 marketRepository.getAll(),
                 pantryRepository.getAll()
@@ -78,10 +77,21 @@ class HomeViewModel(
     }
 
     private fun getAllHighlight() {
+
+        _UiState.update { currentState ->
+            currentState.copy(highlightListState = UiState.LOADING)
+        }
+
         viewModelScope.launch {
+
+            delay(3000)
+
             highlightRepository.getAll().collect { highlightList ->
                 _UiState.update { currentState ->
-                    currentState.copy(highlightList = highlightList)
+                    currentState.copy(
+                        highlightList = highlightList,
+                        highlightListState = UiState.LOADED
+                    )
                 }
             }
         }
@@ -90,7 +100,7 @@ class HomeViewModel(
     fun createMarketList(name: String) {
 
         _UiState.update { currentState ->
-            currentState.copy(state = UiState.LOADING)
+            currentState.copy(featuredListState = UiState.LOADING)
         }
 
         val newMarketList = Market(
@@ -102,7 +112,6 @@ class HomeViewModel(
         )
 
         viewModelScope.launch {
-            delay(2000)
             marketRepository.insert(newMarketList)
 
             _UiState.update { currentState ->
@@ -115,7 +124,7 @@ class HomeViewModel(
 
                 currentState.copy(
                     featuredCardList = newFeaturedCardList,
-                    state = UiState.LOADED
+                    featuredListState = UiState.LOADED
                 )
             }
         }

@@ -11,13 +11,12 @@ import androidx.navigation.compose.composable
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.presentation.home.HomeView
 import com.sm.keepmarket.presentation.marketList.MarketListView
-import com.sm.keepmarket.presentation.modal.DatePickerDocked
 import com.sm.keepmarket.presentation.notifications.NotificationView
 import com.sm.keepmarket.presentation.pantryList.PantryListView
 import com.sm.keepmarket.presentation.search.SearchView
 
 @Composable
-fun AppNavigation(paddingValues: PaddingValues) {
+fun AppNavigation(paddingValues: PaddingValues, isVisiblebottomMenu: (Boolean) -> Unit) {
     val navController = LocalNavHostController.current
 
     NavHost(navController = navController, startDestination = Dest.HomeView) {
@@ -27,7 +26,9 @@ fun AppNavigation(paddingValues: PaddingValues) {
             exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { -it }) },
             popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
             popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
-            HomeView(paddingValues)
+            HomeView(paddingValues){ isVisibleBottomMenu ->
+                isVisiblebottomMenu(isVisibleBottomMenu)
+            }
         }
 
         composable<Dest.MarketListView>(

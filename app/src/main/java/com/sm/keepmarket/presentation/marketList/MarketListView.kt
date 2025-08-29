@@ -51,7 +51,7 @@ fun MarketListView(paddingValues: PaddingValues) {
     val uiState = viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getMarket("a2acbf12-cf5f-45f5-abcd-75170a970382")
+        viewModel.getMarket("a0e0e3d3-3f88-4c90-bf52-be99ffd6904f")
     }
 
     Column(

@@ -138,7 +138,6 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (FeaturedCard) -> Un
 
     Box(
         modifier = Modifier
-            .padding(5.dp)
             .clickable(enabled = true, onClick = { onClick(featuredCard) })
     ) {
         Column(

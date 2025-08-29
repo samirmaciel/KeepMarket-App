@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 class HighlightRepositoryImpl(highlightDatasource : IHighlightDatasource): IHighlightRepository {
     override suspend fun getAll(): Flow<List<Highlight>> {
         return flow {
-
+            //emit(Mock.getHighlightList())
         }
     }
 
