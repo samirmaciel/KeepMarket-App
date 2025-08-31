@@ -32,15 +32,13 @@ import com.sm.keepmarket.util.UiStateView
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun HomeView(paddingValues: PaddingValues, isVisibleBottomMenu: (Boolean) -> Unit) {
+fun HomeView(paddingValues: PaddingValues) {
 
     val nav = LocalNavHostController.current
     val viewModel: HomeViewModel = koinViewModel()
     val featureCardListState by viewModel.featuredCardListState.collectAsState()
     val highlightListState by viewModel.highlightListState.collectAsState()
     val context = LocalContext.current
-
-    isVisibleBottomMenu(true)
 
     Column(
         modifier = Modifier

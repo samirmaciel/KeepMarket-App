@@ -3,6 +3,9 @@ package com.sm.keepmarket.presentation
 import kotlinx.serialization.Serializable
 @Serializable
 sealed interface Dest {
+
+    @Serializable
+    data object SplashView : Dest
     @Serializable
     data object HomeView : Dest
 
