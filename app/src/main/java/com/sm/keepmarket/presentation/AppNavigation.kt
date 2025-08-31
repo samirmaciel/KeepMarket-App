@@ -14,9 +14,10 @@ import com.sm.keepmarket.presentation.marketList.MarketListView
 import com.sm.keepmarket.presentation.notifications.NotificationView
 import com.sm.keepmarket.presentation.pantryList.PantryListView
 import com.sm.keepmarket.presentation.search.SearchView
+import com.sm.keepmarket.presentation.splash.SplashView
 
 @Composable
-fun AppNavigation(paddingValues: PaddingValues, isVisiblebottomMenu: (Boolean) -> Unit) {
+fun AppNavigation(paddingValues: PaddingValues) {
     val navController = LocalNavHostController.current
 
     NavHost(navController = navController, startDestination = Dest.HomeView) {
@@ -25,10 +26,9 @@ fun AppNavigation(paddingValues: PaddingValues, isVisiblebottomMenu: (Boolean) -
             enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
             exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { -it }) },
             popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
-            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
-            HomeView(paddingValues){ isVisibleBottomMenu ->
-                isVisiblebottomMenu(isVisibleBottomMenu)
-            }
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) })
+         {
+            HomeView(paddingValues)
         }
 
         composable<Dest.MarketListView>(

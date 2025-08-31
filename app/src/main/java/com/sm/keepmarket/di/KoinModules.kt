@@ -33,6 +33,7 @@ import com.sm.keepmarket.presentation.marketList.MarketListViewModel
 import com.sm.keepmarket.presentation.notifications.NotificationsViewModel
 import com.sm.keepmarket.presentation.pantryList.PantryViewModel
 import com.sm.keepmarket.presentation.search.SearchViewModel
+import com.sm.keepmarket.presentation.splash.SplashViewModel
 import org.koin.dsl.module
 
 val viewModelModules = module {
@@ -41,6 +42,7 @@ val viewModelModules = module {
     single{ NotificationsViewModel(get()) }
     single{ SearchViewModel(get()) }
     single{ MarketListViewModel(get(), get()) }
+    single{ SplashViewModel(get(), get()) }
 }
 
 val repositoryModules = module {

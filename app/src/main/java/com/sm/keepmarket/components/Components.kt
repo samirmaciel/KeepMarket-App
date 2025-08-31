@@ -70,8 +70,10 @@ fun BottomMenu() {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
 
             IconButton(modifier = Modifier.size(50.dp), onClick = {
-                selectedIndex = 0
-                navController.navigate(Dest.HomeView)
+                if(selectedIndex != 0){
+                    selectedIndex = 0
+                    navController.navigate(Dest.HomeView)
+                }
             }) {
                 Icon(
                     modifier = Modifier.size(30.dp),
