@@ -11,7 +11,6 @@ import com.sm.keepmarket.domain.model.Market
 import com.sm.keepmarket.domain.model.Pantry
 import com.sm.keepmarket.util.FeaturedType
 import com.sm.keepmarket.util.UiStateView
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -47,7 +46,6 @@ class HomeViewModel(
         }
 
         viewModelScope.launch {
-            delay(3000)
 
             combine(
                 marketRepository.getAll(),
@@ -85,8 +83,6 @@ class HomeViewModel(
         _HighlightListState.value = UiStateView.Loading
 
         viewModelScope.launch {
-
-            delay(3000)
 
             highlightRepository.getAll().collect { highlightList ->
                 _HighlightListState.update {
