@@ -1,5 +1,6 @@
 package com.sm.keepmarket.components
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -622,20 +624,22 @@ fun PantryItemListView(
                 showEditItemModal = false
             })
     }
-
 }
 
 @Composable
-fun SearchItemView(searchItem: SearchItem) {
+fun SearchItemView(searchItem: SearchItem, expanded: Boolean = true) {
+    var expandedState by remember { mutableStateOf(expanded) }
 
-    var expanded by remember { mutableStateOf(false) }
+    LaunchedEffect(expanded) {
+        expandedState = expanded
+    }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 10.dp)
-                .clickable { expanded = !expanded },
+                .clickable { expandedState = !expandedState },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(searchItem.title, style = MaterialTheme.typography.titleMedium)
@@ -643,14 +647,14 @@ fun SearchItemView(searchItem: SearchItem) {
             Icon(
                 modifier = Modifier
                     .size(12.dp)
-                    .graphicsLayer(scaleY = if (expanded) -1f else 1f),
+                    .graphicsLayer(scaleY = if (expandedState) -1f else 1f),
                 painter = painterResource(R.drawable.arrowdownblackicon),
                 tint = Color.Unspecified,
                 contentDescription = "Arrow down"
             )
         }
 
-        AnimatedVisibility(expanded) {
+        AnimatedVisibility(expandedState) {
             Column {
                 searchItem.items.forEach { item ->
                     HighlightItemView(item)

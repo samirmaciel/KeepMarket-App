@@ -7,7 +7,6 @@ import com.sm.keepmarket.data.repository.repositoryInterface.IPantryRepository
 import com.sm.keepmarket.domain.model.Market
 import com.sm.keepmarket.domain.model.Pantry
 import com.sm.keepmarket.util.UiStateView
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -32,8 +31,8 @@ class SplashViewModel(
     }
 
     fun hasCreatedList() {
+
         viewModelScope.launch {
-            delay(3000)
 
             combine(
                 marketRepository.getAll(),
@@ -51,8 +50,6 @@ class SplashViewModel(
     private fun getUserName() {
 
         viewModelScope.launch {
-            delay(3000)
-
             _userName.update {
                 "User"
             }
