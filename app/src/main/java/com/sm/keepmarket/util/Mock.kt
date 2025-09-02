@@ -5,17 +5,15 @@ import com.sm.keepmarket.domain.model.FeaturedCard
 import com.sm.keepmarket.domain.model.Highlight
 import com.sm.keepmarket.domain.model.Market
 import com.sm.keepmarket.domain.model.MarketItem
-import com.sm.keepmarket.domain.model.Notification
+import com.sm.keepmarket.domain.model.NotificationItem
 import com.sm.keepmarket.domain.model.Pantry
 import com.sm.keepmarket.domain.model.PantryItem
 import com.sm.keepmarket.domain.model.SearchItem
-import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
 
 object Mock {
-
 
 
     fun getFeatureCard(): List<FeaturedCard>{
@@ -171,14 +169,14 @@ object Mock {
         return list
     }
 
-    fun getNotificationList(): List<Notification>{
+    fun getNotificationList(): List<NotificationItem>{
         return listOf(
-            Notification(
+            NotificationItem(
                 UUID.randomUUID().toString(),
                 "Sliced Bread",
                 "2 days ago to expiration"
             ),
-            Notification(
+            NotificationItem(
                 UUID.randomUUID().toString(),
                 "Bread",
                 "4 days ago to expiration"

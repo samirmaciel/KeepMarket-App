@@ -1,6 +1,6 @@
 package com.sm.keepmarket.domain.model
 
-data class Notification(
+data class NotificationItem(
     val id: String,
     val title: String,
     val subTitle: String
