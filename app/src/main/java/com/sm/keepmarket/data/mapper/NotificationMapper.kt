@@ -1,23 +1,23 @@
 package com.sm.keepmarket.data.mapper
 
 import com.sm.keepmarket.data.model.NotificationEntity
-import com.sm.keepmarket.domain.model.Notification
+import com.sm.keepmarket.domain.model.NotificationItem
 
-class NotificationMapper() {
+object NotificationMapper {
 
-    fun toNotification(entity: NotificationEntity): Notification {
-        return Notification(
+    fun toNotification(entity: NotificationEntity): NotificationItem {
+        return NotificationItem(
             id = entity.id,
             title = entity.title,
             subTitle = entity.subTitle
         )
     }
 
-    fun toEntity(notification: Notification): NotificationEntity {
+    fun toEntity(notificationItem: NotificationItem): NotificationEntity {
         return NotificationEntity(
-            id = notification.id,
-            title = notification.title,
-            subTitle = notification.subTitle
+            id = notificationItem.id,
+            title = notificationItem.title,
+            subTitle = notificationItem.subTitle
         )
     }
 

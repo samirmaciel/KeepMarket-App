@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface INotificationDatasource {
 
     suspend fun getAll(): Flow<List<NotificationEntity>>
+    suspend fun deleteAll()
     suspend fun insert(notificationEntity: NotificationEntity)
     suspend fun delete(notificationEntity: NotificationEntity)
 }

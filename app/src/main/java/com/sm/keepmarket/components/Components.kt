@@ -1,6 +1,5 @@
 package com.sm.keepmarket.components
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,13 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -46,7 +42,7 @@ import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.model.FeaturedCard
 import com.sm.keepmarket.domain.model.Highlight
 import com.sm.keepmarket.domain.model.MarketItem
-import com.sm.keepmarket.domain.model.Notification
+import com.sm.keepmarket.domain.model.NotificationItem
 import com.sm.keepmarket.domain.model.PantryItem
 import com.sm.keepmarket.domain.model.SearchItem
 import com.sm.keepmarket.presentation.Dest
@@ -430,7 +426,10 @@ fun MarketItemListView(
 }
 
 @Composable
-fun NotificationItemView(notification: Notification) {
+fun NotificationItemView(notificationItem: NotificationItem, onDeleteItem: (NotificationItem) -> Unit) {
+
+    var showDeleteAlert by remember { mutableStateOf(false) }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -455,9 +454,9 @@ fun NotificationItemView(notification: Notification) {
         }
 
         Column(modifier = Modifier.padding(start = 10.dp)) {
-            Text(text = notification.title, style = MaterialTheme.typography.labelMedium)
+            Text(text = notificationItem.title, style = MaterialTheme.typography.labelMedium)
             Text(
-                text = notification.subTitle,
+                text = notificationItem.subTitle,
                 style = MaterialTheme.typography.labelSmall,
                 fontSize = 12.sp,
                 color = Color.Gray
@@ -471,7 +470,7 @@ fun NotificationItemView(notification: Notification) {
         )
 
         IconButton(onClick = {
-
+            showDeleteAlert = true
         }) {
             Icon(
                 painter = painterResource(R.drawable.deleteicon),
@@ -480,6 +479,29 @@ fun NotificationItemView(notification: Notification) {
             )
         }
 
+    }
+
+    if(showDeleteAlert){
+        AlertDialog(
+            onDismissRequest = { showDeleteAlert = false },
+            title = { Text("Confirmação") },
+            text = { Text("Você deseja realmente excluir este item?") },
+            confirmButton = {
+                TextButton(onClick = {
+                    onDeleteItem(notificationItem)
+                    showDeleteAlert = false
+                }) {
+                    Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    showDeleteAlert = false
+                }) {
+                    Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                }
+            }
+        )
     }
 }
 

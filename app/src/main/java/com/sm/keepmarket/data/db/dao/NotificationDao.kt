@@ -12,13 +12,12 @@ interface NotificationDao {
 
     @Insert(onConflict = REPLACE)
     suspend fun insert(notificationEntity: NotificationEntity)
-
+    @Query("DELETE FROM TB_NOTIFICATION")
+    suspend fun deleteAll()
     @Delete
     suspend fun delete(notificationEntity: NotificationEntity)
-
     @Query("SELECT * FROM TB_NOTIFICATION")
     suspend fun getAll(): List<NotificationEntity>
-
     @Query("SELECT * FROM TB_NOTIFICATION WHERE ID = :id")
     suspend fun getById(id: String): NotificationEntity?
 
