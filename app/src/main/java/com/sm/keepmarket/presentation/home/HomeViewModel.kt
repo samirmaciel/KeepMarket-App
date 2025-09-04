@@ -53,6 +53,7 @@ class HomeViewModel(
             ) { marketList, pantryList ->
                 val marketCards = marketList.map {
                     FeaturedCard(
+                        id = it.id,
                         name = it.name,
                         featuredType = FeaturedType.MARKET,
                         lastUpdate = it.lastUpdate
@@ -61,6 +62,7 @@ class HomeViewModel(
 
                 val pantryCards = pantryList.map {
                     FeaturedCard(
+                        id = it.id,
                         name = it.name,
                         featuredType = FeaturedType.PANTRY,
                         lastUpdate = it.lastUpdate
@@ -114,6 +116,7 @@ class HomeViewModel(
                 val oldList = featuredCardListState.data
 
                 val newList = oldList + FeaturedCard(
+                    id= newMarketList.id,
                     name = name,
                     featuredType = FeaturedType.MARKET,
                     lastUpdate = LocalDateTime.now()
@@ -147,6 +150,7 @@ class HomeViewModel(
                 val oldList = featuredCardListState.data
 
                 val newList = oldList + FeaturedCard(
+                    id = newPantryList.id,
                     name = name,
                     featuredType = FeaturedType.PANTRY,
                     lastUpdate = LocalDateTime.now()

@@ -10,10 +10,22 @@ sealed interface Dest {
     data object HomeView : Dest
 
     @Serializable
-    data object MarketListView : Dest
+    data class MarketListView(val id: String) : Dest {
+        companion object{
+            fun getRoute(): String {
+                return MarketListView::class.qualifiedName + "/{id}"
+            }
+        }
+    }
 
     @Serializable
-    data object PantryListView : Dest
+    data class PantryListView(val id: String) : Dest{
+        companion object{
+            fun getRoute(): String {
+                return PantryListView::class.qualifiedName + "/{id}"
+            }
+        }
+    }
 
     @Serializable
     data object NotificationView : Dest

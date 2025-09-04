@@ -8,13 +8,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.presentation.home.HomeView
 import com.sm.keepmarket.presentation.marketList.MarketListView
 import com.sm.keepmarket.presentation.notifications.NotificationView
 import com.sm.keepmarket.presentation.pantryList.PantryListView
 import com.sm.keepmarket.presentation.search.SearchView
-import com.sm.keepmarket.presentation.splash.SplashView
 
 @Composable
 fun AppNavigation(paddingValues: PaddingValues) {
@@ -36,7 +36,9 @@ fun AppNavigation(paddingValues: PaddingValues) {
             exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) },
             popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
             popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
-            MarketListView(paddingValues)
+
+            val args = it.toRoute<Dest.MarketListView>()
+            MarketListView(marketListID = args.id, paddingValues = paddingValues)
         }
 
         composable<Dest.SettingsView>(
@@ -52,7 +54,9 @@ fun AppNavigation(paddingValues: PaddingValues) {
             exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) },
             popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
             popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
-            PantryListView(paddingValues)
+
+            val args = it.toRoute<Dest.PantryListView>()
+            PantryListView(pantryListID = args.id, paddingValues = paddingValues)
         }
 
         composable<Dest.SearchView>(

@@ -87,8 +87,8 @@ fun HomeView(paddingValues: PaddingValues) {
                         items(data) { featuredCard ->
                             FeaturedCardButton(featuredCard = featuredCard) { featuredCard ->
                                 when (featuredCard.featuredType) {
-                                    FeaturedType.MARKET -> nav.navigate(Dest.MarketListView)
-                                    FeaturedType.PANTRY -> nav.navigate(Dest.PantryListView)
+                                    FeaturedType.MARKET -> nav.navigate(Dest.MarketListView(featuredCard.id))
+                                    FeaturedType.PANTRY -> nav.navigate(Dest.PantryListView(featuredCard.id))
                                 }
                             }
                             Spacer(modifier = Modifier.size(10.dp))
