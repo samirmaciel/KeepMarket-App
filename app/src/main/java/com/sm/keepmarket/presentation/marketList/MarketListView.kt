@@ -44,14 +44,14 @@ import com.sm.keepmarket.util.UiState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MarketListView(paddingValues: PaddingValues) {
+fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
 
     val viewModel: MarketListViewModel = koinViewModel()
     var showAddNewItemModal by remember { mutableStateOf(false) }
     val uiState = viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getMarket("a0e0e3d3-3f88-4c90-bf52-be99ffd6904f")
+        viewModel.getMarket(marketListID)
     }
 
     Column(

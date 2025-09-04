@@ -19,21 +19,25 @@ object Mock {
     fun getFeatureCard(): List<FeaturedCard>{
         return listOf(
             FeaturedCard(
+                id = UUID.randomUUID().toString(),
                 name = "My Pantry 1",
                 featuredType = FeaturedType.PANTRY,
                 lastUpdate = LocalDateTime.now()
             ),
             FeaturedCard(
+                id = UUID.randomUUID().toString(),
                 name = "My Market 1",
                 featuredType = FeaturedType.MARKET,
                 lastUpdate = LocalDateTime.now()
             ),
             FeaturedCard(
+                id = UUID.randomUUID().toString(),
                 name = "My Market 2",
                 featuredType = FeaturedType.MARKET,
                 lastUpdate = LocalDateTime.now()
             ),
             FeaturedCard(
+                id = UUID.randomUUID().toString(),
                 name = "My Market 3",
                 featuredType = FeaturedType.MARKET,
                 lastUpdate = LocalDateTime.now()

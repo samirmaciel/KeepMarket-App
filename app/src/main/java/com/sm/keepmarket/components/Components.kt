@@ -1,5 +1,6 @@
 package com.sm.keepmarket.components
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -52,6 +53,7 @@ import com.sm.keepmarket.presentation.modal.EditPantryItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.ButtonDefault
+import kotlinx.serialization.json.Json
 import java.math.BigDecimal
 
 @Composable
@@ -59,6 +61,31 @@ fun BottomMenu() {
 
     var selectedIndex by remember { mutableStateOf(0) }
     val navController = LocalNavHostController.current
+
+    navController.addOnDestinationChangedListener { navController, destination, arguments ->
+
+        when(destination.route){
+
+            Dest.HomeView::class.qualifiedName -> {
+                selectedIndex = 0
+            }
+            Dest.PantryListView.getRoute() -> {
+                selectedIndex = 1
+            }
+            Dest.MarketListView.getRoute() -> {
+                selectedIndex = 2
+            }
+            Dest.NotificationView::class.qualifiedName -> {
+                selectedIndex = 3
+            }
+            Dest.SearchView::class.qualifiedName -> {
+                selectedIndex = 4
+            }
+            else -> {
+
+            }
+        }
+    }
 
     BottomAppBar(
         modifier = Modifier.fillMaxWidth(),

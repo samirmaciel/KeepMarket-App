@@ -40,14 +40,14 @@ import com.sm.keepmarket.presentation.theme.Red
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun PantryListView(paddingValues: PaddingValues) {
+fun PantryListView(pantryListID: String, paddingValues: PaddingValues) {
 
     val viewModel: PantryViewModel = koinViewModel()
     var showAddNewItemModal by remember { mutableStateOf(false) }
     val uiState = viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getPantry("8ae17770-d58a-4096-9fe2-cc2a6214f0f9")
+        viewModel.getPantry(pantryListID)
     }
 
     Column(
