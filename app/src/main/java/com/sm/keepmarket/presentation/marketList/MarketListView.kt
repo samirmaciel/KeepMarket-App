@@ -55,7 +55,6 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
 
     LaunchedEffect(Unit) {
         viewModel.getMarket(marketListID)
-        Log.d("TESTF", "MarketListView: $marketListID")
     }
 
     Column(
