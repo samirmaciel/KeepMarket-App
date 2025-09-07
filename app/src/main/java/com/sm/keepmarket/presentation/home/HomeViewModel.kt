@@ -34,12 +34,8 @@ class HomeViewModel(
     val featuredCardListState = _FeaturedCardListState.asStateFlow()
     val highlightListState = _HighlightListState.asStateFlow()
 
-    init {
-        getAllFeaturedCardList()
-        getAllHighlight()
-    }
 
-    private fun getAllFeaturedCardList() {
+    fun getAllFeaturedCardList() {
 
         _FeaturedCardListState.update {
             UiStateView.Loading
@@ -80,7 +76,7 @@ class HomeViewModel(
         }
     }
 
-    private fun getAllHighlight() {
+    fun getAllHighlight() {
 
         _HighlightListState.value = UiStateView.Loading
 

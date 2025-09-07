@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.presentation.home.HomeView
+import com.sm.keepmarket.presentation.marketList.MarketListSelectionView
 import com.sm.keepmarket.presentation.marketList.MarketListView
 import com.sm.keepmarket.presentation.notifications.NotificationView
 import com.sm.keepmarket.presentation.pantryList.PantryListView
@@ -73,6 +74,14 @@ fun AppNavigation(paddingValues: PaddingValues) {
             popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
             popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
             NotificationView(paddingValues)
+        }
+
+        composable<Dest.MarketListSelectionView>(
+            enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) },
+            popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
+            MarketListSelectionView(paddingValues)
         }
 
     }
