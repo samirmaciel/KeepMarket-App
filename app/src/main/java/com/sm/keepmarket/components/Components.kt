@@ -122,7 +122,7 @@ fun BottomMenu() {
 
             IconButton(modifier = Modifier.size(50.dp), onClick = {
                 selectedIndex = 2
-                navController.navigate(Dest.MarketListView)
+                navController.navigate(Dest.MarketListSelectionView)
             }) {
                 Icon(
                     modifier = Modifier.size(30.dp),

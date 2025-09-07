@@ -28,6 +28,9 @@ sealed interface Dest {
     }
 
     @Serializable
+    data object MarketListSelectionView : Dest
+
+    @Serializable
     data object NotificationView : Dest
 
     @Serializable

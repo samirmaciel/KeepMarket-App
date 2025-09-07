@@ -29,11 +29,13 @@ import com.sm.keepmarket.data.repository.PantryRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.INotificationRepository
 import com.sm.keepmarket.presentation.home.HomeViewModel
+import com.sm.keepmarket.presentation.marketList.MarketListSelectionViewModel
 import com.sm.keepmarket.presentation.marketList.MarketListViewModel
 import com.sm.keepmarket.presentation.notifications.NotificationsViewModel
 import com.sm.keepmarket.presentation.pantryList.PantryViewModel
 import com.sm.keepmarket.presentation.search.SearchViewModel
 import com.sm.keepmarket.presentation.splash.SplashViewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val viewModelModules = module {
@@ -43,6 +45,7 @@ val viewModelModules = module {
     single{ SearchViewModel(get()) }
     single{ MarketListViewModel(get(), get()) }
     single{ SplashViewModel(get(), get()) }
+    single{ MarketListSelectionViewModel(get()) }
 }
 
 val repositoryModules = module {

@@ -40,6 +40,11 @@ fun HomeView(paddingValues: PaddingValues) {
     val highlightListState by viewModel.highlightListState.collectAsState()
     val context = LocalContext.current
 
+    LaunchedEffect(context) {
+        viewModel.getAllFeaturedCardList()
+        viewModel.getAllHighlight()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
