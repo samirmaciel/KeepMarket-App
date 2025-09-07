@@ -1,5 +1,6 @@
 package com.sm.keepmarket.data.repository
 
+import android.util.Log
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketItemDatasource
 import com.sm.keepmarket.data.mapper.MarketItemMapper
@@ -41,8 +42,11 @@ class MarketRepositoryImpl(private val marketDatasource: IMarketDatasource, priv
 
                     emit(market)
                 } ?: run {
+                    Log.d("TESTF", "getById: null")
                     emit(null)
                 }
+
+                Log.d("TESTF", "getById: entity null")
             }
         }
     }

@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.PantryItemListView
 import com.sm.keepmarket.presentation.modal.AddNewPantryItemModal
@@ -45,6 +46,7 @@ fun PantryListView(pantryListID: String, paddingValues: PaddingValues) {
     val viewModel: PantryViewModel = koinViewModel()
     var showAddNewItemModal by remember { mutableStateOf(false) }
     val uiState = viewModel.uiState.collectAsState()
+    val navController = LocalNavHostController.current
 
     LaunchedEffect(Unit) {
         viewModel.getPantry(pantryListID)
@@ -58,7 +60,7 @@ fun PantryListView(pantryListID: String, paddingValues: PaddingValues) {
     ) {
 
         IconButton(modifier = Modifier.padding(16.dp), onClick = {
-
+            navController.navigateUp()
         }) {
             Icon(
                 painter = painterResource(R.drawable.arrowlefticon),

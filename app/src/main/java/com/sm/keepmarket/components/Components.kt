@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.referentialEqualityPolicy
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -108,8 +109,12 @@ fun BottomMenu() {
             }
 
             IconButton(modifier = Modifier.size(50.dp), onClick = {
-                selectedIndex = 1
-                navController.navigate(Dest.PantryListSelectionView)
+
+                if(selectedIndex != 1){
+                    selectedIndex = 1
+                    navController.navigate(Dest.PantryListSelectionView)
+                }
+
             }) {
                 Icon(
                     modifier = Modifier.size(30.dp),
@@ -120,8 +125,12 @@ fun BottomMenu() {
             }
 
             IconButton(modifier = Modifier.size(50.dp), onClick = {
-                selectedIndex = 2
-                navController.navigate(Dest.MarketListSelectionView)
+
+                if(selectedIndex != 2){
+                    selectedIndex = 2
+                    navController.navigate(Dest.MarketListSelectionView)
+                }
+
             }) {
                 Icon(
                     modifier = Modifier.size(30.dp),
@@ -132,8 +141,12 @@ fun BottomMenu() {
             }
 
             IconButton(modifier = Modifier.size(50.dp), onClick = {
-                selectedIndex = 3
-                navController.navigate(Dest.NotificationView)
+
+                if(selectedIndex != 3){
+                    selectedIndex = 3
+                    navController.navigate(Dest.NotificationView)
+                }
+
             }) {
                 Icon(
                     modifier = Modifier.size(30.dp),
@@ -144,8 +157,12 @@ fun BottomMenu() {
             }
 
             IconButton(modifier = Modifier.size(50.dp), onClick = {
-                selectedIndex = 4
-                navController.navigate(Dest.SearchView)
+
+                if(selectedIndex != 4){
+                    selectedIndex = 4
+                    navController.navigate(Dest.SearchView)
+                }
+
             }) {
                 Icon(
                     modifier = Modifier.size(30.dp),
@@ -675,19 +692,14 @@ fun PantryItemListView(
 }
 
 @Composable
-fun SearchItemView(searchItem: SearchItem, expanded: Boolean = true) {
-    var expandedState by remember { mutableStateOf(expanded) }
-
-    LaunchedEffect(expanded) {
-        expandedState = expanded
-    }
+fun SearchItemView(searchItem: SearchItem, onExpanded: (Boolean) -> Unit) {
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 10.dp)
-                .clickable { expandedState = !expandedState },
+                .clickable { onExpanded(!searchItem.expanded) },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(searchItem.title, style = MaterialTheme.typography.titleMedium)
@@ -695,14 +707,14 @@ fun SearchItemView(searchItem: SearchItem, expanded: Boolean = true) {
             Icon(
                 modifier = Modifier
                     .size(12.dp)
-                    .graphicsLayer(scaleY = if (expandedState) -1f else 1f),
+                    .graphicsLayer(scaleY = if (searchItem.expanded) -1f else 1f),
                 painter = painterResource(R.drawable.arrowdownblackicon),
                 tint = Color.Unspecified,
                 contentDescription = "Arrow down"
             )
         }
 
-        AnimatedVisibility(expandedState) {
+        AnimatedVisibility(searchItem.expanded) {
             Column {
                 searchItem.items.forEach { item ->
                     HighlightItemView(item)

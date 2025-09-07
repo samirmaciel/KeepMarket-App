@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.NotificationItemView
 import com.sm.keepmarket.domain.model.NotificationItem
@@ -48,6 +49,7 @@ fun NotificationView(paddingValues: PaddingValues) {
     val viewModel : NotificationsViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsState()
     var showDeleteAllAlert by remember { mutableStateOf(false) }
+    val navController = LocalNavHostController.current
 
     Column(
         modifier = Modifier
@@ -57,7 +59,7 @@ fun NotificationView(paddingValues: PaddingValues) {
     ) {
 
         IconButton(modifier = Modifier.padding(16.dp), onClick = {
-
+            navController.navigateUp()
         }) {
             Icon(
                 painter = painterResource(R.drawable.arrowlefticon),
