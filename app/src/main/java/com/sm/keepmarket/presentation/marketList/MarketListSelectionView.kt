@@ -72,7 +72,7 @@ fun MarketListSelectionView(paddingValues: PaddingValues) {
     ) {
 
         IconButton(modifier = Modifier.padding(16.dp), onClick = {
-
+            navController.navigateUp()
         }) {
             Icon(
                 painter = painterResource(R.drawable.arrowlefticon),

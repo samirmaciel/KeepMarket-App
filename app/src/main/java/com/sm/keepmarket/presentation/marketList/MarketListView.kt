@@ -1,5 +1,6 @@
 package com.sm.keepmarket.presentation.marketList
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.MarketItemListView
 import com.sm.keepmarket.presentation.modal.AddNewItemModal
@@ -49,9 +51,11 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
     val viewModel: MarketListViewModel = koinViewModel()
     var showAddNewItemModal by remember { mutableStateOf(false) }
     val uiState = viewModel.uiState.collectAsState()
+    val navController = LocalNavHostController.current
 
     LaunchedEffect(Unit) {
         viewModel.getMarket(marketListID)
+        Log.d("TESTF", "MarketListView: $marketListID")
     }
 
     Column(
@@ -62,7 +66,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
     ) {
 
         IconButton(modifier = Modifier.padding(16.dp), onClick = {
-
+            navController.navigateUp()
         }) {
             Icon(
                 painter = painterResource(R.drawable.arrowlefticon),

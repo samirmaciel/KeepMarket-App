@@ -15,14 +15,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.SearchItemView
 import com.sm.keepmarket.presentation.theme.Background
@@ -33,7 +30,7 @@ fun SearchView(paddingValues: PaddingValues) {
 
     val viewModel: SearchViewModel = koinViewModel()
     val searchItemList = viewModel.searchItemList.collectAsState()
-    var expandAll by remember { mutableStateOf(true) }
+    val navController = LocalNavHostController.current
 
     Column(
         modifier = Modifier
@@ -43,7 +40,7 @@ fun SearchView(paddingValues: PaddingValues) {
     ) {
 
         IconButton(modifier = Modifier.padding(16.dp), onClick = {
-
+            navController.navigateUp()
         }) {
             Icon(
                 painter = painterResource(R.drawable.arrowlefticon),
@@ -64,7 +61,7 @@ fun SearchView(paddingValues: PaddingValues) {
             )
 
             IconButton(onClick = {
-                expandAll = false
+               viewModel.setAllExpanded(false)
             }) {
                 Icon(
                     painter = painterResource(R.drawable.collapseicon),
@@ -74,7 +71,7 @@ fun SearchView(paddingValues: PaddingValues) {
             }
 
             IconButton(onClick = {
-                expandAll = true
+                viewModel.setAllExpanded(true)
             }) {
                 Icon(
                     painter = painterResource(R.drawable.expandallicon),
@@ -91,9 +88,15 @@ fun SearchView(paddingValues: PaddingValues) {
                 .padding(start = 16.dp, end = 16.dp, top = 16.dp)
                 .verticalScroll(scroll)
         ) {
-            searchItemList.value.forEach { item ->
-                SearchItemView(item, expandAll)
+
+            if(searchItemList.value.isNotEmpty()){
+                searchItemList.value.forEach { item ->
+                    SearchItemView(item){ expanded ->
+                        viewModel.updatedExpandedItem(item, expanded)
+                    }
+                }
             }
+
         }
     }
 }

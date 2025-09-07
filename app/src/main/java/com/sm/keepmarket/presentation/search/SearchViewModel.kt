@@ -6,6 +6,7 @@ import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepositor
 import com.sm.keepmarket.domain.model.SearchItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -32,13 +33,47 @@ class SearchViewModel(private val highlightRepository: IHighlightRepository): Vi
                     )
 
                     searchItemList.add(searchItem)
-
                 }
 
                 _SearchItemList.value = searchItemList
 
             }
         }
+    }
+
+    fun setAllExpanded(expanded: Boolean){
+
+        val oldList = _SearchItemList.value
+        var newList = listOf<SearchItem>()
+
+        oldList.forEach { item ->
+            val updatedItem = item.copy()
+            updatedItem.expanded = expanded
+            newList = newList.plus(updatedItem)
+        }
+
+        _SearchItemList.update {
+            newList
+        }
+
+    }
+
+    fun updatedExpandedItem(item: SearchItem, expanded: Boolean){
+        val oldList = _SearchItemList.value
+
+        val index = oldList.indexOfFirst { it.id == item.id }
+
+        val updatedItem = oldList[index].copy()
+        updatedItem.expanded = expanded
+
+        val newList = oldList.toMutableList()
+        newList[index] = updatedItem
+
+        _SearchItemList.update {
+            newList
+        }
+
+
     }
 
 }

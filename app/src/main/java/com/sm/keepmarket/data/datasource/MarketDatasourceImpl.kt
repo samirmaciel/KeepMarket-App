@@ -18,7 +18,6 @@ class MarketDatasourceImpl(private val dao: MarketDao): IMarketDatasource {
     override suspend fun getById(id: String): Flow<MarketEntity?> {
         return flow {
             emit(dao.getById(id))
-
         }
     }
 
