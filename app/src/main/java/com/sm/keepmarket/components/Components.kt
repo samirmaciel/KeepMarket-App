@@ -53,7 +53,6 @@ import com.sm.keepmarket.presentation.modal.EditPantryItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.ButtonDefault
-import kotlinx.serialization.json.Json
 import java.math.BigDecimal
 
 @Composable
@@ -110,7 +109,7 @@ fun BottomMenu() {
 
             IconButton(modifier = Modifier.size(50.dp), onClick = {
                 selectedIndex = 1
-                navController.navigate(Dest.PantryListView)
+                navController.navigate(Dest.PantryListSelectionView)
             }) {
                 Icon(
                     modifier = Modifier.size(30.dp),

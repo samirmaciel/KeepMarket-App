@@ -14,6 +14,7 @@ import com.sm.keepmarket.presentation.home.HomeView
 import com.sm.keepmarket.presentation.marketList.MarketListSelectionView
 import com.sm.keepmarket.presentation.marketList.MarketListView
 import com.sm.keepmarket.presentation.notifications.NotificationView
+import com.sm.keepmarket.presentation.pantryList.PantryListSelectionView
 import com.sm.keepmarket.presentation.pantryList.PantryListView
 import com.sm.keepmarket.presentation.search.SearchView
 
@@ -82,6 +83,14 @@ fun AppNavigation(paddingValues: PaddingValues) {
             popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
             popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
             MarketListSelectionView(paddingValues)
+        }
+
+        composable<Dest.PantryListSelectionView>(
+            enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { it }) },
+            exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) },
+            popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) }) {
+            PantryListSelectionView(paddingValues)
         }
 
     }
