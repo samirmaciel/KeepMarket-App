@@ -1,9 +1,9 @@
-package com.sm.keepmarket.presentation.marketList
+package com.sm.keepmarket.presentation.pantryList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sm.keepmarket.data.repository.repositoryInterface.IMarketRepository
-import com.sm.keepmarket.domain.model.Market
+import com.sm.keepmarket.data.repository.repositoryInterface.IPantryRepository
+import com.sm.keepmarket.domain.model.Pantry
 import com.sm.keepmarket.util.UiStateView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,33 +12,31 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.UUID
 
-class MarketListSelectionViewModel(private val marketRepository: IMarketRepository): ViewModel() {
+class PantryListSelectionViewModel(private val pantryRepository: IPantryRepository): ViewModel() {
 
-    private val _UiState: MutableStateFlow<UiStateView<List<Market>>> = MutableStateFlow(UiStateView.Loading)
+    private val _UiState: MutableStateFlow<UiStateView<List<Pantry>>> = MutableStateFlow(UiStateView.Loading)
     val uiState = _UiState.asStateFlow()
 
-    fun getMarketList(){
+    fun getPantryList(){
         viewModelScope.launch {
-            marketRepository.getAll().collect{ marketList ->
-                _UiState.update {
-                    UiStateView.Success(marketList)
-                }
+            pantryRepository.getAll().collect{ pantryList ->
+                _UiState.value = UiStateView.Success(pantryList)
             }
         }
     }
 
-    fun updateMarket(market: Market){
+    fun updatePantry(pantry: Pantry){
 
         viewModelScope.launch {
 
-            market.lastUpdate = LocalDateTime.now()
+            pantry.lastUpdate = LocalDateTime.now()
 
-            marketRepository.insert(market)
+            pantryRepository.insert(pantry)
 
             if(_UiState.value is UiStateView.Success<*>){
-                val oldList = _UiState.value as UiStateView.Success<List<Market>>
+                val oldList = _UiState.value as UiStateView.Success<List<Pantry>>
 
-                val newList = oldList.data.map { if(it.id == market.id) market else it }
+                val newList = oldList.data.map { if(it.id == pantry.id) pantry else it }
 
                 _UiState.update {
                     UiStateView.Success(newList)
@@ -48,9 +46,9 @@ class MarketListSelectionViewModel(private val marketRepository: IMarketReposito
         }
     }
 
-    fun createMarket(name: String){
+    fun createPantry(name: String){
 
-        val newMarket = Market(
+        val newPantry = Pantry(
             id = UUID.randomUUID().toString(),
             name = name,
             createdDate = LocalDateTime.now(),
@@ -60,13 +58,13 @@ class MarketListSelectionViewModel(private val marketRepository: IMarketReposito
 
         viewModelScope.launch {
 
-            marketRepository.insert(newMarket)
+            pantryRepository.insert(newPantry)
 
             if(_UiState.value is UiStateView.Success<*>){
-                val oldList = _UiState.value as UiStateView.Success<List<Market>>
+                val oldList = _UiState.value as UiStateView.Success<List<Pantry>>
 
                 val newList = oldList.data.toMutableList()
-                newList.add(newMarket)
+                newList.add(newPantry)
 
                 _UiState.update {
                     UiStateView.Success(newList)
@@ -75,16 +73,16 @@ class MarketListSelectionViewModel(private val marketRepository: IMarketReposito
         }
     }
 
-    fun deleteMarket(market: Market){
+    fun deletePantry(pantry: Pantry){
         viewModelScope.launch {
 
-            marketRepository.delete(market)
+            pantryRepository.delete(pantry)
 
             if(_UiState.value is UiStateView.Success<*>){
-                val oldList = _UiState.value as UiStateView.Success<List<Market>>
+                val oldList = _UiState.value as UiStateView.Success<List<Pantry>>
 
                 val newList = oldList.data.toMutableList()
-                newList.remove(market)
+                newList.remove(pantry)
 
                 _UiState.update {
                     UiStateView.Success(newList)
@@ -94,3 +92,4 @@ class MarketListSelectionViewModel(private val marketRepository: IMarketReposito
 
     }
 }
+

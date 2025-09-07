@@ -69,7 +69,7 @@ class HomeViewModel(
             }.collect { featuredCardList ->
 
                 _FeaturedCardListState.update {
-                    UiStateView.Success(featuredCardList)
+                    UiStateView.Success(featuredCardList.sortedByDescending { it.lastUpdate })
                 }
 
             }

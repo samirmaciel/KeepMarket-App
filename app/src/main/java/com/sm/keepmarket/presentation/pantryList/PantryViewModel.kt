@@ -1,17 +1,17 @@
 package com.sm.keepmarket.presentation.pantryList
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryItemRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryRepository
-import com.sm.keepmarket.domain.model.MarketItem
+import com.sm.keepmarket.domain.model.Pantry
 import com.sm.keepmarket.domain.model.PantryItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.UUID
 
 class PantryViewModel(private val pantryRepository: IPantryRepository, private val pantryItemRepository: IPantryItemRepository) : ViewModel() {
@@ -31,6 +31,12 @@ class PantryViewModel(private val pantryRepository: IPantryRepository, private v
         }
     }
 
+    fun updatePantry(pantry: Pantry){
+        viewModelScope.launch {
+            pantryRepository.insert(pantry)
+        }
+    }
+
     fun removeExpiredItems(){
         val oldPantryItemList = _UiState.value.pantry?.items
 
@@ -47,15 +53,19 @@ class PantryViewModel(private val pantryRepository: IPantryRepository, private v
 
     fun addNewItem(itemName: String, itemAmount : Int, itemDueDate: LocalDate){
 
-        val pantryId = _UiState.value.pantry?.id
+        val pantry = _UiState.value.pantry
 
-        if(pantryId == null){
+        if(pantry == null){
             return
         }
 
+        pantry.lastUpdate = LocalDateTime.now()
+
+        updatePantry(pantry)
+
         val newPantryItem = PantryItem(
             id = UUID.randomUUID().toString(),
-            pantryId = pantryId,
+            pantryId = pantry.id,
             name = itemName,
             dueDate = itemDueDate,
             amount = itemAmount
@@ -75,6 +85,16 @@ class PantryViewModel(private val pantryRepository: IPantryRepository, private v
     }
 
     fun deleteItem(pantryItem: PantryItem) {
+
+        val pantry = _UiState.value.pantry
+
+        if(pantry == null){
+            return
+        }
+
+        pantry.lastUpdate = LocalDateTime.now()
+
+        updatePantry(pantry)
 
         _UiState.update { currentState ->
             currentState.copy(
@@ -99,6 +119,17 @@ class PantryViewModel(private val pantryRepository: IPantryRepository, private v
     }
 
     fun editItem(pantryItem: PantryItem) {
+
+        val pantry = _UiState.value.pantry
+
+        if(pantry == null){
+            return
+        }
+
+        pantry.lastUpdate = LocalDateTime.now()
+
+        updatePantry(pantry)
+
         _UiState.update { currentState ->
             currentState.copy(
                 pantry = _UiState.value.pantry?.copy(
