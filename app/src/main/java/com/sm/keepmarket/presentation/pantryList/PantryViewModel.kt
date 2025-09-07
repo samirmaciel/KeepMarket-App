@@ -6,6 +6,7 @@ import com.sm.keepmarket.data.repository.repositoryInterface.IPantryItemReposito
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryRepository
 import com.sm.keepmarket.domain.model.Pantry
 import com.sm.keepmarket.domain.model.PantryItem
+import com.sm.keepmarket.util.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -20,11 +21,19 @@ class PantryViewModel(private val pantryRepository: IPantryRepository, private v
     val uiState = _UiState.asStateFlow()
 
     fun getPantry(pantryId: String){
+
+        _UiState.update {
+            it.copy(
+                state = UiState.LOADING
+            )
+        }
+
         viewModelScope.launch {
             pantryRepository.getById(pantryId).collect { pantry ->
                 _UiState.update { currentState ->
                     currentState.copy(
-                        pantry = pantry
+                        pantry = pantry,
+                        state = UiState.LOADED
                     )
                 }
             }

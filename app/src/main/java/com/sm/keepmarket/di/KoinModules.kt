@@ -36,18 +36,19 @@ import com.sm.keepmarket.presentation.pantryList.PantryListSelectionViewModel
 import com.sm.keepmarket.presentation.pantryList.PantryViewModel
 import com.sm.keepmarket.presentation.search.SearchViewModel
 import com.sm.keepmarket.presentation.splash.SplashViewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val viewModelModules = module {
-    single{ HomeViewModel(get(), get(), get()) }
-    single{ PantryViewModel(get(), get()) }
-    single{ NotificationsViewModel(get()) }
-    single{ SearchViewModel(get()) }
-    single{ MarketListViewModel(get(), get()) }
-    single{ SplashViewModel(get(), get()) }
-    single{ MarketListSelectionViewModel(get()) }
-    single{ PantryListSelectionViewModel(get()) }
+    viewModel{ HomeViewModel(get(), get(), get()) }
+    viewModel{ PantryViewModel(get(), get()) }
+    viewModel{ NotificationsViewModel(get()) }
+    viewModel{ SearchViewModel(get()) }
+    viewModel{ MarketListViewModel(get(), get()) }
+    viewModel{ SplashViewModel(get(), get()) }
+    viewModel{ MarketListSelectionViewModel(get()) }
+    viewModel{ PantryListSelectionViewModel(get()) }
 }
 
 val repositoryModules = module {

@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +39,7 @@ import com.sm.keepmarket.presentation.modal.AddNewPantryItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.Red
+import com.sm.keepmarket.util.UiState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -69,11 +71,18 @@ fun PantryListView(pantryListID: String, paddingValues: PaddingValues) {
             )
         }
 
-        Text(
-            modifier = Modifier.padding(16.dp),
-            text = uiState.value.pantry?.name ?: "Not founded",
-            style = MaterialTheme.typography.titleLarge
-        )
+        when(uiState.value.state){
+            UiState.LOADING -> {
+                CircularProgressIndicator()
+            }
+            UiState.LOADED -> {
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    text = uiState.value.pantry?.name ?: "Not founded",
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
+        }
 
         Row(
             modifier = Modifier

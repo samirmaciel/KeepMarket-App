@@ -7,6 +7,7 @@ import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemReposito
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketRepository
 import com.sm.keepmarket.domain.model.MarketItem
 import com.sm.keepmarket.util.UiState
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,7 +34,9 @@ class MarketListViewModel(
             )
         }
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
+
+            Log.d("TESTF", "getMarket")
             marketRepository.getById(id).collect { market ->
                 Log.d("TESTF", "getMarket: ${market?.name}")
                 _UiState.update { currentState ->
