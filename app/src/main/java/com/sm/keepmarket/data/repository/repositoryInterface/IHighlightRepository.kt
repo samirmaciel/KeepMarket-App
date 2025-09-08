@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface IHighlightRepository {
 
     suspend fun getAll(): Flow<List<Highlight>>
-    suspend fun getById(id: String): Flow<List<Highlight>>
+    suspend fun getById(id: String): Flow<Highlight?>
     suspend fun delete(highlight: Highlight)
     suspend fun insert(highlight: Highlight)
 }
