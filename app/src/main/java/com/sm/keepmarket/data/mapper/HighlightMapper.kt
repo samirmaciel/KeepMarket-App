@@ -3,7 +3,7 @@ package com.sm.keepmarket.data.mapper
 import com.sm.keepmarket.data.model.HighlightEntity
 import com.sm.keepmarket.domain.model.Highlight
 
-class HighlightMapper() {
+object HighlightMapper {
 
     fun toHighlight(entity: HighlightEntity): Highlight {
         return Highlight(

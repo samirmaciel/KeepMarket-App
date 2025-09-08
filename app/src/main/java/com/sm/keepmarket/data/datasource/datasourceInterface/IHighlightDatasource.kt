@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IHighlightDatasource {
     suspend fun getAll(): Flow<List<HighlightEntity>>
-    suspend fun getById(id: String): Flow<List<HighlightEntity>>
+    suspend fun getById(id: String): Flow<HighlightEntity?>
     suspend fun delete(highlight: HighlightEntity)
     suspend fun insert(highlight: HighlightEntity)
 }
