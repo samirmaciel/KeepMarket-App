@@ -312,8 +312,6 @@ fun MarketItemListView(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-
-
         Checkbox(
             checked = checked,
             onCheckedChange = {
@@ -364,7 +362,7 @@ fun MarketItemListView(
         if (marketItem.price > BigDecimal.ZERO) {
             Text(
                 modifier = Modifier.padding(end = 5.dp),
-                text = marketItem.getFormattedTotalPrice(),
+                text = marketItem.getFormattedPrice(),
                 style = MaterialTheme.typography.titleLarge,
                 fontSize = 15.sp
             )

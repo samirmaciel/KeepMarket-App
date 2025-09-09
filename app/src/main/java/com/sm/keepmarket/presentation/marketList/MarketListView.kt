@@ -1,6 +1,5 @@
 package com.sm.keepmarket.presentation.marketList
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,8 +41,10 @@ import com.sm.keepmarket.presentation.modal.AddNewItemModal
 import com.sm.keepmarket.presentation.theme.Background
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.Red
+import com.sm.keepmarket.util.CurrencyUtil
 import com.sm.keepmarket.util.UiState
 import org.koin.androidx.compose.koinViewModel
+import java.util.Locale
 
 @Composable
 fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
@@ -173,7 +174,9 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
         ) {
             Text(
                 modifier = Modifier.padding(start = 16.dp),
-                text = "Total: ${viewModel.getTotalItemCheckedValue()}",
+                text = "Total: ${CurrencyUtil.bigDecimalToCurrency(viewModel.getTotalItemCheckedValue(),
+                    Locale("pt", "BR")
+                )}",
                 style = MaterialTheme.typography.labelMedium
             )
             Spacer(
@@ -183,7 +186,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
             )
             Text(
                 modifier = Modifier.padding(end = 16.dp),
-                text = "Amount: ${uiState.value.market?.items?.filter { it.isChecked }?.size}",
+                text = "${uiState.value.market?.items?.filter { it.isChecked }?.size}/${uiState.value.market?.items?.size}",
                 style = MaterialTheme.typography.labelMedium
             )
         }

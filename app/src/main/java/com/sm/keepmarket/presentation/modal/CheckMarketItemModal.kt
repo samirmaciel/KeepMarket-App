@@ -21,20 +21,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.sm.keepmarket.domain.model.MarketItem
 import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.Red
+import com.sm.keepmarket.util.CurrencyUtil
 import java.math.BigDecimal
+import java.util.Locale
 
 @Composable
 fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish: (Int, BigDecimal) -> Unit) {
 
     var amount by remember { mutableIntStateOf(marketItem.amount) }
-    var price by remember { mutableStateOf(marketItem.price) }
+    var price by remember { mutableStateOf(TextFieldValue(CurrencyUtil.bigDecimalToCurrency(marketItem.price, Locale("pt", "BR"))))}
     var showAmountErrorMessage by remember { mutableStateOf(false) }
     var showPriceErrorMessage by remember { mutableStateOf(false) }
 
@@ -69,6 +73,7 @@ fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish
                 label = { Text("Amount") },
                 modifier = Modifier.fillMaxWidth(),
             )
+
             if (showAmountErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
@@ -80,24 +85,20 @@ fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish
             }
 
             OutlinedTextField(
-                value = price.toString(),
+                value = price,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number
                 ),
                 onValueChange = { priceValue ->
 
-                    if(priceValue.isEmpty()){
-                        price = BigDecimal.ZERO
-                        return@OutlinedTextField
+                    if(priceValue.text.isNotEmpty()){
+                        val formatted = CurrencyUtil.formatterTextToCurrency(priceValue.text, Locale("pt", "BR"))
+
+                        formatted?.let {
+                            price = TextFieldValue(text = it, selection = TextRange(it.length))
+                            showPriceErrorMessage = false
+                        }
                     }
-
-                    val newPrice = BigDecimal(priceValue)
-
-                    if (newPrice > BigDecimal.ZERO) {
-                        showPriceErrorMessage = false
-                    }
-
-                    price = newPrice
                 },
                 label = { Text("Unit price") },
                 modifier = Modifier.fillMaxWidth(),
@@ -119,11 +120,14 @@ fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish
             ) {
                 Button(
                     onClick = {
+
                         if (amount <= 0) {
                             showAmountErrorMessage = true
                         }
 
-                        if (price <= BigDecimal.ZERO) {
+                        val value = CurrencyUtil.parseCurrencyToBigDecimal(price.text, Locale("pt", "BR"))
+
+                        if ( value <= BigDecimal.ZERO) {
                             showPriceErrorMessage = true
                         }
 
@@ -131,7 +135,8 @@ fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish
                             return@Button
                         }
 
-                        onFinish(amount, price)
+                        onFinish(amount, value)
+
                     }, colors = ButtonDefaults.buttonColors(
                         containerColor = Blue,
                         contentColor = Color.White
