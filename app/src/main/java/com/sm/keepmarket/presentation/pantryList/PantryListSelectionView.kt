@@ -155,7 +155,6 @@ fun PantryListSelectionItemView(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp)
-            .height(60.dp)
             .background(color = Blue, shape = RoundedCornerShape(10.dp))
             .clickable(enabled = true){
                 onNavigate()
@@ -167,14 +166,14 @@ fun PantryListSelectionItemView(
             Text(
                 pantry.name,
                 style = MaterialTheme.typography.titleLarge,
-                fontSize = 15.sp,
+                fontSize = 20.sp,
                 color = Color.White
             )
-
+            Spacer(modifier = Modifier.size(5.dp))
             Text(
-                text = pantry.lastUpdate.toString(),
+                text = pantry.getFormattedLastUpdate(),
                 style = MaterialTheme.typography.labelSmall,
-                fontSize = 12.sp,
+                fontSize = 10.sp,
                 color = Color.White
             )
         }
@@ -190,7 +189,7 @@ fun PantryListSelectionItemView(
             modifier = Modifier.padding(end = 5.dp),
             text = "● ${pantry.items.size}",
             style = MaterialTheme.typography.titleLarge,
-            fontSize = 15.sp,
+            fontSize = 20.sp,
             color = Color.White
         )
 

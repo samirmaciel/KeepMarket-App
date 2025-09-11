@@ -174,7 +174,7 @@ fun MarketListSelectionItemView(
             )
 
             Text(
-                text = market.lastUpdate.toString(),
+                text = market.getFormattedLastUpdate(),
                 style = MaterialTheme.typography.labelSmall,
                 fontSize = 12.sp,
                 color = Color.White
