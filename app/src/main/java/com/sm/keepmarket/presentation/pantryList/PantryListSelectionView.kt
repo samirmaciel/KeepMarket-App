@@ -70,21 +70,38 @@ fun PantryListSelectionView(paddingValues: PaddingValues) {
             .padding(paddingValues)
     ) {
 
-        IconButton(modifier = Modifier.padding(16.dp), onClick = {
-            navController.navigateUp()
-        }) {
-            Icon(
-                painter = painterResource(R.drawable.arrowlefticon),
-                tint = Color.Unspecified,
-                contentDescription = "Arrow back view"
-            )
-        }
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
 
-        Text(
-            modifier = Modifier.padding(16.dp),
-            text = "Pantry List Selection",
-            style = MaterialTheme.typography.titleLarge
-        )
+            Row (modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically){
+                IconButton(modifier = Modifier.padding(16.dp), onClick = {
+                    navController.navigateUp()
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.arrowlefticon),
+                        tint = Color.Unspecified,
+                        contentDescription = "Arrow back view"
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    text = "Pantry List",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontSize = 25.sp
+                )
+            }
+        }
 
         Row(
             modifier = Modifier
@@ -102,7 +119,7 @@ fun PantryListSelectionView(paddingValues: PaddingValues) {
             ) {
                 Text(
                     "Create Pantry List",
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.labelMedium,
                     fontSize = 12.sp
                 )
             }

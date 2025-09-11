@@ -2,6 +2,7 @@ package com.sm.keepmarket.presentation.notifications
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.NotificationItemView
@@ -58,21 +60,38 @@ fun NotificationView(paddingValues: PaddingValues) {
             .padding(paddingValues)
     ) {
 
-        IconButton(modifier = Modifier.padding(16.dp), onClick = {
-            navController.navigateUp()
-        }) {
-            Icon(
-                painter = painterResource(R.drawable.arrowlefticon),
-                tint = Color.Unspecified,
-                contentDescription = "Arrow back view"
-            )
-        }
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
 
-        Text(
-            modifier = Modifier.padding(16.dp),
-            text = "Notifications",
-            style = MaterialTheme.typography.titleLarge
-        )
+            Row (modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically){
+                IconButton(modifier = Modifier.padding(16.dp), onClick = {
+                    navController.navigateUp()
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.arrowlefticon),
+                        tint = Color.Unspecified,
+                        contentDescription = "Arrow back view"
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    text = "Notifications",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontSize = 25.sp
+                )
+            }
+        }
 
         Row(
             modifier = Modifier
@@ -89,7 +108,7 @@ fun NotificationView(paddingValues: PaddingValues) {
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
-                Text("Remove all notifications", style = MaterialTheme.typography.labelSmall)
+                Text("Remove all notifications", style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
             }
         }
 

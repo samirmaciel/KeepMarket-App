@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.components.FeaturedCardButton
 import com.sm.keepmarket.presentation.Dest
@@ -106,7 +107,8 @@ fun HomeView(paddingValues: PaddingValues) {
         Text(
             modifier = Modifier.padding(16.dp),
             text = "Highlights",
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelMedium,
+            fontSize = 20.sp
         )
 
         when(highlightListState){

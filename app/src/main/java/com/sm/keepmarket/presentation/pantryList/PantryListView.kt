@@ -1,6 +1,8 @@
 package com.sm.keepmarket.presentation.pantryList
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -61,26 +63,41 @@ fun PantryListView(pantryListID: String, paddingValues: PaddingValues) {
             .padding(paddingValues)
     ) {
 
-        IconButton(modifier = Modifier.padding(16.dp), onClick = {
-            navController.navigateUp()
-        }) {
-            Icon(
-                painter = painterResource(R.drawable.arrowlefticon),
-                tint = Color.Unspecified,
-                contentDescription = "Arrow back view"
-            )
-        }
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
 
-        when(uiState.value.state){
-            UiState.LOADING -> {
-                CircularProgressIndicator()
+            Row (modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically){
+                IconButton(modifier = Modifier.padding(16.dp), onClick = {
+                    navController.navigateUp()
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.arrowlefticon),
+                        tint = Color.Unspecified,
+                        contentDescription = "Arrow back view"
+                    )
+                }
             }
-            UiState.LOADED -> {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = uiState.value.pantry?.name ?: "Not founded",
-                    style = MaterialTheme.typography.titleLarge
-                )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                when(uiState.value.state){
+                    UiState.LOADING -> {
+                        CircularProgressIndicator()
+                    }
+                    UiState.LOADED -> {
+                        Text(
+                            modifier = Modifier.padding(16.dp),
+                            text = uiState.value.pantry?.name ?: "Not founded",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
+                }
             }
         }
 
