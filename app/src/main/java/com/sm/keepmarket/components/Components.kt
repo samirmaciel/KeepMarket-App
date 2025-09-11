@@ -210,15 +210,16 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (FeaturedCard) -> Un
                 text = featuredCard.name,
                 style = MaterialTheme.typography.labelMedium,
                 maxLines = 1,
+                fontSize = 20.sp,
                 overflow = TextOverflow.Ellipsis,
                 color = Color.White
             )
             Text(
                 modifier = Modifier.padding(top = 20.dp),
-                text = featuredCard.lastUpdate.toString(),
+                text = featuredCard.getFormattedLastUpdate(),
                 style = MaterialTheme.typography.labelSmall,
                 color = Color.White,
-                fontSize = 8.sp
+                fontSize = 10.sp
             )
         }
     }
