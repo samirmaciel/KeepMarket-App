@@ -83,7 +83,7 @@ fun CreateList(onCreateMarket: (String) -> Unit, onCreatePantry: (String) -> Uni
         ) {
             Text(
                 "Create Market List",
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelMedium,
                 fontSize = 12.sp
             )
         }
@@ -102,7 +102,7 @@ fun CreateList(onCreateMarket: (String) -> Unit, onCreatePantry: (String) -> Uni
         ) {
             Text(
                 "Create Pantry List",
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelMedium,
                 fontSize = 12.sp,
             )
         }

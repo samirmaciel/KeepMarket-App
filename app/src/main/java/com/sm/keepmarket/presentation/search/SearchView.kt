@@ -1,6 +1,8 @@
 package com.sm.keepmarket.presentation.search
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -15,10 +17,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.SearchItemView
@@ -39,47 +43,66 @@ fun SearchView(paddingValues: PaddingValues) {
             .padding(paddingValues)
     ) {
 
-        IconButton(modifier = Modifier.padding(16.dp), onClick = {
-            navController.navigateUp()
-        }) {
-            Icon(
-                painter = painterResource(R.drawable.arrowlefticon),
-                tint = Color.Unspecified,
-                contentDescription = "Arrow back view"
-            )
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = "Search",
-                style = MaterialTheme.typography.titleLarge
-            )
 
-            IconButton(onClick = {
-               viewModel.setAllExpanded(false)
-            }) {
-                Icon(
-                    painter = painterResource(R.drawable.collapseicon),
-                    tint = Color.Black,
-                    contentDescription = "Search view"
+            Row (modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically){
+                IconButton(modifier = Modifier.padding(16.dp), onClick = {
+                    navController.navigateUp()
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.arrowlefticon),
+                        tint = Color.Unspecified,
+                        contentDescription = "Arrow back view"
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    text = "Search",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontSize = 25.sp
                 )
             }
 
-            IconButton(onClick = {
-                viewModel.setAllExpanded(true)
-            }) {
-                Icon(
-                    painter = painterResource(R.drawable.expandallicon),
-                    tint = Color.Black,
-                    contentDescription = "Search view"
-                )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                IconButton(onClick = {
+                    viewModel.setAllExpanded(false)
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.collapseicon),
+                        tint = Color.Black,
+                        contentDescription = "Search view"
+                    )
+                }
+
+                IconButton(onClick = {
+                    viewModel.setAllExpanded(true)
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.expandallicon),
+                        tint = Color.Black,
+                        contentDescription = "Search view"
+                    )
+                }
             }
         }
+
+
 
         val scroll = rememberScrollState()
 

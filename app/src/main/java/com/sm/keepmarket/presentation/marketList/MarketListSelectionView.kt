@@ -61,7 +61,7 @@ fun MarketListSelectionView(paddingValues: PaddingValues) {
     val navController = LocalNavHostController.current
     val context = LocalContext.current
 
-    LaunchedEffect(context){
+    LaunchedEffect(context) {
         viewModel.getMarketList()
     }
 
@@ -70,22 +70,38 @@ fun MarketListSelectionView(paddingValues: PaddingValues) {
             .fillMaxSize()
             .padding(paddingValues)
     ) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
 
-        IconButton(modifier = Modifier.padding(16.dp), onClick = {
-            navController.navigateUp()
-        }) {
-            Icon(
-                painter = painterResource(R.drawable.arrowlefticon),
-                tint = Color.Unspecified,
-                contentDescription = "Arrow back view"
-            )
+            Row (modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically){
+                IconButton(modifier = Modifier.padding(16.dp), onClick = {
+                    navController.navigateUp()
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.arrowlefticon),
+                        tint = Color.Unspecified,
+                        contentDescription = "Arrow back view"
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    text = "Market List",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontSize = 25.sp
+                )
+            }
         }
-
-        Text(
-            modifier = Modifier.padding(16.dp),
-            text = "Market List Selection",
-            style = MaterialTheme.typography.titleLarge
-        )
 
         Row(
             modifier = Modifier
@@ -103,14 +119,14 @@ fun MarketListSelectionView(paddingValues: PaddingValues) {
             ) {
                 Text(
                     "Create Market List",
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.labelMedium,
                     fontSize = 12.sp
                 )
             }
         }
 
         if (uiState is UiStateView.Success) {
-            LazyColumn(modifier =  Modifier.fillMaxWidth()) {
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items((uiState as UiStateView.Success<List<Market>>).data) { item ->
                     MarketListSelectionItemView(
                         item, onDelete = { market ->
@@ -159,7 +175,7 @@ fun MarketListSelectionItemView(
             .padding(start = 16.dp, end = 16.dp)
             .height(60.dp)
             .background(color = Blue, shape = RoundedCornerShape(10.dp))
-            .clickable(enabled = true){
+            .clickable(enabled = true) {
                 onNavigate()
             },
         verticalAlignment = Alignment.CenterVertically
