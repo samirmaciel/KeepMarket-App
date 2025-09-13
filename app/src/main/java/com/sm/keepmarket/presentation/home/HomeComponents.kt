@@ -30,7 +30,6 @@ import com.sm.keepmarket.R
 import com.sm.keepmarket.components.HighlightItemView
 import com.sm.keepmarket.domain.model.Highlight
 import com.sm.keepmarket.presentation.modal.CreateNewListModal
-import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.ButtonDefault
 
 
@@ -78,7 +77,7 @@ fun CreateList(onCreateMarket: (String) -> Unit, onCreatePantry: (String) -> Uni
             onClick = { showCreateMarketList = true },
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Blue
+                containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
             Text(
@@ -97,7 +96,7 @@ fun CreateList(onCreateMarket: (String) -> Unit, onCreatePantry: (String) -> Uni
             },
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Blue
+                containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
             Text(

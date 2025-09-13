@@ -31,17 +31,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.NotificationItemView
 import com.sm.keepmarket.domain.model.NotificationItem
-import com.sm.keepmarket.presentation.theme.Background
-import com.sm.keepmarket.presentation.theme.KeepMarketTheme
-import com.sm.keepmarket.presentation.theme.Red
-import com.sm.keepmarket.util.Mock
 import com.sm.keepmarket.util.UiStateView
 import org.koin.androidx.compose.koinViewModel
 
@@ -56,7 +51,7 @@ fun NotificationView(paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Background)
+            .background(MaterialTheme.colorScheme.background)
             .padding(paddingValues)
     ) {
 
@@ -104,11 +99,11 @@ fun NotificationView(paddingValues: PaddingValues) {
                     showDeleteAllAlert = true
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Red
+                    containerColor = MaterialTheme.colorScheme.tertiary,
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
-                Text("Remove all notifications", style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
+                Text("Remove all notifications", color = MaterialTheme.colorScheme.onTertiary, style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
             }
         }
 

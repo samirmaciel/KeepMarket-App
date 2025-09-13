@@ -22,8 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.sm.keepmarket.presentation.theme.Blue
-import com.sm.keepmarket.presentation.theme.Red
 
 @Composable
 fun AddNewItemModal(onDismiss: () -> Unit, onFinish: (String) -> Unit) {
@@ -58,7 +56,7 @@ fun AddNewItemModal(onDismiss: () -> Unit, onFinish: (String) -> Unit) {
                     text = "Field should be not empty",
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
-                    color = Red
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
 
@@ -76,8 +74,7 @@ fun AddNewItemModal(onDismiss: () -> Unit, onFinish: (String) -> Unit) {
 
                         onFinish(text)
                     }, colors = ButtonDefaults.buttonColors(
-                        containerColor = Blue,
-                        contentColor = Color.White
+                        containerColor = MaterialTheme.colorScheme.primary
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {

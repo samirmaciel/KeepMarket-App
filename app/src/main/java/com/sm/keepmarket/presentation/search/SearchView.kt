@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.SearchItemView
-import com.sm.keepmarket.presentation.theme.Background
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -39,7 +38,7 @@ fun SearchView(paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Background)
+            .background(MaterialTheme.colorScheme.background)
             .padding(paddingValues)
     ) {
 

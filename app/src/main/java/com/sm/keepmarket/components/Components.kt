@@ -1,6 +1,5 @@
 package com.sm.keepmarket.components
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,10 +23,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.referentialEqualityPolicy
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -51,8 +48,6 @@ import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.modal.CheckMarketItemModal
 import com.sm.keepmarket.presentation.modal.EditMarketItemModal
 import com.sm.keepmarket.presentation.modal.EditPantryItemModal
-import com.sm.keepmarket.presentation.theme.Background
-import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.presentation.theme.ButtonDefault
 import java.math.BigDecimal
 
@@ -89,7 +84,7 @@ fun BottomMenu() {
 
     BottomAppBar(
         modifier = Modifier.fillMaxWidth(),
-        containerColor = Background
+        containerColor = MaterialTheme.colorScheme.background
     ) {
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
@@ -103,7 +98,7 @@ fun BottomMenu() {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(R.drawable.homeicon),
-                    tint = if (selectedIndex == 0) Blue else ButtonDefault,
+                    tint = if (selectedIndex == 0) MaterialTheme.colorScheme.primary else ButtonDefault,
                     contentDescription = "Home button"
                 )
             }
@@ -119,7 +114,7 @@ fun BottomMenu() {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(R.drawable.calendaricon),
-                    tint = if (selectedIndex == 1) Blue else ButtonDefault,
+                    tint = if (selectedIndex == 1) MaterialTheme.colorScheme.primary else ButtonDefault,
                     contentDescription = "Pantry list button"
                 )
             }
@@ -135,7 +130,7 @@ fun BottomMenu() {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(R.drawable.marketlisticon),
-                    tint = if (selectedIndex == 2) Blue else ButtonDefault,
+                    tint = if (selectedIndex == 2) MaterialTheme.colorScheme.primary else ButtonDefault,
                     contentDescription = "Market list button"
                 )
             }
@@ -151,7 +146,7 @@ fun BottomMenu() {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(R.drawable.notificationicon),
-                    tint = if (selectedIndex == 3) Blue else ButtonDefault,
+                    tint = if (selectedIndex == 3) MaterialTheme.colorScheme.primary else ButtonDefault,
                     contentDescription = "Notifications button"
                 )
             }
@@ -167,7 +162,7 @@ fun BottomMenu() {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(R.drawable.searchicon),
-                    tint = if (selectedIndex == 4) Blue else ButtonDefault,
+                    tint = if (selectedIndex == 4) MaterialTheme.colorScheme.primary else ButtonDefault,
                     contentDescription = "Search button"
                 )
             }
@@ -186,7 +181,7 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (FeaturedCard) -> Un
         Column(
             modifier = Modifier
                 .size(width = 150.dp, height = 150.dp)
-                .background(Blue, RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(10.dp))
                 .padding(16.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -238,7 +233,7 @@ fun HighlightItemView(highlight: Highlight) {
         Box(
             modifier = Modifier
                 .size(50.dp)
-                .background(color = Blue, shape = RoundedCornerShape(10.dp)),
+                .background(color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(10.dp)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -483,7 +478,7 @@ fun NotificationItemView(notificationItem: NotificationItem, onDeleteItem: (Noti
         Column(modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp)) {
             Box(
                 modifier = Modifier
-                    .background(Blue, shape = RoundedCornerShape(10.dp))
+                    .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(10.dp))
                     .padding(10.dp), contentAlignment = Alignment.Center
             ) {
                 Icon(

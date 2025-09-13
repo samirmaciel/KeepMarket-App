@@ -23,17 +23,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.MainNavigation
-import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.modal.CreateNewListModal
-import com.sm.keepmarket.presentation.theme.Blue
 import com.sm.keepmarket.util.UiStateView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import org.jetbrains.annotations.TestOnly
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -105,7 +98,7 @@ fun CreateView(viewModel: SplashViewModel) {
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 5.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Blue
+                    containerColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
@@ -120,7 +113,7 @@ fun CreateView(viewModel: SplashViewModel) {
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 5.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Blue
+                    containerColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
