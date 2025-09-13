@@ -38,9 +38,6 @@ import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.PantryItemListView
 import com.sm.keepmarket.presentation.modal.AddNewPantryItemModal
-import com.sm.keepmarket.presentation.theme.Background
-import com.sm.keepmarket.presentation.theme.Blue
-import com.sm.keepmarket.presentation.theme.Red
 import com.sm.keepmarket.util.UiState
 import org.koin.androidx.compose.koinViewModel
 
@@ -59,7 +56,7 @@ fun PantryListView(pantryListID: String, paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Background)
+            .background(MaterialTheme.colorScheme.background)
             .padding(paddingValues)
     ) {
 
@@ -111,7 +108,7 @@ fun PantryListView(pantryListID: String, paddingValues: PaddingValues) {
                     showAddNewItemModal = true
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Blue
+                    containerColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
@@ -138,12 +135,13 @@ fun PantryListView(pantryListID: String, paddingValues: PaddingValues) {
                     viewModel.removeExpiredItems()
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Red
+                    containerColor = MaterialTheme.colorScheme.tertiary
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
                     text = "Remove expired items",
+                    color = MaterialTheme.colorScheme.onTertiary,
                     style = MaterialTheme.typography.labelMedium,
                     fontSize = 12.sp
                 )

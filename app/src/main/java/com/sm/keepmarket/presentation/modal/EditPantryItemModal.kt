@@ -23,8 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.sm.keepmarket.domain.model.PantryItem
-import com.sm.keepmarket.presentation.theme.Blue
-import com.sm.keepmarket.presentation.theme.Red
 import java.time.LocalDate
 
 @Composable
@@ -64,7 +62,7 @@ fun EditPantryItemModal(pantryItem: PantryItem, onDismiss: () -> Unit, onFinish:
                     text = "Field should be not empty",
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
-                    color = Red
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
 
@@ -93,7 +91,7 @@ fun EditPantryItemModal(pantryItem: PantryItem, onDismiss: () -> Unit, onFinish:
                     text = "Amount should be more than 0",
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
-                    color = Red
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
 
@@ -112,7 +110,7 @@ fun EditPantryItemModal(pantryItem: PantryItem, onDismiss: () -> Unit, onFinish:
                     text = "Due date should be more than today date",
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
-                    color = Red
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
 
@@ -142,7 +140,7 @@ fun EditPantryItemModal(pantryItem: PantryItem, onDismiss: () -> Unit, onFinish:
                         onFinish(itemName, itemAmount, itemDueDate)
 
                     }, colors = ButtonDefaults.buttonColors(
-                        containerColor = Blue,
+                        containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = Color.White
                     ),
                     shape = RoundedCornerShape(10.dp)

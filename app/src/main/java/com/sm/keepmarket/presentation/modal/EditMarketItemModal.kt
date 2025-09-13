@@ -28,11 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.sm.keepmarket.domain.model.MarketItem
-import com.sm.keepmarket.presentation.theme.Blue
-import com.sm.keepmarket.presentation.theme.Red
 import com.sm.keepmarket.util.CurrencyUtil
 import java.math.BigDecimal
-import java.text.NumberFormat
 import java.util.Locale
 
 @Composable
@@ -69,7 +66,7 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
                     text = "Field should be not empty",
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
-                    color = Red
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
 
@@ -126,7 +123,7 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
 
                         onFinish(name, amount, CurrencyUtil.parseCurrencyToBigDecimal(price.text, Locale("pt", "BR")))
                     }, colors = ButtonDefaults.buttonColors(
-                        containerColor = Blue,
+                        containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = Color.White
                     ),
                     shape = RoundedCornerShape(10.dp)

@@ -17,10 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.sm.keepmarket.components.BottomMenu
 import com.sm.keepmarket.presentation.AppNavigation
-import com.sm.keepmarket.presentation.theme.Background
 
 @Composable
-fun MainNavigation(modifier: Modifier = Modifier) {
+fun MainNavigation() {
 
     val navHostController = rememberNavController()
 
@@ -37,7 +36,6 @@ fun MainNavigation(modifier: Modifier = Modifier) {
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            containerColor = Background,
             bottomBar = {
                 AnimatedVisibility(
                     visible = visible,

@@ -46,8 +46,6 @@ import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.model.Pantry
 import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.modal.CreateNewListModal
-import com.sm.keepmarket.presentation.theme.Blue
-import com.sm.keepmarket.presentation.theme.Red
 import com.sm.keepmarket.util.UiStateView
 import org.koin.androidx.compose.koinViewModel
 
@@ -114,7 +112,7 @@ fun PantryListSelectionView(paddingValues: PaddingValues) {
                 onClick = { showCreatePantryList = true },
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Blue
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             ) {
                 Text(
@@ -172,7 +170,7 @@ fun PantryListSelectionItemView(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp)
-            .background(color = Blue, shape = RoundedCornerShape(10.dp))
+            .background(color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(10.dp))
             .clickable(enabled = true){
                 onNavigate()
             },
@@ -326,7 +324,7 @@ fun PantryNameEdit(pantry: Pantry, onDismiss: () -> Unit, onFinish: (Pantry) -> 
                     text = "Field should be not empty",
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
-                    color = Red
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
 
@@ -351,7 +349,7 @@ fun PantryNameEdit(pantry: Pantry, onDismiss: () -> Unit, onFinish: (Pantry) -> 
                         onDismiss()
 
                     }, colors = ButtonDefaults.buttonColors(
-                        containerColor = Blue,
+                        containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = Color.White
                     ),
                     shape = RoundedCornerShape(10.dp)

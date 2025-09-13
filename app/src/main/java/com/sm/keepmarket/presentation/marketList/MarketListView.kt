@@ -39,9 +39,6 @@ import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.components.MarketItemListView
 import com.sm.keepmarket.presentation.modal.AddNewItemModal
-import com.sm.keepmarket.presentation.theme.Background
-import com.sm.keepmarket.presentation.theme.Blue
-import com.sm.keepmarket.presentation.theme.Red
 import com.sm.keepmarket.util.CurrencyUtil
 import com.sm.keepmarket.util.UiState
 import org.koin.androidx.compose.koinViewModel
@@ -62,7 +59,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Background)
+            .background(MaterialTheme.colorScheme.background)
             .padding(paddingValues)
     ) {
 
@@ -114,7 +111,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
                     showAddNewItemModal = true
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Blue
+                    containerColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
@@ -141,13 +138,14 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
 
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Red
+                    containerColor = MaterialTheme.colorScheme.tertiary
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
                     "Uncheck all items",
                     style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onTertiary,
                     fontSize = 12.sp
                 )
             }
@@ -183,7 +181,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(40.dp)
-                .background(color = Color.White),
+                .background(color = MaterialTheme.colorScheme.surface),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
