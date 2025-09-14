@@ -4,26 +4,27 @@ import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketItemStateDat
 import com.sm.keepmarket.data.db.dao.MarketItemStateDao
 import com.sm.keepmarket.data.model.MarketItemStateEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
-class MarketItemStateDatasourceImpl(dao: MarketItemStateDao) : IMarketItemStateDatasource {
+class MarketItemStateDatasourceImpl(private val dao: MarketItemStateDao) : IMarketItemStateDatasource {
 
-    override fun getAll(): Flow<List<MarketItemStateEntity>> {
-        TODO("Not yet implemented")
+    override suspend fun insert(item: MarketItemStateEntity) {
+        dao.insert(item)
     }
 
-    override fun insert(item: MarketItemStateEntity) {
-        TODO("Not yet implemented")
+    override suspend fun delete(item: MarketItemStateEntity) {
+       dao.delete(item)
     }
 
-    override fun delete(item: MarketItemStateEntity) {
-        TODO("Not yet implemented")
+    override suspend fun getByID(id: String): Flow<MarketItemStateEntity?> {
+        return flow {
+            emit(dao.getByID(id))
+        }
     }
 
-    override fun getByID(id: String): Flow<MarketItemStateEntity?> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getByOwnerID(ownerID: String): Flow<List<MarketItemStateEntity>> {
-        TODO("Not yet implemented")
+    override suspend fun getAllByMarketID(marketID: String): Flow<List<MarketItemStateEntity>> {
+        return flow{
+            emit(dao.getByOwnerID(marketID))
+        }
     }
 }

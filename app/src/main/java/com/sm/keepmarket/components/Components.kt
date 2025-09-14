@@ -233,7 +233,10 @@ fun HighlightItemView(highlight: Highlight) {
         Box(
             modifier = Modifier
                 .size(50.dp)
-                .background(color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(10.dp)),
+                .background(
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(10.dp)
+                ),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -296,7 +299,7 @@ fun MarketItemListView(
 
     var showEditItemModal by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
-    var checked by remember { mutableStateOf(false) }
+    var checked by remember { mutableStateOf(marketItem.isChecked) }
     var expandedMoreActions by remember { mutableStateOf(false) }
     var showCheckMarketItemModal by remember { mutableStateOf(false) }
 
@@ -420,28 +423,14 @@ fun MarketItemListView(
     }
 
     if (showDeleteDialog) {
-        AlertDialog(
-            onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Confirmação") },
-            text = { Text("Você deseja realmente excluir este item?") },
-            confirmButton = {
-                TextButton(onClick = {
-                    onDeleted(marketItem)
-                    showDeleteDialog = false
-                    expandedMoreActions = false
-                }) {
-                    Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = {
-                    showDeleteDialog = false
-                    expandedMoreActions = false
-                }) {
-                    Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
-                }
-            }
-        )
+        AlertMessage("Você deseja realmente excluir este item?", onDismiss = {
+            showDeleteDialog = false
+            expandedMoreActions = false
+        }, onConfirm = {
+            onDeleted(marketItem)
+            showDeleteDialog = false
+            expandedMoreActions = false
+        })
     }
 
     if (showEditItemModal) {
@@ -478,7 +467,10 @@ fun NotificationItemView(notificationItem: NotificationItem, onDeleteItem: (Noti
         Column(modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp)) {
             Box(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(10.dp))
+                    .background(
+                        MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(10.dp)
+                    )
                     .padding(10.dp), contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -718,4 +710,28 @@ fun SearchItemView(searchItem: SearchItem, onExpanded: (Boolean) -> Unit) {
 
         }
     }
+}
+
+
+@Composable
+fun AlertMessage(message: String, onDismiss: () -> Unit, onConfirm: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = { onDismiss() },
+        title = { Text("Confirmação") },
+        text = { Text(message) },
+        confirmButton = {
+            TextButton(onClick = {
+                onConfirm()
+            }) {
+                Text("Sim", style = MaterialTheme.typography.labelMedium)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = {
+                onDismiss()
+            }) {
+                Text("Não", style = MaterialTheme.typography.labelMedium)
+            }
+        }
+    )
 }
