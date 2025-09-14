@@ -12,19 +12,19 @@ import kotlinx.coroutines.flow.Flow
 interface MarketItemStateDao {
 
     @Query("SELECT * FROM TB_MARKETITEMSTATE WHERE ENABLED = 1")
-    fun getAll(): Flow<List<MarketItemStateEntity>>
+    suspend fun getAll(): List<MarketItemStateEntity>
 
     @Query("SELECT * FROM TB_MARKETITEMSTATE WHERE ID = :id AND ENABLED = 1")
-    fun getByID(id: String): Flow<MarketItemStateEntity?>
+    suspend fun getByID(id: String): MarketItemStateEntity?
 
-    @Query("SELECT * FROM TB_MARKETITEMSTATE WHERE MARKETITEM_ID = :marketItemID AND ENABLED = 1")
-    fun getByOwnerID(marketItemID: String): Flow<List<MarketItemStateEntity>>
+    @Query("SELECT * FROM TB_MARKETITEMSTATE WHERE MARKET_ID = :marketId AND ENABLED = 1")
+    suspend fun getByOwnerID(marketId: String): List<MarketItemStateEntity>
 
     @Insert(onConflict = REPLACE)
-    fun insert(item: MarketItemStateEntity)
+    suspend fun insert(item: MarketItemStateEntity)
 
     @Delete
-    fun delete(item: MarketItemStateEntity)
+    suspend fun delete(item: MarketItemStateEntity)
 
 
 }

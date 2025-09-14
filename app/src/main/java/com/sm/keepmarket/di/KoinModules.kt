@@ -22,11 +22,13 @@ import com.sm.keepmarket.data.repository.repositoryInterface.IMarketRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryItemRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryRepository
 import com.sm.keepmarket.data.repository.MarketItemRepositoryImpl
+import com.sm.keepmarket.data.repository.MarketItemStateRepositoryImpl
 import com.sm.keepmarket.data.repository.MarketRepositoryImpl
 import com.sm.keepmarket.data.repository.NotificationRepositoryImpl
 import com.sm.keepmarket.data.repository.PantryItemRepositoryImpl
 import com.sm.keepmarket.data.repository.PantryRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
+import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemStateRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.INotificationRepository
 import com.sm.keepmarket.presentation.home.HomeViewModel
 import com.sm.keepmarket.presentation.marketList.MarketListSelectionViewModel
@@ -45,7 +47,7 @@ val viewModelModules = module {
     viewModel{ PantryViewModel(get(), get()) }
     viewModel{ NotificationsViewModel(get()) }
     viewModel{ SearchViewModel(get()) }
-    viewModel{ MarketListViewModel(get(), get()) }
+    viewModel{ MarketListViewModel(get(), get(), get()) }
     viewModel{ SplashViewModel(get(), get()) }
     viewModel{ MarketListSelectionViewModel(get()) }
     viewModel{ PantryListSelectionViewModel(get()) }
@@ -58,6 +60,7 @@ val repositoryModules = module {
     single<IPantryItemRepository> { PantryItemRepositoryImpl(get()) }
     single<IHighlightRepository> { HighlightRepositoryImpl(get()) }
     single<INotificationRepository> { NotificationRepositoryImpl(get()) }
+    single<IMarketItemStateRepository> { MarketItemStateRepositoryImpl(get()) }
 }
 
 val datasourceModules = module {

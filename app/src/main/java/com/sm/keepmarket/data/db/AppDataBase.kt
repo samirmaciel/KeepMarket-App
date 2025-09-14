@@ -22,7 +22,7 @@ import com.sm.keepmarket.data.model.PantryItemEntity
     entities = [
         MarketEntity::class, PantryEntity::class, HighlightEntity::class, NotificationEntity::class, MarketItemEntity::class,
         PantryItemEntity::class, MarketItemStateEntity::class
-    ], version = 1
+    ], version = 3
 )
 @TypeConverters(RoomConverter::class)
 abstract class AppDataBase : RoomDatabase() {

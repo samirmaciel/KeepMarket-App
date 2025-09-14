@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.R
+import com.sm.keepmarket.components.AlertMessage
 import com.sm.keepmarket.components.MarketItemListView
 import com.sm.keepmarket.presentation.modal.AddNewItemModal
 import com.sm.keepmarket.util.CurrencyUtil
@@ -49,6 +50,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
 
     val viewModel: MarketListViewModel = koinViewModel()
     var showAddNewItemModal by remember { mutableStateOf(false) }
+    var showSaveAlertMessage by remember { mutableStateOf(false) }
     val uiState = viewModel.uiState.collectAsState()
     val navController = LocalNavHostController.current
 
@@ -68,8 +70,10 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
             contentAlignment = Alignment.Center
         ) {
 
-            Row (modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically){
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 IconButton(modifier = Modifier.padding(16.dp), onClick = {
                     navController.navigateUp()
                 }) {
@@ -86,10 +90,11 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                when(uiState.value.state){
+                when (uiState.value.state) {
                     UiState.LOADING -> {
                         CircularProgressIndicator()
                     }
+
                     UiState.LOADED -> {
                         Text(
                             modifier = Modifier.padding(16.dp),
@@ -151,8 +156,15 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
             }
         }
 
-        when(uiState.value.state){
-            UiState.LOADING -> { Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) { CircularProgressIndicator() }}
+        when (uiState.value.state) {
+            UiState.LOADING -> {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) { CircularProgressIndicator() }
+            }
+
             UiState.LOADED -> {
                 LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
                     items(uiState.value.market?.items ?: emptyList()) { item ->
@@ -164,7 +176,6 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
                             onDeleted = { toDeleteItem ->
                                 viewModel.deleteItem(toDeleteItem)
                             }
-
                         )
                     }
                 }
@@ -180,15 +191,18 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(40.dp)
+                .height(50.dp)
                 .background(color = MaterialTheme.colorScheme.surface),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 modifier = Modifier.padding(start = 16.dp),
-                text = "Total: ${CurrencyUtil.bigDecimalToCurrency(viewModel.getTotalItemCheckedValue(),
-                    Locale("pt", "BR")
-                )}",
+                text = "Total: ${
+                    CurrencyUtil.bigDecimalToCurrency(
+                        viewModel.getTotalItemCheckedValue(),
+                        Locale("pt", "BR")
+                    )
+                }",
                 style = MaterialTheme.typography.labelMedium
             )
             Spacer(
@@ -196,11 +210,39 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
                     .size(10.dp)
                     .weight(1f)
             )
-            Text(
+            Button(
                 modifier = Modifier.padding(end = 16.dp),
-                text = "${uiState.value.market?.items?.filter { it.isChecked }?.size}/${uiState.value.market?.items?.size}",
-                style = MaterialTheme.typography.labelMedium
-            )
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
+                shape = RoundedCornerShape(5.dp),
+                onClick = {
+                    showSaveAlertMessage = true
+                }) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Salvar",
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                    Spacer(modifier = Modifier.size(5.dp))
+                    Text(
+                        text = "${uiState.value.market?.items?.filter { it.isChecked }?.size}/${uiState.value.market?.items?.size}",
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                }
+            }
+
         }
+
+        if (showSaveAlertMessage) {
+            AlertMessage(
+                "Save market and uncheck all?",
+                onConfirm = {},
+                onDismiss = { showSaveAlertMessage = false })
+        }
+
     }
 }

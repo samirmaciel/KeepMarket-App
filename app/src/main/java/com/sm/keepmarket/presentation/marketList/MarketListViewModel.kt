@@ -1,14 +1,15 @@
 package com.sm.keepmarket.presentation.marketList
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemRepository
+import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemStateRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketRepository
+import com.sm.keepmarket.domain.model.Market
 import com.sm.keepmarket.domain.model.MarketItem
+import com.sm.keepmarket.domain.model.MarketItemState
+import com.sm.keepmarket.domain.model.toItemState
 import com.sm.keepmarket.util.UiState
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -19,12 +20,48 @@ import java.util.UUID
 
 class MarketListViewModel(
     private val marketRepository: IMarketRepository,
-    private val marketItemRepository: IMarketItemRepository
+    private val marketItemRepository: IMarketItemRepository,
+    private val marketItemStateRepository: IMarketItemStateRepository
 ) : ViewModel() {
 
     private val _UiState: MutableStateFlow<MarketListUiState> =
         MutableStateFlow(MarketListUiState())
     val uiState = _UiState.asStateFlow()
+
+
+    suspend fun checkItemsState(market: Market): Market {
+
+        val updateMarketItemList = mutableListOf<MarketItem>()
+
+        marketItemStateRepository.getAllByMarketId(market.id).collect { itemStateList ->
+            for (marketItem in market.items) {
+
+                var itemState: MarketItemState? = null
+
+                itemStateList.forEach { marketItemState ->
+                    if (marketItem.id == marketItemState.marketItemId) {
+                        itemState = marketItemState
+                        return@forEach
+                    }
+                }
+
+                if (itemState != null) {
+                    val updatedMarketItem = marketItem.copy(
+                        price = itemState.price,
+                        amount = itemState.amount,
+                        isChecked = itemState.isChecked,
+                        createdDate = itemState.createdDate
+                    )
+                    updateMarketItemList.add(updatedMarketItem)
+                    continue
+                }
+                updateMarketItemList.add(marketItem)
+            }
+        }
+
+        return market.copy(items = updateMarketItemList)
+
+    }
 
     fun getMarket(id: String) {
 
@@ -35,15 +72,16 @@ class MarketListViewModel(
         }
 
         viewModelScope.launch {
-
-            Log.d("TESTF", "getMarket")
             marketRepository.getById(id).collect { market ->
-                Log.d("TESTF", "getMarket: ${market?.name}")
-                _UiState.update { currentState ->
-                    currentState.copy(
-                        market = market,
-                        state = UiState.LOADED
-                    )
+
+                market?.let {
+                    val updatedMarket = checkItemsState(market)
+                    _UiState.update { currentState ->
+                        currentState.copy(
+                            market = updatedMarket,
+                            state = UiState.LOADED
+                        )
+                    }
                 }
             }
         }
@@ -130,6 +168,15 @@ class MarketListViewModel(
                 )
             )
         }
+        saveItemState(marketItem)
+    }
+
+    fun saveItemState(item: MarketItem) {
+        viewModelScope.launch {
+            val marketItemState = item.toItemState()
+            marketItemStateRepository.insert(marketItemState)
+        }
+
     }
 
 }
