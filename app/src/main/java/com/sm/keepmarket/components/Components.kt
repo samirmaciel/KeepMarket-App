@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -423,7 +424,7 @@ fun MarketItemListView(
     }
 
     if (showDeleteDialog) {
-        AlertMessage("Você deseja realmente excluir este item?", onDismiss = {
+        AlertMessage(stringResource(R.string.message_delete_item_confirm), onDismiss = {
             showDeleteDialog = false
             expandedMoreActions = false
         }, onConfirm = {
@@ -513,21 +514,21 @@ fun NotificationItemView(notificationItem: NotificationItem, onDeleteItem: (Noti
     if(showDeleteAlert){
         AlertDialog(
             onDismissRequest = { showDeleteAlert = false },
-            title = { Text("Confirmação") },
-            text = { Text("Você deseja realmente excluir este item?") },
+            title = { Text(stringResource(R.string.label_confirmation)) },
+            text = { Text(stringResource(R.string.message_delete_item_confirm)) },
             confirmButton = {
                 TextButton(onClick = {
                     onDeleteItem(notificationItem)
                     showDeleteAlert = false
                 }) {
-                    Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    Text(stringResource(R.string.label_yes), style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             },
             dismissButton = {
                 TextButton(onClick = {
                     showDeleteAlert = false
                 }) {
-                    Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    Text(stringResource(R.string.label_no), style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             }
         )
@@ -638,15 +639,15 @@ fun PantryItemListView(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Confirmação") },
-            text = { Text("Você deseja realmente excluir este item?") },
+            title = { Text(stringResource(R.string.label_confirmation)) },
+            text = { Text(stringResource(R.string.message_delete_item_confirm)) },
             confirmButton = {
                 TextButton(onClick = {
                     onDeleted(pantryItem)
                     showDeleteDialog = false
                     expandedMoreActions = false
                 }) {
-                    Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    Text(stringResource(R.string.label_yes), style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             },
             dismissButton = {
@@ -654,7 +655,7 @@ fun PantryItemListView(
                     showDeleteDialog = false
                     expandedMoreActions = false
                 }) {
-                    Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    Text(stringResource(R.string.label_no), style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             }
         )
@@ -717,20 +718,20 @@ fun SearchItemView(searchItem: SearchItem, onExpanded: (Boolean) -> Unit) {
 fun AlertMessage(message: String, onDismiss: () -> Unit, onConfirm: () -> Unit) {
     AlertDialog(
         onDismissRequest = { onDismiss() },
-        title = { Text("Confirmação") },
+        title = { Text(stringResource(R.string.label_confirmation)) },
         text = { Text(message) },
         confirmButton = {
             TextButton(onClick = {
                 onConfirm()
             }) {
-                Text("Sim", style = MaterialTheme.typography.labelMedium)
+                Text(stringResource(R.string.label_yes), style = MaterialTheme.typography.labelMedium)
             }
         },
         dismissButton = {
             TextButton(onClick = {
                 onDismiss()
             }) {
-                Text("Não", style = MaterialTheme.typography.labelMedium)
+                Text(stringResource(R.string.label_no), style = MaterialTheme.typography.labelMedium)
             }
         }
     )

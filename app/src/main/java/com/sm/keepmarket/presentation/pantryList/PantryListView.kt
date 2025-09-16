@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
@@ -112,7 +113,7 @@ fun PantryListView(pantryListID: String, paddingValues: PaddingValues) {
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
-                Text("Add new Item", style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
+                Text(stringResource(R.string.label_add_item), style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
             }
 
             if (showAddNewItemModal) {
@@ -140,7 +141,7 @@ fun PantryListView(pantryListID: String, paddingValues: PaddingValues) {
                 shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
-                    text = "Remove expired items",
+                    text = stringResource(R.string.label_remove_expired_items),
                     color = MaterialTheme.colorScheme.onTertiary,
                     style = MaterialTheme.typography.labelMedium,
                     fontSize = 12.sp

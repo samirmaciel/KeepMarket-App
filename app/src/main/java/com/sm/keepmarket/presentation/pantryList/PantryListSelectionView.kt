@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -94,7 +95,7 @@ fun PantryListSelectionView(paddingValues: PaddingValues) {
                 Text(
                     modifier = Modifier
                         .padding(16.dp),
-                    text = "Pantry List",
+                    text = stringResource(R.string.title_market_list_selection),
                     style = MaterialTheme.typography.titleLarge,
                     fontSize = 25.sp
                 )
@@ -116,7 +117,7 @@ fun PantryListSelectionView(paddingValues: PaddingValues) {
                 )
             ) {
                 Text(
-                    "Create Pantry List",
+                    stringResource(R.string.label_create_pantry_list),
                     style = MaterialTheme.typography.labelMedium,
                     fontSize = 12.sp
                 )
@@ -145,7 +146,7 @@ fun PantryListSelectionView(paddingValues: PaddingValues) {
 
     if (showCreatePantryList) {
         CreateNewListModal(
-            hint = "Pantry list name",
+            hint = stringResource(R.string.hint_item_name),
             onDismiss = { showCreatePantryList = false },
             onFinish = { pantryListName ->
                 viewModel.createPantry(pantryListName)
@@ -261,15 +262,15 @@ fun PantryListSelectionItemView(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Confirmação") },
-            text = { Text("Você deseja realmente excluir esta lista?") },
+            title = { Text(stringResource(R.string.label_confirmation)) },
+            text = { Text(stringResource(R.string.message_delete_list_confirmation)) },
             confirmButton = {
                 TextButton(onClick = {
                     onDelete(pantry)
                     showDeleteDialog = false
                     expandedMoreActions = false
                 }) {
-                    Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    Text(stringResource(R.string.label_yes), style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             },
             dismissButton = {
@@ -277,7 +278,7 @@ fun PantryListSelectionItemView(
                     showDeleteDialog = false
                     expandedMoreActions = false
                 }) {
-                    Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    Text(stringResource(R.string.label_no), style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             }
         )
@@ -315,13 +316,13 @@ fun PantryNameEdit(pantry: Pantry, onDismiss: () -> Unit, onFinish: (Pantry) -> 
 
                     name = it
                 },
-                label = { Text("Pantry name") },
+                label = { Text(stringResource(R.string.hint_item_name)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             if (showNameErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = "Field should be not empty",
+                    text = stringResource(R.string.message_field_empty_error),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -354,7 +355,7 @@ fun PantryNameEdit(pantry: Pantry, onDismiss: () -> Unit, onFinish: (Pantry) -> 
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Save", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.label_save), style = MaterialTheme.typography.labelMedium)
                 }
             }
         }

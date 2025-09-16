@@ -23,9 +23,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
+import com.sm.keepmarket.R
 import com.sm.keepmarket.components.FeaturedCardButton
 import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.util.FeaturedType
@@ -59,8 +61,8 @@ fun HomeView(paddingValues: PaddingValues) {
                 .fillMaxWidth()
                 .padding(16.dp), horizontalAlignment = Alignment.Start
         ) {
-            Text("Hello User!", style = MaterialTheme.typography.titleLarge)
-            Text("Have a nice day.", style = MaterialTheme.typography.labelSmall)
+            Text(stringResource(R.string.message_greeting, "User"), style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(R.string.message_nice_day), style = MaterialTheme.typography.labelSmall)
         }
 
         CreateList(onCreateMarket = { marketName ->
@@ -106,7 +108,7 @@ fun HomeView(paddingValues: PaddingValues) {
 
         Text(
             modifier = Modifier.padding(16.dp),
-            text = "Highlights",
+            text = stringResource(R.string.title_highlights),
             style = MaterialTheme.typography.labelMedium,
             fontSize = 20.sp
         )

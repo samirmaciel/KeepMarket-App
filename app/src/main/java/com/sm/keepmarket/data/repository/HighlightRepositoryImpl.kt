@@ -4,6 +4,7 @@ import com.sm.keepmarket.data.datasource.datasourceInterface.IHighlightDatasourc
 import com.sm.keepmarket.data.mapper.HighlightMapper
 import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
 import com.sm.keepmarket.domain.model.Highlight
+import com.sm.keepmarket.util.Mock
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -11,7 +12,8 @@ class HighlightRepositoryImpl(private val highlightDatasource : IHighlightDataso
     override suspend fun getAll(): Flow<List<Highlight>> {
         return flow {
             highlightDatasource.getAll().collect { highlightEntities ->
-                emit(highlightEntities.map { HighlightMapper.toHighlight(it) })
+                emit(Mock.getHighlightList())
+            //emit(highlightEntities.map { HighlightMapper.toHighlight(it) })
             }
         }
     }

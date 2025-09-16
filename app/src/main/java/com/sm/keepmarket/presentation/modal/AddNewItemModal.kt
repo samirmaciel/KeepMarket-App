@@ -19,9 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.sm.keepmarket.R
 
 @Composable
 fun AddNewItemModal(onDismiss: () -> Unit, onFinish: (String) -> Unit) {
@@ -47,13 +49,13 @@ fun AddNewItemModal(onDismiss: () -> Unit, onFinish: (String) -> Unit) {
 
                     text = it
                 },
-                label = { Text("New item name") },
+                label = { Text(stringResource(R.string.hint_item_name)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             if (showErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = "Field should be not empty",
+                    text = stringResource(R.string.message_field_empty_error),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -78,7 +80,7 @@ fun AddNewItemModal(onDismiss: () -> Unit, onFinish: (String) -> Unit) {
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Add", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.label_add), style = MaterialTheme.typography.labelMedium)
                 }
             }
         }

@@ -21,12 +21,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.model.MarketItem
 import com.sm.keepmarket.util.CurrencyUtil
 import java.math.BigDecimal
@@ -56,14 +58,14 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
                 onValueChange = { newName ->
                     name = newName
                 },
-                label = { Text("Name") },
+                label = { Text(stringResource(R.string.hint_item_name)) },
                 modifier = Modifier.fillMaxWidth(),
             )
 
             if (showNameErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = "Field should be not empty",
+                    text = stringResource(R.string.message_field_empty_error),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -86,7 +88,7 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
 
                     amount = newAmount
                 },
-                label = { Text("Amount") },
+                label = { Text(stringResource(R.string.hint_amount)) },
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -105,7 +107,7 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
                         }
                     }
                 },
-                label = { Text("Unit price") },
+                label = { Text(stringResource(R.string.hint_unit_price)) },
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -128,7 +130,7 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Save", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.label_save), style = MaterialTheme.typography.labelMedium)
                 }
             }
         }

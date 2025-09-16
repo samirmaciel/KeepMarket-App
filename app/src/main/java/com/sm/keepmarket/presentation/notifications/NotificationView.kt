@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
@@ -81,7 +82,7 @@ fun NotificationView(paddingValues: PaddingValues) {
                 Text(
                     modifier = Modifier
                         .padding(16.dp),
-                    text = "Notifications",
+                    text = stringResource(R.string.title_notifications),
                     style = MaterialTheme.typography.titleLarge,
                     fontSize = 25.sp
                 )
@@ -103,7 +104,7 @@ fun NotificationView(paddingValues: PaddingValues) {
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
-                Text("Remove all notifications", color = MaterialTheme.colorScheme.onTertiary, style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
+                Text(stringResource(R.string.label_remove_all_notifications), color = MaterialTheme.colorScheme.onTertiary, style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
             }
         }
 
@@ -130,21 +131,21 @@ fun NotificationView(paddingValues: PaddingValues) {
     if(showDeleteAllAlert){
         AlertDialog(
             onDismissRequest = { showDeleteAllAlert = false },
-            title = { Text("Confirmação") },
-            text = { Text("Você deseja realmente excluir todas notificações?") },
+            title = { Text(stringResource(R.string.label_confirmation)) },
+            text = { Text(stringResource(R.string.message_clear_notifications_confirmation)) },
             confirmButton = {
                 TextButton(onClick = {
                     viewModel.deleteAll()
                     showDeleteAllAlert = false
                 }) {
-                    Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    Text(stringResource(R.string.label_yes), style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             },
             dismissButton = {
                 TextButton(onClick = {
                     showDeleteAllAlert = false
                 }) {
-                    Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    Text(stringResource(R.string.label_no), style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             }
         )
