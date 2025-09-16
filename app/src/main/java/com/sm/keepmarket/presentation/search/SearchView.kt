@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
@@ -68,7 +69,7 @@ fun SearchView(paddingValues: PaddingValues) {
                 Text(
                     modifier = Modifier
                         .padding(16.dp),
-                    text = "Search",
+                    text = stringResource(R.string.title_search),
                     style = MaterialTheme.typography.titleLarge,
                     fontSize = 25.sp
                 )

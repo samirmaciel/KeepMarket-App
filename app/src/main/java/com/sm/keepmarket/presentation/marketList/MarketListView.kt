@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.LocalNavHostController
@@ -120,7 +121,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
-                Text("Add new Item", style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
+                Text(stringResource(R.string.label_add_item), style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
             }
 
             if (showAddNewItemModal) {
@@ -148,7 +149,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
                 shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
-                    "Uncheck all items",
+                    stringResource(R.string.label_uncheck_all_items),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onTertiary,
                     fontSize = 12.sp
@@ -197,7 +198,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
         ) {
             Text(
                 modifier = Modifier.padding(start = 16.dp),
-                text = "Total: ${
+                text = "${stringResource(R.string.label_total)} ${
                     CurrencyUtil.bigDecimalToCurrency(
                         viewModel.getTotalItemCheckedValue(),
                         Locale("pt", "BR")
@@ -224,7 +225,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Salvar",
+                        text = stringResource(R.string.label_save),
                         style = MaterialTheme.typography.labelMedium
                     )
                     Spacer(modifier = Modifier.size(5.dp))
@@ -239,7 +240,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
 
         if (showSaveAlertMessage) {
             AlertMessage(
-                "Save market and uncheck all?",
+                stringResource(R.string.message_save_confirmation),
                 onConfirm = {},
                 onDismiss = { showSaveAlertMessage = false })
         }

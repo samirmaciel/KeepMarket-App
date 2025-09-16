@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
@@ -81,7 +82,7 @@ fun CreateList(onCreateMarket: (String) -> Unit, onCreatePantry: (String) -> Uni
             )
         ) {
             Text(
-                "Create Market List",
+                stringResource(R.string.label_create_market_list),
                 style = MaterialTheme.typography.labelMedium,
                 fontSize = 12.sp
             )
@@ -100,7 +101,7 @@ fun CreateList(onCreateMarket: (String) -> Unit, onCreatePantry: (String) -> Uni
             )
         ) {
             Text(
-                "Create Pantry List",
+                stringResource(R.string.label_create_pantry_list),
                 style = MaterialTheme.typography.labelMedium,
                 fontSize = 12.sp,
             )
@@ -109,7 +110,7 @@ fun CreateList(onCreateMarket: (String) -> Unit, onCreatePantry: (String) -> Uni
 
     if (showCreateMarketList) {
         CreateNewListModal(
-            hint = "Market list name",
+            hint = stringResource(R.string.hint_item_name),
             onDismiss = { showCreateMarketList = false },
             onFinish = { marketListName ->
                 onCreateMarket(marketListName)
@@ -119,7 +120,7 @@ fun CreateList(onCreateMarket: (String) -> Unit, onCreatePantry: (String) -> Uni
 
     if (showCreatePantryList) {
         CreateNewListModal(
-            hint = "Pantry list name",
+            hint = stringResource(R.string.hint_item_name),
             onDismiss = { showCreatePantryList = false },
             onFinish = { pantryListName ->
                 onCreatePantry(pantryListName)

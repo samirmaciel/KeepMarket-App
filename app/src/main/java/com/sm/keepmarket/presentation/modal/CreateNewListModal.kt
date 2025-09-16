@@ -19,9 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.sm.keepmarket.R
 
 @Composable
 fun CreateNewListModal(onDismiss: () -> Unit, onFinish: (String) -> Unit, hint: String) {
@@ -53,7 +55,7 @@ fun CreateNewListModal(onDismiss: () -> Unit, onFinish: (String) -> Unit, hint: 
             if (showErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = "Field should be not empty",
+                    text = stringResource(R.string.message_field_empty_error),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -79,7 +81,7 @@ fun CreateNewListModal(onDismiss: () -> Unit, onFinish: (String) -> Unit, hint: 
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Create", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.label_create), style = MaterialTheme.typography.labelMedium)
                 }
             }
         }

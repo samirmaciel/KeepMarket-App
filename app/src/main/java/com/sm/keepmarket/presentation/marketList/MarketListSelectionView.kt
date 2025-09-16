@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -94,7 +95,7 @@ fun MarketListSelectionView(paddingValues: PaddingValues) {
                 Text(
                     modifier = Modifier
                         .padding(16.dp),
-                    text = "Market List",
+                    text = stringResource(R.string.title_market_list_selection),
                     style = MaterialTheme.typography.titleLarge,
                     fontSize = 25.sp
                 )
@@ -116,7 +117,7 @@ fun MarketListSelectionView(paddingValues: PaddingValues) {
                 )
             ) {
                 Text(
-                    "Create Market List",
+                    stringResource(R.string.label_create_market_list),
                     style = MaterialTheme.typography.labelMedium,
                     fontSize = 12.sp
                 )
@@ -146,7 +147,7 @@ fun MarketListSelectionView(paddingValues: PaddingValues) {
 
     if (showCreateMarketList) {
         CreateNewListModal(
-            hint = "Market list name",
+            hint = stringResource(R.string.label_create_market_list),
             onDismiss = { showCreateMarketList = false },
             onFinish = { marketListName ->
                 viewModel.createMarket(marketListName)
@@ -263,15 +264,15 @@ fun MarketListSelectionItemView(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Confirmação") },
-            text = { Text("Você deseja realmente excluir esta lista?") },
+            title = { Text(stringResource(R.string.label_confirmation)) },
+            text = { Text(stringResource(R.string.message_delete_item_confirm)) },
             confirmButton = {
                 TextButton(onClick = {
                     onDelete(market)
                     showDeleteDialog = false
                     expandedMoreActions = false
                 }) {
-                    Text("Sim", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    Text(stringResource(R.string.label_yes), style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             },
             dismissButton = {
@@ -279,7 +280,7 @@ fun MarketListSelectionItemView(
                     showDeleteDialog = false
                     expandedMoreActions = false
                 }) {
-                    Text("Não", style = MaterialTheme.typography.labelMedium, color = Color.Black)
+                    Text(stringResource(R.string.label_no), style = MaterialTheme.typography.labelMedium, color = Color.Black)
                 }
             }
         )
@@ -317,13 +318,13 @@ fun MarketNameEdit(market: Market, onDismiss: () -> Unit, onFinish: (Market) -> 
 
                     name = it
                 },
-                label = { Text("Market name") },
+                label = { Text(stringResource(R.string.hint_item_name)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             if (showNameErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = "Field should be not empty",
+                    text = stringResource(R.string.message_field_empty_error),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -356,7 +357,7 @@ fun MarketNameEdit(market: Market, onDismiss: () -> Unit, onFinish: (Market) -> 
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Save", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.label_save), style = MaterialTheme.typography.labelMedium)
                 }
             }
         }

@@ -32,10 +32,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.sm.keepmarket.R
 import com.sm.keepmarket.presentation.theme.KeepMarketTheme
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -72,13 +74,13 @@ fun AddNewPantryItemModal(onDismiss: () -> Unit, onFinish: (String, Int, LocalDa
 
                     itemName = it
                 },
-                label = { Text("New item name") },
+                label = { Text(stringResource(R.string.hint_item_name)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             if (showItemNameErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = "Field should be not empty",
+                    text = stringResource(R.string.message_field_empty_error),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -101,13 +103,13 @@ fun AddNewPantryItemModal(onDismiss: () -> Unit, onFinish: (String, Int, LocalDa
 
                     itemAmount = newAmount
                 },
-                label = { Text("Amount") },
+                label = { Text(stringResource(R.string.hint_amount)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             if (showItemAmountErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = "Amount should be more than 0",
+                    text = stringResource(R.string.message_amount_field_error),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -126,7 +128,7 @@ fun AddNewPantryItemModal(onDismiss: () -> Unit, onFinish: (String, Int, LocalDa
             if (showItemDueDateErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = "Due date should be more than today date",
+                    text = stringResource(R.string.message_due_date_field_error),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -164,21 +166,11 @@ fun AddNewPantryItemModal(onDismiss: () -> Unit, onFinish: (String, Int, LocalDa
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Add", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.label_add), style = MaterialTheme.typography.labelMedium)
                 }
             }
         }
     }
-}
-
-@Preview
-@Composable
-private fun Preview() {
-
-    KeepMarketTheme {
-
-    }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -194,7 +186,7 @@ fun DatePickerDocked(selectedDate: String? = null, onSelectedDate: (LocalDate) -
         OutlinedTextField(
             value = selectedDate,
             onValueChange = {},
-            label = { Text("Due Date") },
+            label = { Text(stringResource(R.string.label_Due_Date)) },
             readOnly = true,
             trailingIcon = {
                 IconButton(onClick = { showDatePicker = !showDatePicker }) {
@@ -216,9 +208,7 @@ fun DatePickerDocked(selectedDate: String? = null, onSelectedDate: (LocalDate) -
 
         if (showDatePicker) {
             DatePickerModal({ selectedDateMillis ->
-                selectedDate = selectedDateMillis?.let {
-                    convertMillisToDate(it)
-                } ?: ""
+                selectedDate = selectedDateMillis?.convertMillisToDate() ?: ""
 
                 if(selectedDateMillis != null){
                     onSelectedDate(
@@ -235,9 +225,9 @@ fun DatePickerDocked(selectedDate: String? = null, onSelectedDate: (LocalDate) -
     }
 }
 
-fun convertMillisToDate(millis: Long): String {
+fun Long.convertMillisToDate(): String {
     val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
+    return formatter.format(Date(this))
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -255,7 +245,7 @@ fun DatePickerModal(
                 onDateSelected(datePickerState.selectedDateMillis)
                 onDismiss()
             }) {
-                Text("OK")
+                Text(stringResource(R.string.label_ok))
             }
         },
         dismissButton = {

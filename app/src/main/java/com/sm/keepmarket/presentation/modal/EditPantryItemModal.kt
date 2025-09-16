@@ -19,9 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.model.PantryItem
 import java.time.LocalDate
 
@@ -53,13 +55,13 @@ fun EditPantryItemModal(pantryItem: PantryItem, onDismiss: () -> Unit, onFinish:
 
                     itemName = it
                 },
-                label = { Text("New item name") },
+                label = { Text(stringResource(R.string.hint_item_name)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             if (showItemNameErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = "Field should be not empty",
+                    text = stringResource(R.string.message_field_empty_error),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -82,13 +84,13 @@ fun EditPantryItemModal(pantryItem: PantryItem, onDismiss: () -> Unit, onFinish:
 
                     itemAmount = newAmount
                 },
-                label = { Text("Amount") },
+                label = { Text(stringResource(R.string.hint_amount)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             if (showItemAmountErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = "Amount should be more than 0",
+                    text = stringResource(R.string.message_amount_field_error),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -107,7 +109,7 @@ fun EditPantryItemModal(pantryItem: PantryItem, onDismiss: () -> Unit, onFinish:
             if (showItemDueDateErrorMessage) {
                 Text(
                     modifier = Modifier.padding(top = 5.dp),
-                    text = "Due date should be more than today date",
+                    text = stringResource(R.string.message_due_date_field_error),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -145,7 +147,7 @@ fun EditPantryItemModal(pantryItem: PantryItem, onDismiss: () -> Unit, onFinish:
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text("Save", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.label_save), style = MaterialTheme.typography.labelMedium)
                 }
             }
         }

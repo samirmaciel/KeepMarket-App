@@ -23,8 +23,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.sm.keepmarket.MainNavigation
+import com.sm.keepmarket.R
 import com.sm.keepmarket.presentation.modal.CreateNewListModal
 import com.sm.keepmarket.util.UiStateView
 import org.koin.androidx.compose.koinViewModel
@@ -102,7 +104,7 @@ fun CreateView(viewModel: SplashViewModel) {
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text("Create Market List")
+                Text(stringResource(R.string.label_create_market_list))
             }
             Button(
                 onClick = {
@@ -117,14 +119,14 @@ fun CreateView(viewModel: SplashViewModel) {
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text("Create Pantry List")
+                Text(stringResource(R.string.label_create_pantry_list))
             }
         }
     }
 
     if (showCreateMarketList) {
         CreateNewListModal(
-            hint = "Market list name",
+            hint = stringResource(R.string.hint_item_name),
             onDismiss = { showCreateMarketList = false },
             onFinish = { marketListName ->
                 viewModel.createMarketList(marketListName)
@@ -134,7 +136,7 @@ fun CreateView(viewModel: SplashViewModel) {
 
     if (showCreatePantryList) {
         CreateNewListModal(
-            hint = "Pantry list name",
+            hint = stringResource(R.string.hint_item_name),
             onDismiss = { showCreatePantryList = false },
             onFinish = { pantryListName ->
                 viewModel.createPantryList(pantryListName)
