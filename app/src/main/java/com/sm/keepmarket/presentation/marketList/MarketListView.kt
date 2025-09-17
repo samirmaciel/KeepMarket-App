@@ -121,7 +121,11 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
                 ),
                 shape = RoundedCornerShape(5.dp)
             ) {
-                Text(stringResource(R.string.label_add_item), style = MaterialTheme.typography.labelMedium, fontSize = 12.sp)
+                Text(
+                    stringResource(R.string.label_add_item),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontSize = 12.sp
+                )
             }
 
             if (showAddNewItemModal) {
@@ -241,7 +245,10 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
         if (showSaveAlertMessage) {
             AlertMessage(
                 stringResource(R.string.message_save_confirmation),
-                onConfirm = {},
+                onConfirm = {
+                    viewModel.finishItemState()
+                    showSaveAlertMessage = false
+                },
                 onDismiss = { showSaveAlertMessage = false })
         }
 
