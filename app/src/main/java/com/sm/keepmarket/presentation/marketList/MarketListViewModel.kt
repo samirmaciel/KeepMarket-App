@@ -26,6 +26,7 @@ class MarketListViewModel(
 
     private val _UiState: MutableStateFlow<MarketListUiState> =
         MutableStateFlow(MarketListUiState())
+    private var marketItemStateList: List<MarketItemState> = emptyList()
     val uiState = _UiState.asStateFlow()
 
 
@@ -34,6 +35,9 @@ class MarketListViewModel(
         val updateMarketItemList = mutableListOf<MarketItem>()
 
         marketItemStateRepository.getAllByMarketId(market.id).collect { itemStateList ->
+
+            marketItemStateList = itemStateList
+
             for (marketItem in market.items) {
 
                 var itemState: MarketItemState? = null
@@ -168,15 +172,44 @@ class MarketListViewModel(
                 )
             )
         }
-        saveItemState(marketItem)
+        saveItemState(marketItem.toItemState())
     }
 
-    fun saveItemState(item: MarketItem) {
-        viewModelScope.launch {
-            val marketItemState = item.toItemState()
-            marketItemStateRepository.insert(marketItemState)
+    fun saveItemState(item: MarketItemState) {
+
+        if(marketItemStateList.isEmpty() || !marketItemStateList.contains(item)){
+            marketItemStateList = marketItemStateList.plus(item)
+        }else{
+            marketItemStateList = marketItemStateList.map {
+                if(it.id == item.id){
+                    item
+                }else{
+                    it
+                }
+            }
         }
 
+        viewModelScope.launch {
+            marketItemStateRepository.insert(item)
+        }
+    }
+
+    fun finishItemState(){
+        val updatedItemStateList = marketItemStateList.map {
+            if(it.isChecked){
+                it.copy(enabled = false)
+            } else {
+                it
+            }
+        }
+
+        viewModelScope.launch {
+            updatedItemStateList.forEach {
+                marketItemStateRepository.insert(it)
+            }
+
+            getMarket(_UiState.value.market?.id ?: "")
+        }
     }
 
 }
