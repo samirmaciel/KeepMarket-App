@@ -55,7 +55,6 @@ class SearchViewModel(private val highlightRepository: IHighlightRepository): Vi
         _SearchItemList.update {
             newList
         }
-
     }
 
     fun updatedExpandedItem(item: SearchItem, expanded: Boolean){
@@ -72,8 +71,5 @@ class SearchViewModel(private val highlightRepository: IHighlightRepository): Vi
         _SearchItemList.update {
             newList
         }
-
-
     }
-
 }
