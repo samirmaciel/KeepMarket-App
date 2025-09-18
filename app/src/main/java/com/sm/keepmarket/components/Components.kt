@@ -51,6 +51,7 @@ import com.sm.keepmarket.presentation.modal.CheckMarketItemModal
 import com.sm.keepmarket.presentation.modal.EditMarketItemModal
 import com.sm.keepmarket.presentation.modal.EditPantryItemModal
 import com.sm.keepmarket.presentation.theme.ButtonDefault
+import com.sm.keepmarket.util.HighlightType
 import java.math.BigDecimal
 
 @Composable
@@ -694,7 +695,23 @@ fun SearchItemView(searchItem: SearchItem, onExpanded: (Boolean) -> Unit) {
                 .clickable { onExpanded(!searchItem.expanded) },
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(searchItem.title, style = MaterialTheme.typography.titleMedium)
+
+            val resourceTitle = when(searchItem.title){
+                HighlightType.PRICE_INCREASE.value -> {
+                    stringResource(R.string.title_price_increase)
+                }
+                HighlightType.PRICE_DECREASE.value -> {
+                    stringResource(R.string.title_price_decrease)
+                }
+                HighlightType.NEARING_EXPIRATION.value -> {
+                    stringResource(R.string.title_nearing_expiration)
+                }
+
+                else -> {"Not founded"}
+            }
+
+
+            Text(resourceTitle, style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.size(10.dp))
             Icon(
                 modifier = Modifier

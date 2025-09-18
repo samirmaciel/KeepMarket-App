@@ -92,8 +92,6 @@ class HomeViewModel(
 
     fun createMarketList(name: String) {
 
-        _FeaturedCardListState.value = UiStateView.Loading
-
         val newMarketList = Market(
             id = UUID.randomUUID().toString(),
             name = name,
@@ -108,6 +106,8 @@ class HomeViewModel(
             val featuredCardListState = _FeaturedCardListState.value
 
             if(featuredCardListState is UiStateView.Success){
+
+                _FeaturedCardListState.update { UiStateView.Loading }
 
                 val oldList = featuredCardListState.data
 
@@ -126,8 +126,6 @@ class HomeViewModel(
 
     fun createPantryList(name: String) {
 
-        _FeaturedCardListState.value = UiStateView.Loading
-
         val newPantryList = Pantry(
             id = UUID.randomUUID().toString(),
             name = name,
@@ -142,6 +140,8 @@ class HomeViewModel(
             val featuredCardListState = _FeaturedCardListState.value
 
             if (featuredCardListState is UiStateView.Success) {
+
+                _FeaturedCardListState.update { UiStateView.Loading }
 
                 val oldList = featuredCardListState.data
 
