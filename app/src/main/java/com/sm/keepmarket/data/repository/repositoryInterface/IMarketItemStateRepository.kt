@@ -8,4 +8,6 @@ interface IMarketItemStateRepository {
     suspend fun insert(marketItemState: MarketItemState)
     suspend fun delete(marketItemState: MarketItemState)
     suspend fun getAllByMarketId(marketId: String): Flow<List<MarketItemState>>
+    suspend fun getById(itemStateId: String): Flow<MarketItemState?>
+    suspend fun getLastByName(itemStateName: String): Flow<MarketItemState?>
 }

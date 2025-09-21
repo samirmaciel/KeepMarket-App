@@ -24,4 +24,32 @@ class MarketItemStateRepositoryImpl(private val marketItemStateDatasource: IMark
            }
        }
     }
+
+    override suspend fun getById(itemStateId: String): Flow<MarketItemState?> {
+        return flow {
+            marketItemStateDatasource.getByID(itemStateId).collect { itemStateEntity ->
+
+                itemStateEntity?.let {
+                    emit(MarketItemStateMapper.toModel(it))
+                } ?: run {
+                    emit(null)
+                }
+
+            }
+        }
+    }
+
+    override suspend fun getLastByName(itemStateName: String): Flow<MarketItemState?> {
+        return flow {
+            marketItemStateDatasource.getLastByName(itemStateName).collect { itemStateEntity ->
+
+                itemStateEntity?.let {
+                    emit(MarketItemStateMapper.toModel(it))
+                } ?: run {
+                    emit(null)
+                }
+
+            }
+        }
+    }
 }

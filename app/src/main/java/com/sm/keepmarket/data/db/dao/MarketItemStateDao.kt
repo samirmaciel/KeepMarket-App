@@ -17,6 +17,9 @@ interface MarketItemStateDao {
     @Query("SELECT * FROM TB_MARKETITEMSTATE WHERE ID = :id AND ENABLED = 1")
     suspend fun getByID(id: String): MarketItemStateEntity?
 
+    @Query("SELECT * FROM TB_MARKETITEMSTATE WHERE NAME = :name AND ENABLED = 0 ORDER BY CREATED_DATE DESC LIMIT 1")
+    suspend fun getLastByName(name: String): MarketItemStateEntity?
+
     @Query("SELECT * FROM TB_MARKETITEMSTATE WHERE MARKET_ID = :marketId AND ENABLED = 1")
     suspend fun getByOwnerID(marketId: String): List<MarketItemStateEntity>
 

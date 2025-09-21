@@ -22,6 +22,12 @@ class MarketItemStateDatasourceImpl(private val dao: MarketItemStateDao) : IMark
         }
     }
 
+    override suspend fun getLastByName(name: String): Flow<MarketItemStateEntity?> {
+        return flow {
+            emit(dao.getLastByName(name))
+        }
+    }
+
     override suspend fun getAllByMarketID(marketID: String): Flow<List<MarketItemStateEntity>> {
         return flow{
             emit(dao.getByOwnerID(marketID))

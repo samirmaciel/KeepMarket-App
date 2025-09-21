@@ -1,5 +1,6 @@
 package com.sm.keepmarket.domain.model
 
+import android.util.Log
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.time.LocalDateTime
@@ -28,7 +29,7 @@ fun MarketItem.toItemState(): MarketItemState {
         marketItemId = id,
         marketId = marketId,
         name = name,
-        createdDate = createdDate,
+        createdDate = LocalDateTime.now(),
         price = price,
         amount = amount,
         isChecked = isChecked,

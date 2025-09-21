@@ -2,26 +2,36 @@ package com.sm.keepmarket.presentation.marketList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sm.keepmarket.R
+import com.sm.keepmarket.data.repository.HighlightRepositoryImpl
+import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemStateRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketRepository
+import com.sm.keepmarket.domain.model.Highlight
 import com.sm.keepmarket.domain.model.Market
 import com.sm.keepmarket.domain.model.MarketItem
 import com.sm.keepmarket.domain.model.MarketItemState
 import com.sm.keepmarket.domain.model.toItemState
+import com.sm.keepmarket.util.CurrencyUtil
+import com.sm.keepmarket.util.HighlightType
 import com.sm.keepmarket.util.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.time.LocalDateTime
+import java.util.Locale
 import java.util.UUID
+import kotlin.math.abs
 
 class MarketListViewModel(
     private val marketRepository: IMarketRepository,
     private val marketItemRepository: IMarketItemRepository,
-    private val marketItemStateRepository: IMarketItemStateRepository
+    private val marketItemStateRepository: IMarketItemStateRepository,
+    private val highlightRepository: IHighlightRepository
 ) : ViewModel() {
 
     private val _UiState: MutableStateFlow<MarketListUiState> =
@@ -204,11 +214,69 @@ class MarketListViewModel(
         }
 
         viewModelScope.launch {
-            updatedItemStateList.forEach {
-                marketItemStateRepository.insert(it)
+            updatedItemStateList.forEach { newItemState ->
+
+                val lastItemState = marketItemStateRepository.getLastByName(newItemState.name).first()
+
+                var itemStateType: HighlightType? = null
+
+                lastItemState?.let {
+
+                    val lastPrice = lastItemState.price
+                    val newPrice = newItemState.price
+
+                    if(lastPrice < newPrice){
+                        itemStateType = HighlightType.PRICE_INCREASE
+                    } else if (lastPrice > newPrice){
+                        itemStateType = HighlightType.PRICE_DECREASE
+                    }
+                }
+
+
+                if(itemStateType != null){
+
+                    val icon = getIcon(itemStateType)
+                    val subTitle = getSubTitle(itemStateType)
+
+                    val newHighlight = Highlight(
+                        id = UUID.randomUUID().toString(),
+                        title = newItemState.name,
+                        subTitle = subTitle,
+                        icon = icon,
+                        type = itemStateType,
+                        description = CurrencyUtil.bigDecimalToCurrency( newItemState.price
+                            .subtract(lastItemState?.price ?: BigDecimal.ZERO)
+                            .abs(), Locale("pt", "BR"))
+                    )
+
+                    highlightRepository.insert(newHighlight)
+                }
+
+                marketItemStateRepository.insert(newItemState)
+
             }
 
             getMarket(_UiState.value.market?.id ?: "")
+        }
+    }
+
+    private fun getSubTitle(highlightType: HighlightType): String {
+        return when(highlightType){
+            HighlightType.PRICE_DECREASE -> "Baixou o preço"
+            HighlightType.PRICE_INCREASE -> "Aumentou o preço"
+            else -> {
+                ""
+            }
+        }
+    }
+
+    private fun getIcon(highlightType: HighlightType): Int {
+        return when(highlightType){
+            HighlightType.PRICE_DECREASE -> R.drawable.arrowdowngreenicon
+            HighlightType.PRICE_INCREASE -> R.drawable.arrowiconupicon
+            else -> {
+                R.drawable.homeicon
+            }
         }
     }
 

@@ -21,7 +21,7 @@ class RoomConverter {
     @TypeConverter
     fun stringToLocalDateTime(value: String?): LocalDateTime? {
         return value?.let {
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val dateTime = LocalDateTime.parse(value, formatter)
             return dateTime
         }
@@ -30,7 +30,7 @@ class RoomConverter {
     @TypeConverter
     fun localDateTimeToString(localDateTime: LocalDateTime?): String? {
         return localDateTime?.let{
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val formatted = localDateTime.format(formatter)
             return formatted
         }

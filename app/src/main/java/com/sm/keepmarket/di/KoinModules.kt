@@ -47,7 +47,7 @@ val viewModelModules = module {
     viewModel{ PantryViewModel(get(), get()) }
     viewModel{ NotificationsViewModel(get()) }
     viewModel{ SearchViewModel(get()) }
-    viewModel{ MarketListViewModel(get(), get(), get()) }
+    viewModel{ MarketListViewModel(get(), get(), get(), get()) }
     viewModel{ SplashViewModel(get(), get()) }
     viewModel{ MarketListSelectionViewModel(get()) }
     viewModel{ PantryListSelectionViewModel(get()) }
