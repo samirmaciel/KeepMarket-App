@@ -12,8 +12,7 @@ class HighlightRepositoryImpl(private val highlightDatasource : IHighlightDataso
     override suspend fun getAll(): Flow<List<Highlight>> {
         return flow {
             highlightDatasource.getAll().collect { highlightEntities ->
-                emit(Mock.getHighlightList())
-            //emit(highlightEntities.map { HighlightMapper.toHighlight(it) })
+                emit(highlightEntities.map { HighlightMapper.toHighlight(it) })
             }
         }
     }

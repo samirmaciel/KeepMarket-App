@@ -84,7 +84,7 @@ class HomeViewModel(
 
             highlightRepository.getAll().collect { highlightList ->
                 _HighlightListState.update {
-                    UiStateView.Success(highlightList)
+                    UiStateView.Success(highlightList.reversed())
                 }
             }
         }
