@@ -1,5 +1,6 @@
 package com.sm.keepmarket.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -51,6 +52,7 @@ import com.sm.keepmarket.presentation.modal.CheckMarketItemModal
 import com.sm.keepmarket.presentation.modal.EditMarketItemModal
 import com.sm.keepmarket.presentation.modal.EditPantryItemModal
 import com.sm.keepmarket.presentation.theme.ButtonDefault
+import com.sm.keepmarket.util.FeaturedType
 import com.sm.keepmarket.util.HighlightType
 import java.math.BigDecimal
 
@@ -177,6 +179,9 @@ fun BottomMenu() {
 @Composable
 fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (FeaturedCard) -> Unit) {
 
+    var icon = if(featuredCard.featuredType.value == FeaturedType.MARKET.value) R.drawable.marketlisticon else R.drawable.calendaricon
+    var typeLabel = if(featuredCard.featuredType.value == FeaturedType.MARKET.value) stringResource(R.string.title_market) else stringResource(R.string.title_pantry)
+
     Box(
         modifier = Modifier
             .clickable(enabled = true, onClick = { onClick(featuredCard) })
@@ -192,12 +197,12 @@ fun FeaturedCardButton(featuredCard: FeaturedCard, onClick: (FeaturedCard) -> Un
                     modifier = Modifier
                         .size(30.dp)
                         .padding(end = 10.dp),
-                    painter = painterResource(R.drawable.settingsicon),
+                    painter = painterResource(icon),
                     tint = Color.White,
                     contentDescription = ""
                 )
                 Text(
-                    featuredCard.featuredType.value,
+                    typeLabel,
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White,
                     fontSize = 10.sp
@@ -243,7 +248,8 @@ fun HighlightItemView(highlight: Highlight) {
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = painterResource(R.drawable.todolisticon),
+                modifier = Modifier.size(40.dp),
+                painter = painterResource(R.drawable.analyticsicon),
                 tint = Color.White,
                 contentDescription = ""
             )

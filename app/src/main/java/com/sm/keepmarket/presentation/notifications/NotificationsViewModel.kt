@@ -20,13 +20,6 @@ class NotificationsViewModel(private val notificationsRepository: INotificationR
 
     init {
         getAllNotifications()
-
-        Mock.getNotificationList().forEach {
-            viewModelScope.launch {
-                notificationsRepository.insert(it)
-                getAllNotifications()
-            }
-        }
     }
 
     private fun getAllNotifications(){
