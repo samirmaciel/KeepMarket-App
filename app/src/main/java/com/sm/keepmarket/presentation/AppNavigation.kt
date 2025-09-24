@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.sm.keepmarket.LocalNavHostController
 import com.sm.keepmarket.presentation.home.HomeView
 import com.sm.keepmarket.presentation.marketList.MarketListSelectionView
 import com.sm.keepmarket.presentation.marketList.MarketListView

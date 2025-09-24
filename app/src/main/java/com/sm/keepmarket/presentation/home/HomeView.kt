@@ -26,9 +26,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sm.keepmarket.LocalNavHostController
+import com.sm.keepmarket.presentation.LocalNavHostController
 import com.sm.keepmarket.R
-import com.sm.keepmarket.components.FeaturedCardButton
+import com.sm.keepmarket.presentation.components.FeaturedCardButton
 import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.util.FeaturedType
 import com.sm.keepmarket.util.UiStateView

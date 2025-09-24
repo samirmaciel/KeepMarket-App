@@ -1,4 +1,4 @@
-package com.sm.keepmarket
+package com.sm.keepmarket.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

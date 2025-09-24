@@ -42,7 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.sm.keepmarket.LocalNavHostController
+import com.sm.keepmarket.presentation.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.model.Market
 import com.sm.keepmarket.presentation.Dest
