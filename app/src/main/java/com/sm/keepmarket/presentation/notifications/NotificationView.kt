@@ -34,9 +34,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sm.keepmarket.LocalNavHostController
+import com.sm.keepmarket.presentation.LocalNavHostController
 import com.sm.keepmarket.R
-import com.sm.keepmarket.components.NotificationItemView
+import com.sm.keepmarket.presentation.components.NotificationItemView
 import com.sm.keepmarket.domain.model.NotificationItem
 import com.sm.keepmarket.util.UiStateView
 import org.koin.androidx.compose.koinViewModel

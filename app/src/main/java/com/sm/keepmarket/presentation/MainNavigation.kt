@@ -1,4 +1,4 @@
-package com.sm.keepmarket
+package com.sm.keepmarket.presentation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -15,8 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.sm.keepmarket.components.BottomMenu
-import com.sm.keepmarket.presentation.AppNavigation
+import com.sm.keepmarket.presentation.components.BottomMenu
 
 @Composable
 fun MainNavigation() {

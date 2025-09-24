@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
-import com.sm.keepmarket.components.HighlightItemView
+import com.sm.keepmarket.presentation.components.HighlightItemView
 import com.sm.keepmarket.domain.model.Highlight
 import com.sm.keepmarket.presentation.modal.CreateNewListModal
 import com.sm.keepmarket.presentation.theme.ButtonDefault
