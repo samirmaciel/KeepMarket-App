@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class HighlightRepositoryImpl(private val highlightDatasource : IHighlightDatasource): IHighlightRepository {
+
     override suspend fun getAll(): Flow<List<Highlight>> {
         return flow {
             highlightDatasource.getAll().collect { highlightEntities ->
@@ -26,7 +27,6 @@ class HighlightRepositoryImpl(private val highlightDatasource : IHighlightDataso
                 }?.run {
                     emit(null)
                 }
-
             }
         }
     }

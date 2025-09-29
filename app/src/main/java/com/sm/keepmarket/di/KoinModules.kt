@@ -2,6 +2,7 @@ package com.sm.keepmarket.di
 
 import androidx.room.Room
 import com.sm.keepmarket.data.datasource.HighlightDatasourceImpl
+import com.sm.keepmarket.data.datasource.LoginDatasourceImpl
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketItemDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.IPantryDatasource
@@ -13,10 +14,12 @@ import com.sm.keepmarket.data.datasource.NotificationDatasourceImpl
 import com.sm.keepmarket.data.datasource.PantryDatasourceImpl
 import com.sm.keepmarket.data.datasource.PantryItemDatasourceImpl
 import com.sm.keepmarket.data.datasource.datasourceInterface.IHighlightDatasource
+import com.sm.keepmarket.data.datasource.datasourceInterface.ILoginDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketItemStateDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.INotificationDatasource
 import com.sm.keepmarket.data.db.AppDataBase
 import com.sm.keepmarket.data.repository.HighlightRepositoryImpl
+import com.sm.keepmarket.data.repository.LoginRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryItemRepository
@@ -28,9 +31,11 @@ import com.sm.keepmarket.data.repository.NotificationRepositoryImpl
 import com.sm.keepmarket.data.repository.PantryItemRepositoryImpl
 import com.sm.keepmarket.data.repository.PantryRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
+import com.sm.keepmarket.data.repository.repositoryInterface.ILoginRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemStateRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.INotificationRepository
 import com.sm.keepmarket.presentation.home.HomeViewModel
+import com.sm.keepmarket.presentation.login.LoginViewModel
 import com.sm.keepmarket.presentation.marketList.MarketListSelectionViewModel
 import com.sm.keepmarket.presentation.marketList.MarketListViewModel
 import com.sm.keepmarket.presentation.notifications.NotificationsViewModel
@@ -39,7 +44,6 @@ import com.sm.keepmarket.presentation.pantryList.PantryViewModel
 import com.sm.keepmarket.presentation.search.SearchViewModel
 import com.sm.keepmarket.presentation.splash.SplashViewModel
 import org.koin.core.module.dsl.viewModel
-import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val viewModelModules = module {
@@ -51,6 +55,7 @@ val viewModelModules = module {
     viewModel{ SplashViewModel(get(), get()) }
     viewModel{ MarketListSelectionViewModel(get()) }
     viewModel{ PantryListSelectionViewModel(get()) }
+    viewModel{ LoginViewModel(get()) }
 }
 
 val repositoryModules = module {
@@ -61,6 +66,7 @@ val repositoryModules = module {
     single<IHighlightRepository> { HighlightRepositoryImpl(get()) }
     single<INotificationRepository> { NotificationRepositoryImpl(get()) }
     single<IMarketItemStateRepository> { MarketItemStateRepositoryImpl(get()) }
+    single<ILoginRepository> { LoginRepositoryImpl(get()) }
 }
 
 val datasourceModules = module {
@@ -71,6 +77,7 @@ val datasourceModules = module {
     single<IHighlightDatasource> { HighlightDatasourceImpl(get()) }
     single<INotificationDatasource> { NotificationDatasourceImpl(get()) }
     single<IMarketItemStateDatasource> { MarketItemStateDatasourceImpl(get()) }
+    single<ILoginDatasource> { LoginDatasourceImpl(get()) }
 }
 
 val appDispatchersModule = module {
@@ -96,5 +103,6 @@ val databaseModule = module {
     single { get<AppDataBase>().NotificationDao() }
     single { get<AppDataBase>().HighlightDao() }
     single { get<AppDataBase>().MarketItemStateDao() }
+    single { get<AppDataBase>().LoginDao() }
 
 }
