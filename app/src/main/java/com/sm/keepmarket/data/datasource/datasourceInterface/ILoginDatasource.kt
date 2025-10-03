@@ -8,6 +8,7 @@ interface ILoginDatasource {
 
     suspend fun getCurrentLogin(): Flow<LoginEntity?>
     suspend fun getAllLogin(): Flow<List<LoginEntity>>
+    suspend fun getLoginByName(name: String): Flow<LoginEntity?>
     suspend fun insertLogin(loginEntity: LoginEntity)
     suspend fun deleteLogin(loginEntity: LoginEntity)
 }

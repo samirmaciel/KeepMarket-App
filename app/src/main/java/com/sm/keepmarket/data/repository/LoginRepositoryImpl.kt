@@ -5,6 +5,7 @@ import com.sm.keepmarket.data.mapper.LoginMapper
 import com.sm.keepmarket.data.repository.repositoryInterface.ILoginRepository
 import com.sm.keepmarket.domain.model.LoginModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
 class LoginRepositoryImpl(private val loginDatasource: ILoginDatasource): ILoginRepository {
@@ -19,6 +20,28 @@ class LoginRepositoryImpl(private val loginDatasource: ILoginDatasource): ILogin
                 }
             }
         }
+    }
+
+    override suspend fun getValidateLogin(
+        login: String,
+        password: String
+    ): Flow<LoginModel?> {
+        return flow {
+            val loginEntity = loginDatasource.getLoginByName(login).first()
+
+            loginEntity?.let {
+                val loginModel = LoginMapper.toModel(it)
+
+                if(loginModel.password == password){
+                    emit(loginModel)
+                }else{
+                    emit(null)
+                }
+            } ?: run {
+                emit(null)
+            }
+        }
+
     }
 
     override suspend fun getAllLogin(): Flow<List<LoginModel>> {
