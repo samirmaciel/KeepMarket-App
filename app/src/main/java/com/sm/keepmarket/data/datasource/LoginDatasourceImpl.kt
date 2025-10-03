@@ -12,13 +12,19 @@ class LoginDatasourceImpl(private val dao: LoginDao) : ILoginDatasource {
 
     override suspend fun getCurrentLogin(): Flow<LoginEntity?> {
         return flow {
-            emit(LoginEntity(UUID.randomUUID().toString(), "sds", "sdsds", LocalDateTime.now(), true))
+            emit(null)//LoginEntity(UUID.randomUUID().toString(), "sds", "sdsds", LocalDateTime.now(), true))
         }
     }
 
     override suspend fun getAllLogin(): Flow<List<LoginEntity>> {
         return flow {
             emit(dao.getAll())
+        }
+    }
+
+    override suspend fun getLoginByName(name: String): Flow<LoginEntity?> {
+        return flow {
+            emit(dao.getLoginByName(name))
         }
     }
 

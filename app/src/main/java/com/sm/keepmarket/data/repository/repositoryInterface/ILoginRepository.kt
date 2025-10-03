@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface ILoginRepository {
 
     suspend fun getCurrentLogin(): Flow<LoginModel?>
+    suspend fun getValidateLogin(login: String, password: String): Flow<LoginModel?>
     suspend fun getAllLogin(): Flow<List<LoginModel>>
     suspend fun insertLogin(loginModel: LoginModel)
     suspend fun deleteLogin(loginModel: LoginModel)

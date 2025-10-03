@@ -9,6 +9,7 @@ import com.sm.keepmarket.util.UiStateView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -40,10 +41,17 @@ class LoginViewModel(private val loginRepository: ILoginRepository): ViewModel()
 
         if(login.isNotEmpty() && password.isNotEmpty()){
 
-            val loginModel = LoginModel(UUID.randomUUID().toString(), login, password,
-                LocalDateTime.now(), true)
-            _MainUiState.update {
-                UiStateView.Success(loginModel)
+            viewModelScope.launch {
+                val loginModel = loginRepository.getValidateLogin(login, password).first()
+                var uiState: UiStateView<LoginModel> = UiStateView.Error("Login not founded")
+
+                loginModel?.let {
+                     uiState = UiStateView.Success(loginModel)
+                }
+
+                _MainUiState.update {
+                    uiState
+                }
             }
         }
     }
