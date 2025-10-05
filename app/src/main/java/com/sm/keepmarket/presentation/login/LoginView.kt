@@ -2,7 +2,6 @@ package com.sm.keepmarket.presentation.login
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,17 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -41,14 +32,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
 import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.LocalNavHostController
+import com.sm.keepmarket.presentation.components.CustomButton
 import com.sm.keepmarket.presentation.components.InputTextField
 import com.sm.keepmarket.util.UiStateView
 import kotlinx.coroutines.delay
@@ -191,8 +180,10 @@ fun LoginView() {
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            Button(
-                onClick = {
+            CustomButton(modifier = Modifier
+                .height(55.dp)
+                .fillMaxWidth(),
+                label = "Enter"){
 
                     if (loginInput.isEmpty()) {
                         showLoginErrorMessage = true
@@ -202,20 +193,10 @@ fun LoginView() {
                         showPasswordErrorMessage = true
                     }
 
-                    if (showLoginErrorMessage || showPasswordErrorMessage) return@Button
+                    if (showLoginErrorMessage || showPasswordErrorMessage) return@CustomButton
 
                     viewModel.validateInput(loginInput, passwordInput)
-                },
-                modifier = Modifier
-                    .height(55.dp)
-                    .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                ),
-                shape = RoundedCornerShape(5.dp)
-            ) {
-                Text("Enter")
-            }
+                }
 
             Spacer(modifier = Modifier.height(40.dp))
 
@@ -247,7 +228,7 @@ fun LoginView() {
 
             Text(
                 modifier = Modifier.clickable(true, onClick = {
-
+                    navController.navigate(Dest.RegisterView)
                 }),
                 text = styledText.toAnnotatedString(),
                 style = MaterialTheme.typography.labelMedium,

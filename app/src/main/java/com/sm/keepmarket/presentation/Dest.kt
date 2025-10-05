@@ -43,4 +43,7 @@ sealed interface Dest {
 
     @Serializable
     data object SearchView : Dest
+
+    @Serializable
+    data object RegisterView : Dest
 }
