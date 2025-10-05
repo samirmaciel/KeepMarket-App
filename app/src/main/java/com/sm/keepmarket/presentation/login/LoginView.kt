@@ -2,6 +2,7 @@ package com.sm.keepmarket.presentation.login
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,9 +16,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -38,11 +43,13 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
 import com.sm.keepmarket.presentation.Dest
 import com.sm.keepmarket.presentation.LocalNavHostController
+import com.sm.keepmarket.presentation.components.InputTextField
 import com.sm.keepmarket.util.UiStateView
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
@@ -82,13 +89,15 @@ fun LoginView() {
         when (val state = mainUiState.value) {
             is UiStateView.Error -> {
                 LaunchedEffect(state.message) {
-                    Toast.makeText(context, state.message, Toast.LENGTH_SHORT ).show()
+                    Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
                 }
             }
+
             UiStateView.Loading -> {
                 CircularProgressIndicator()
                 return@Column
             }
+
             is UiStateView.Success<*> -> {
                 navController.navigate(Dest.SplashView)
                 return@Column
@@ -113,21 +122,19 @@ fun LoginView() {
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.primary
             )
-            OutlinedTextField(
+            InputTextField(
+                modifier = Modifier.fillMaxWidth(),
                 isError = showLoginErrorMessage,
                 value = loginInput,
-                singleLine = true,
-                onValueChange = {
+                placeHolder = "Login"
+            ) {
 
-                    if (it.isNotEmpty()) {
-                        showLoginErrorMessage = false
-                    }
+                if (it.isNotEmpty()) {
+                    showLoginErrorMessage = false
+                }
 
-                    loginInput = it
-                },
-                label = { Text("Login") },
-                modifier = Modifier.fillMaxWidth(),
-            )
+                loginInput = it
+            }
 
             if (showLoginErrorMessage) {
                 Text(
@@ -143,22 +150,20 @@ fun LoginView() {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            OutlinedTextField(
-                isError = showPasswordErrorMessage,
-                value = passwordInput,
-                singleLine = true,
-                visualTransformation = if (false) VisualTransformation.None else PasswordVisualTransformation(),
-                onValueChange = {
-
-                    if (it.isNotEmpty()) {
-                        showPasswordErrorMessage = false
-                    }
-
-                    passwordInput = it
-                },
-                label = { Text("Password") },
+            InputTextField(
                 modifier = Modifier.fillMaxWidth(),
-            )
+                value = passwordInput,
+                placeHolder = "Password",
+                isPassword = true,
+                isError = showPasswordErrorMessage
+            ) {
+
+                if (it.isNotEmpty()) {
+                    showPasswordErrorMessage = false
+                }
+
+                passwordInput = it
+            }
 
             if (showPasswordErrorMessage) {
                 Text(
