@@ -1,6 +1,5 @@
 package com.sm.keepmarket.presentation.login
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,16 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,10 +23,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
@@ -56,14 +51,11 @@ fun LoginView() {
 
         val navController = LocalNavHostController.current
         val viewModel: LoginViewModel = koinViewModel()
-        val mainUiState = viewModel.mainUiState.collectAsState()
         val context = LocalContext.current
-        var loginInput by remember { mutableStateOf("") }
-        var passwordInput by remember { mutableStateOf("") }
         val focusManager = LocalFocusManager.current
         val keyboardController = LocalSoftwareKeyboardController.current
-        var showLoginErrorMessage by remember { mutableStateOf(false) }
-        var showPasswordErrorMessage by remember { mutableStateOf(false) }
+
+        val loginUiState by viewModel.loginUiState.collectAsState()
 
         LaunchedEffect(Unit) {
             delay(200)
@@ -75,24 +67,10 @@ fun LoginView() {
             viewModel.getCurrentLogin()
         }
 
-        when (val state = mainUiState.value) {
-            is UiStateView.Error -> {
-                LaunchedEffect(state.message) {
-                    Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            UiStateView.Loading -> {
-                CircularProgressIndicator()
-                return@Column
-            }
-
-            is UiStateView.Success<*> -> {
-                navController.navigate(Dest.SplashView)
-                return@Column
-            }
+        if (loginUiState.state is UiStateView.Success && (loginUiState.state as UiStateView.Success<Boolean>).data) {
+            navController.navigate(Dest.SplashView)
+            return@Column
         }
-
 
         Image(
             modifier = Modifier.padding(16.dp),
@@ -113,24 +91,19 @@ fun LoginView() {
             )
             InputTextField(
                 modifier = Modifier.fillMaxWidth(),
-                isError = showLoginErrorMessage,
-                value = loginInput,
+                isError = loginUiState.userName.hasError,
+                value = loginUiState.userName.value,
                 placeHolder = "Login"
             ) {
-
-                if (it.isNotEmpty()) {
-                    showLoginErrorMessage = false
-                }
-
-                loginInput = it
+                viewModel.onUsernameChanged(it)
             }
 
-            if (showLoginErrorMessage) {
+            if (loginUiState.userName.hasError) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 5.dp),
-                    text = stringResource(R.string.message_field_empty_error),
+                    text = loginUiState.userName.errorMessage,
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -141,25 +114,20 @@ fun LoginView() {
 
             InputTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = passwordInput,
+                value = loginUiState.password.value,
                 placeHolder = "Password",
                 isPassword = true,
-                isError = showPasswordErrorMessage
+                isError = loginUiState.password.hasError
             ) {
-
-                if (it.isNotEmpty()) {
-                    showPasswordErrorMessage = false
-                }
-
-                passwordInput = it
+                viewModel.onPasswordUsernameChanged(it)
             }
 
-            if (showPasswordErrorMessage) {
+            if (loginUiState.password.hasError) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 5.dp),
-                    text = stringResource(R.string.message_field_empty_error),
+                    text = loginUiState.password.errorMessage,
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary
@@ -180,23 +148,27 @@ fun LoginView() {
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            CustomButton(modifier = Modifier
-                .height(55.dp)
-                .fillMaxWidth(),
-                label = "Enter"){
+            CustomButton(
+                modifier = Modifier
+                    .height(55.dp)
+                    .fillMaxWidth(),
+                label = "Enter"
+            ) {
+                viewModel.login()
+            }
 
-                    if (loginInput.isEmpty()) {
-                        showLoginErrorMessage = true
-                    }
-
-                    if (passwordInput.isEmpty()) {
-                        showPasswordErrorMessage = true
-                    }
-
-                    if (showLoginErrorMessage || showPasswordErrorMessage) return@CustomButton
-
-                    viewModel.validateInput(loginInput, passwordInput)
-                }
+            if (loginUiState.state is UiStateView.Error) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 5.dp),
+                    text = (loginUiState.state as UiStateView.Error).message,
+                    style = MaterialTheme.typography.labelSmall,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+            }
 
             Spacer(modifier = Modifier.height(40.dp))
 
@@ -235,6 +207,5 @@ fun LoginView() {
                 fontSize = 12.sp
             )
         }
-
     }
 }

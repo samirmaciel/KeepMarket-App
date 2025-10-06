@@ -125,6 +125,8 @@ fun NotificationView(paddingValues: PaddingValues) {
                     }
                 }
             }
+
+            UiStateView.Idle -> TODO()
         }
     }
 
