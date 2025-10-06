@@ -30,6 +30,7 @@ import com.sm.keepmarket.presentation.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.presentation.components.FeaturedCardButton
 import com.sm.keepmarket.presentation.Dest
+import com.sm.keepmarket.presentation.Dest.*
 import com.sm.keepmarket.util.FeaturedType
 import com.sm.keepmarket.util.UiStateView
 import org.koin.androidx.compose.koinViewModel
@@ -95,14 +96,16 @@ fun HomeView(paddingValues: PaddingValues) {
                         items(data) { featuredCard ->
                             FeaturedCardButton(featuredCard = featuredCard) { featuredCard ->
                                 when (featuredCard.featuredType) {
-                                    FeaturedType.MARKET -> nav.navigate(Dest.MarketListView(featuredCard.id))
-                                    FeaturedType.PANTRY -> nav.navigate(Dest.PantryListView(featuredCard.id))
+                                    FeaturedType.MARKET -> nav.navigate(MarketListView(featuredCard.id))
+                                    FeaturedType.PANTRY -> nav.navigate(PantryListView(featuredCard.id))
                                 }
                             }
                             Spacer(modifier = Modifier.size(10.dp))
                         }
                     }
                 }
+
+                UiStateView.Idle -> TODO()
             }
         }
 
@@ -142,6 +145,8 @@ fun HomeView(paddingValues: PaddingValues) {
                     HighlightList(highlightList)
                 }
             }
+
+            UiStateView.Idle -> TODO()
         }
     }
 }

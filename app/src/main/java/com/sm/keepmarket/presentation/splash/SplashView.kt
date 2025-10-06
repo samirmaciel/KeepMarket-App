@@ -53,6 +53,8 @@ fun SplashView() {
                 CreateView(viewModel)
             }
         }
+
+        UiStateView.Idle -> TODO()
     }
 }
 
