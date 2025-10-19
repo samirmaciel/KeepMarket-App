@@ -1,9 +1,10 @@
 package com.sm.keepmarket.presentation.register
 
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.lifecycle.ViewModel
-import com.sm.keepmarket.domain.model.LoginModel
 import com.sm.keepmarket.domain.model.ValidationInput
 import com.sm.keepmarket.domain.model.ValidationModel
+import com.sm.keepmarket.presentation.login.InputState
 import com.sm.keepmarket.util.UiStateView
 import com.sm.keepmarket.util.ValidationType
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,91 +13,189 @@ import kotlinx.coroutines.flow.update
 
 class RegisterViewModel : ViewModel() {
 
-    private val _UiState: MutableStateFlow<UiStateView<LoginModel>> =
-        MutableStateFlow(UiStateView.Loading)
-    private val _PasswordValidationState: MutableStateFlow<UiStateView<List<ValidationModel>>> =
-        MutableStateFlow(UiStateView.Loading)
-    val uiState = _UiState.asStateFlow()
-    val passwordValidationItemListState = _PasswordValidationState.asStateFlow()
+    private val _RegisterUiState: MutableStateFlow<RegisterUiState> =
+        MutableStateFlow(RegisterUiState())
+    val uiState = _RegisterUiState.asStateFlow()
 
-    private fun getPasswordValidationItemList() : List<ValidationModel> {
+    private fun getPasswordValidationItemList(): List<ValidationModel> {
         val validationItemList = listOf(
             ValidationModel(
-                id = "1",
                 validationType = ValidationType.MORE_OR_EQUAL_THAN_8_CHARACTERS,
-                "Maior ou igual a 8 caracteres"
+                description = "Maior ou igual a 8 caracteres"
             ),
             ValidationModel(
-                id = "2",
                 validationType = ValidationType.ONE_CAPITAL_LETTER,
-                "Pelo menos uma letra maiúscula"
+                description = "Pelo menos uma letra maiúscula"
+            ),
+        )
+
+        return validationItemList
+    }
+
+    private fun getEmailValidationItemList(): List<ValidationModel> {
+        val validationItemList = listOf(
+            ValidationModel(
+                validationType = ValidationType.IS_NOT_EMPTY,
+                "O Campo não pode estar vazio"
             )
         )
 
         return validationItemList
     }
 
-    private fun registerUser(loginModel: LoginModel) {
+    private fun getUserNameValidationItemList(): List<ValidationModel> {
+        val validationItemList = listOf(
+            ValidationModel(
+                validationType = ValidationType.IS_NOT_EMPTY,
+                "O Campo não pode estar vazio"
+            )
+        )
 
+        return validationItemList
     }
 
-    fun validatePassword(value: String) {
+    private fun getConfirmPasswordValidationItemList(): List<ValidationModel> {
+        val validationItemList = listOf(
+            ValidationModel(
+                validationType = ValidationType.IS_NOT_EMPTY,
+                "O Campo não pode estar vazio"
+            )
+        )
 
-        var currentPasswordValidationItemList: List<ValidationModel>? = null
+        return validationItemList
+    }
 
-        if(_PasswordValidationState.value is UiStateView.Success){
-            currentPasswordValidationItemList = (_PasswordValidationState.value as UiStateView.Success<List<ValidationModel>>).data
+    fun onRegisterUser() {
+
+        var hasError = false
+        var currentState = _RegisterUiState.value
+        val email = currentState.email.value
+        val userName = currentState.userName.value
+        val password = currentState.password
+        val confirmPassword = currentState.confirmPassword.value
+
+        if(email.isEmpty()){
+            hasError = true
+            currentState = currentState.copy(
+                email = currentState.email.copy(
+                    errorMessage = "* Campo obrigatório"
+                )
+            )
         }
 
-        if(currentPasswordValidationItemList == null){
-            currentPasswordValidationItemList = getPasswordValidationItemList()
+        if(userName.isEmpty()){
+            hasError = true
+            currentState = currentState.copy(
+                userName = currentState.userName.copy(
+                    errorMessage = "* Campo obrigatório"
+                )
+            )
         }
 
-        val updateValidationItemList = updateValidationList(value, currentPasswordValidationItemList)
+        if(password.value.isEmpty()){
+            hasError = true
+            currentState = currentState.copy(
+                password = currentState.password.copy(
+                    errorMessage = "* Campo obrigatório"
+                )
+            )
+        }
 
-        _PasswordValidationState.update {
-            UiStateView.Success(updateValidationItemList)
+        if(confirmPassword.isEmpty()){
+            hasError = true
+            currentState = currentState.copy(
+                confirmPassword = currentState.confirmPassword.copy(
+                    errorMessage = "* Campo obrigatório"
+                )
+            )
+        }
+
+        if(confirmPassword.isNotEmpty() && confirmPassword != password.value){
+            hasError = true
+            currentState = currentState.copy(
+                confirmPassword = currentState.confirmPassword.copy(
+                    errorMessage = "* A senha e a confirmação devem ser iguais"
+                )
+            )
+        }
+
+        if(!hasError){
+           currentState = currentState.copy(
+               state = UiStateView.Success(true)
+           )
+        }
+
+        _RegisterUiState.update {
+            currentState
         }
     }
 
-    private fun updateValidationList(value: String, currentValidationModelList: List<ValidationModel>): List<ValidationModel>{
+
+    fun onEmailChanged(value: String) {
+
+        _RegisterUiState.update { currentState ->
+            currentState.copy(
+                email = currentState.email.copy(value = value, errorMessage = "")
+            )
+        }
+    }
+
+    fun onUserNameChanged(value: String) {
+        _RegisterUiState.update { currentState ->
+            currentState.copy(
+                userName = currentState.userName.copy(value = value, errorMessage = "")
+            )
+        }
+    }
+
+    fun onPasswordChanged(value: String) {
+        val currentState = _RegisterUiState.value
+        var validationList: List<ValidationModel> = currentState.password.onChangeValidation
+
+        if(validationList.isEmpty()){
+            validationList = getPasswordValidationItemList()
+        }
+
+        if (value.isNotEmpty()) {
+            validationList = validateList(value, validationList)
+        }
+
+        val newState = currentState.copy(
+            password = currentState.password.copy(
+                value = value,
+                onChangeValidation = validationList,
+                errorMessage = ""
+            )
+        )
+
+        _RegisterUiState.update { currentState ->
+            newState
+        }
+    }
+
+    fun onConfirmPasswordChanged(value: String) {
+        _RegisterUiState.update { currentState ->
+            currentState.copy(
+                confirmPassword = currentState.confirmPassword.copy(value = value, errorMessage = "")
+            )
+        }
+    }
+
+    private fun validateList(
+        value: String,
+        validationModelList: List<ValidationModel>
+    ): List<ValidationModel> {
         val updateValidationItemList: MutableList<ValidationModel> = mutableListOf()
 
-        currentValidationModelList.forEach { validationModel ->
-
+        validationModelList.forEach { validationModel ->
             val isValid = ValidationInput.getValidation(value, validationModel.validationType)
-
             val newValidationModel = validationModel
+
             newValidationModel.isValid = isValid
             updateValidationItemList.add(newValidationModel)
         }
 
         return updateValidationItemList
     }
-
-    fun clearPasswordValidation(){
-        _PasswordValidationState.update {
-            UiStateView.Loading
-        }
-    }
-
-    fun allPasswordValidationIsValid(): Boolean {
-        if(_PasswordValidationState.value is UiStateView.Success){
-            var isValid = true
-
-            for(validationModel in (_PasswordValidationState.value as UiStateView.Success<List<ValidationModel>>).data) {
-                if(!validationModel.isValid){
-                    isValid = false
-                    break
-                }
-            }
-
-            return isValid
-        }
-
-        return true
-
-    }
-
 
 }

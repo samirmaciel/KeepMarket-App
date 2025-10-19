@@ -91,14 +91,14 @@ fun LoginView() {
             )
             InputTextField(
                 modifier = Modifier.fillMaxWidth(),
-                isError = loginUiState.userName.hasError,
+                isError = loginUiState.userName.errorMessage.isNotEmpty(),
                 value = loginUiState.userName.value,
                 placeHolder = "Login"
             ) {
                 viewModel.onUsernameChanged(it)
             }
 
-            if (loginUiState.userName.hasError) {
+            if (loginUiState.userName.errorMessage.isNotEmpty()) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -117,12 +117,12 @@ fun LoginView() {
                 value = loginUiState.password.value,
                 placeHolder = "Password",
                 isPassword = true,
-                isError = loginUiState.password.hasError
+                isError = loginUiState.password.errorMessage.isNotEmpty()
             ) {
                 viewModel.onPasswordUsernameChanged(it)
             }
 
-            if (loginUiState.password.hasError) {
+            if (loginUiState.password.errorMessage.isEmpty()) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()

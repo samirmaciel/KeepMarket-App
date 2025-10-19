@@ -10,6 +10,7 @@ object ValidationInput {
             ValidationType.ONE_SPECIAL_CHARACTER -> validateOnSpecialCharacter(value)
             ValidationType.MORE_OR_EQUAL_THAN_8_CHARACTERS -> validateMoreThan8Characters(value)
             ValidationType.ONE_CAPITAL_LETTER -> validateOneCapitalCharacter(value)
+            ValidationType.IS_NOT_EMPTY -> value.isNotEmpty()
         }
     }
 

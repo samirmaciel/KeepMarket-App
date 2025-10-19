@@ -1,4 +1,5 @@
 package com.sm.keepmarket.presentation.login
+import com.sm.keepmarket.domain.model.ValidationModel
 import com.sm.keepmarket.util.UiStateView
 
 data class LoginUiState(
@@ -9,6 +10,6 @@ data class LoginUiState(
 
 data class InputState<T>(
     val value: T,
-    val hasError: Boolean = false,
+    val onChangeValidation: List<ValidationModel> = emptyList(),
     val errorMessage: String = ""
 )
