@@ -65,7 +65,7 @@ class LoginViewModel(private val loginRepository: ILoginRepository): ViewModel()
             _LoginUIState.update {
                 val userNameInputState = it.userName
                 it.copy(
-                    userName = userNameInputState.copy(hasError = true, errorMessage = "Campo obrigatório")
+                    userName = userNameInputState.copy(errorMessage = "Campo obrigatório")
                 )
             }
         }
@@ -74,12 +74,12 @@ class LoginViewModel(private val loginRepository: ILoginRepository): ViewModel()
             _LoginUIState.update {
                 val passwordInputState = it.password
                 it.copy(
-                    password = passwordInputState.copy(hasError = true, errorMessage = "Campo obrigatório")
+                    password = passwordInputState.copy(errorMessage = "Campo obrigatório")
                 )
             }
         }
 
-        if(!_LoginUIState.value.userName.hasError && !_LoginUIState.value.password.hasError ){
+        if(_LoginUIState.value.userName.errorMessage.isEmpty() && !_LoginUIState.value.password.errorMessage.isEmpty() ){
             viewModelScope.launch {
                 val loginModel = loginRepository.getValidateLogin(userName, password).first()
                 var uiState: UiStateView<Boolean> = UiStateView.Error("User name ou password incorretos")
