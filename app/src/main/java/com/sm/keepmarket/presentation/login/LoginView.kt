@@ -91,19 +91,19 @@ fun LoginView() {
             )
             InputTextField(
                 modifier = Modifier.fillMaxWidth(),
-                isError = loginUiState.userName.errorMessage.isNotEmpty(),
-                value = loginUiState.userName.value,
+                isError = loginUiState.email.errorMessage.isNotEmpty(),
+                value = loginUiState.email.value,
                 placeHolder = "Login"
             ) {
                 viewModel.onUsernameChanged(it)
             }
 
-            if (loginUiState.userName.errorMessage.isNotEmpty()) {
+            if (loginUiState.email.errorMessage.isNotEmpty()) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 5.dp),
-                    text = loginUiState.userName.errorMessage,
+                    text = loginUiState.email.errorMessage,
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.tertiary

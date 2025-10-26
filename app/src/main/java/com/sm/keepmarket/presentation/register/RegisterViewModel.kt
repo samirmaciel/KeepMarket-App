@@ -2,6 +2,10 @@ package com.sm.keepmarket.presentation.register
 
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sm.keepmarket.data.repository.repositoryInterface.IUserRepository
+import com.sm.keepmarket.domain.model.UserRegisterModel
 import com.sm.keepmarket.domain.model.ValidationInput
 import com.sm.keepmarket.domain.model.ValidationModel
 import com.sm.keepmarket.presentation.login.InputState
@@ -10,8 +14,9 @@ import com.sm.keepmarket.util.ValidationType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel(private val userRepository: IUserRepository) : ViewModel() {
 
     private val _RegisterUiState: MutableStateFlow<RegisterUiState> =
         MutableStateFlow(RegisterUiState())
@@ -74,7 +79,7 @@ class RegisterViewModel : ViewModel() {
         val password = currentState.password
         val confirmPassword = currentState.confirmPassword.value
 
-        if(email.isEmpty()){
+        if (email.isEmpty()) {
             hasError = true
             currentState = currentState.copy(
                 email = currentState.email.copy(
@@ -83,7 +88,7 @@ class RegisterViewModel : ViewModel() {
             )
         }
 
-        if(userName.isEmpty()){
+        if (userName.isEmpty()) {
             hasError = true
             currentState = currentState.copy(
                 userName = currentState.userName.copy(
@@ -92,7 +97,7 @@ class RegisterViewModel : ViewModel() {
             )
         }
 
-        if(password.value.isEmpty()){
+        if (password.value.isEmpty()) {
             hasError = true
             currentState = currentState.copy(
                 password = currentState.password.copy(
@@ -101,7 +106,7 @@ class RegisterViewModel : ViewModel() {
             )
         }
 
-        if(confirmPassword.isEmpty()){
+        if (confirmPassword.isEmpty()) {
             hasError = true
             currentState = currentState.copy(
                 confirmPassword = currentState.confirmPassword.copy(
@@ -110,7 +115,7 @@ class RegisterViewModel : ViewModel() {
             )
         }
 
-        if(confirmPassword.isNotEmpty() && confirmPassword != password.value){
+        if (confirmPassword.isNotEmpty() && confirmPassword != password.value) {
             hasError = true
             currentState = currentState.copy(
                 confirmPassword = currentState.confirmPassword.copy(
@@ -119,24 +124,60 @@ class RegisterViewModel : ViewModel() {
             )
         }
 
-        if(!hasError){
-           currentState = currentState.copy(
-               state = UiStateView.Success(true)
-           )
+        if (!hasError) {
+
+            viewModelScope.launch {
+                val userRegisterModel = UserRegisterModel(
+                    userName,
+                    password.value,
+                    email
+                )
+
+                userRepository.registerUser(userRegisterModel).collect {
+
+                    currentState = currentState.copy(
+                        state = UiStateView.Success(it != null)
+                    )
+
+                    _RegisterUiState.update {
+                        currentState
+                    }
+                }
+            }
+
+        } else {
+            _RegisterUiState.update {
+                currentState
+            }
         }
 
-        _RegisterUiState.update {
-            currentState
-        }
+
     }
 
 
     fun onEmailChanged(value: String) {
 
-        _RegisterUiState.update { currentState ->
-            currentState.copy(
-                email = currentState.email.copy(value = value, errorMessage = "")
+        val currentState = _RegisterUiState.value
+        var validationList: List<ValidationModel> = currentState.email.onChangeValidation
+
+        if (validationList.isEmpty()) {
+            validationList = getEmailValidationItemList()
+        }
+
+        if (value.isNotEmpty()) {
+            validationList = validateList(value, validationList)
+        }
+
+        val newState = currentState.copy(
+            email = currentState.email.copy(
+                value = value,
+                onChangeValidation = validationList,
+                errorMessage = ""
             )
+        )
+
+        _RegisterUiState.update { currentState ->
+            newState
         }
     }
 
@@ -152,7 +193,7 @@ class RegisterViewModel : ViewModel() {
         val currentState = _RegisterUiState.value
         var validationList: List<ValidationModel> = currentState.password.onChangeValidation
 
-        if(validationList.isEmpty()){
+        if (validationList.isEmpty()) {
             validationList = getPasswordValidationItemList()
         }
 
@@ -176,7 +217,10 @@ class RegisterViewModel : ViewModel() {
     fun onConfirmPasswordChanged(value: String) {
         _RegisterUiState.update { currentState ->
             currentState.copy(
-                confirmPassword = currentState.confirmPassword.copy(value = value, errorMessage = "")
+                confirmPassword = currentState.confirmPassword.copy(
+                    value = value,
+                    errorMessage = ""
+                )
             )
         }
     }
