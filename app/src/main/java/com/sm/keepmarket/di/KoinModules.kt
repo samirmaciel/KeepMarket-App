@@ -1,8 +1,12 @@
 package com.sm.keepmarket.di
 
 import androidx.room.Room
+import com.google.firebase.Firebase
+import com.google.firebase.app
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import com.sm.keepmarket.data.datasource.HighlightDatasourceImpl
-import com.sm.keepmarket.data.datasource.LoginDatasourceImpl
+import com.sm.keepmarket.data.datasource.firebase.LoginFirebaseDatasourceImpl
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketItemDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.IPantryDatasource
@@ -13,10 +17,12 @@ import com.sm.keepmarket.data.datasource.MarketItemStateDatasourceImpl
 import com.sm.keepmarket.data.datasource.NotificationDatasourceImpl
 import com.sm.keepmarket.data.datasource.PantryDatasourceImpl
 import com.sm.keepmarket.data.datasource.PantryItemDatasourceImpl
+import com.sm.keepmarket.data.datasource.firebase.UserFirebaseDatasourceImpl
 import com.sm.keepmarket.data.datasource.datasourceInterface.IHighlightDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.ILoginDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketItemStateDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.INotificationDatasource
+import com.sm.keepmarket.data.datasource.datasourceInterface.IUserDatasource
 import com.sm.keepmarket.data.db.AppDataBase
 import com.sm.keepmarket.data.repository.HighlightRepositoryImpl
 import com.sm.keepmarket.data.repository.LoginRepositoryImpl
@@ -30,10 +36,12 @@ import com.sm.keepmarket.data.repository.MarketRepositoryImpl
 import com.sm.keepmarket.data.repository.NotificationRepositoryImpl
 import com.sm.keepmarket.data.repository.PantryItemRepositoryImpl
 import com.sm.keepmarket.data.repository.PantryRepositoryImpl
+import com.sm.keepmarket.data.repository.UserRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.ILoginRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemStateRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.INotificationRepository
+import com.sm.keepmarket.data.repository.repositoryInterface.IUserRepository
 import com.sm.keepmarket.presentation.home.HomeViewModel
 import com.sm.keepmarket.presentation.login.LoginViewModel
 import com.sm.keepmarket.presentation.marketList.MarketListSelectionViewModel
@@ -57,7 +65,12 @@ val viewModelModules = module {
     viewModel{ MarketListSelectionViewModel(get()) }
     viewModel{ PantryListSelectionViewModel(get()) }
     viewModel{ LoginViewModel(get()) }
-    viewModel{ RegisterViewModel() }
+    viewModel{ RegisterViewModel(get()) }
+}
+
+val firebase = module {
+    single { Firebase.auth }
+    single { Firebase.firestore }
 }
 
 val repositoryModules = module {
@@ -69,6 +82,7 @@ val repositoryModules = module {
     single<INotificationRepository> { NotificationRepositoryImpl(get()) }
     single<IMarketItemStateRepository> { MarketItemStateRepositoryImpl(get()) }
     single<ILoginRepository> { LoginRepositoryImpl(get()) }
+    single<IUserRepository> { UserRepositoryImpl(get()) }
 }
 
 val datasourceModules = module {
@@ -79,7 +93,8 @@ val datasourceModules = module {
     single<IHighlightDatasource> { HighlightDatasourceImpl(get()) }
     single<INotificationDatasource> { NotificationDatasourceImpl(get()) }
     single<IMarketItemStateDatasource> { MarketItemStateDatasourceImpl(get()) }
-    single<ILoginDatasource> { LoginDatasourceImpl(get()) }
+    single<ILoginDatasource> { LoginFirebaseDatasourceImpl(get(), get()) }
+    single<IUserDatasource> { UserFirebaseDatasourceImpl(get(), get()) }
 }
 
 val appDispatchersModule = module {

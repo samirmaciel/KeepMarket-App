@@ -1,5 +1,6 @@
 package com.sm.keepmarket.presentation.register
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,12 +42,22 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun RegisterView() {
 
+    val context = LocalContext.current
     val viewModel: RegisterViewModel = koinViewModel()
     val navController = LocalNavHostController.current
     val uiState by viewModel.uiState.collectAsState()
 
     if (uiState.state is UiStateView.Success){
-        navController.navigate(Dest.SplashView)
+
+        if((uiState.state as UiStateView.Success<Boolean>).data){
+            navController.navigate(Dest.SplashView)
+            return
+        }
+
+        LaunchedEffect(uiState) {
+            Toast.makeText(context, "User register failure!", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     Column(modifier = Modifier.fillMaxSize().padding(top = 16.dp), verticalArrangement = Arrangement.Top) {

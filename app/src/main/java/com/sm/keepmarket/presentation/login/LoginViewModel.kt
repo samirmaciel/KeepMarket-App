@@ -1,13 +1,17 @@
 package com.sm.keepmarket.presentation.login
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.sm.keepmarket.data.repository.repositoryInterface.ILoginRepository
+import com.sm.keepmarket.domain.model.UserLoginModel
 import com.sm.keepmarket.util.UiStateView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -16,10 +20,15 @@ class LoginViewModel(private val loginRepository: ILoginRepository): ViewModel()
     val loginUiState = _LoginUIState.asStateFlow()
 
 
+    init {
+
+    }
+
+
     fun onUsernameChanged(value: String){
         _LoginUIState.update {
             it.copy(
-                userName = InputState(value = value)
+                email = InputState(value = value)
             )
         }
 
@@ -38,7 +47,7 @@ class LoginViewModel(private val loginRepository: ILoginRepository): ViewModel()
 
     fun getCurrentLogin(){
         viewModelScope.launch {
-            loginRepository.getCurrentLogin().collect {
+            loginRepository.getCurrentUser().collect {
                 it?.let { loginModel ->
                     _LoginUIState.update {
                         it.copy(
@@ -58,14 +67,14 @@ class LoginViewModel(private val loginRepository: ILoginRepository): ViewModel()
 
     fun login(){
 
-        val userName = _LoginUIState.value.userName.value
+        val email = _LoginUIState.value.email.value
         val password = _LoginUIState.value.password.value
 
-        if(userName.isEmpty()){
+        if(email.isEmpty()){
             _LoginUIState.update {
-                val userNameInputState = it.userName
+                val userNameInputState = it.email
                 it.copy(
-                    userName = userNameInputState.copy(errorMessage = "Campo obrigatório")
+                    email = userNameInputState.copy(errorMessage = "Campo obrigatório")
                 )
             }
         }
@@ -79,9 +88,9 @@ class LoginViewModel(private val loginRepository: ILoginRepository): ViewModel()
             }
         }
 
-        if(_LoginUIState.value.userName.errorMessage.isEmpty() && !_LoginUIState.value.password.errorMessage.isEmpty() ){
+        if(_LoginUIState.value.email.errorMessage.isEmpty() && _LoginUIState.value.password.errorMessage.isEmpty() ){
             viewModelScope.launch {
-                val loginModel = loginRepository.getValidateLogin(userName, password).first()
+                val loginModel = loginRepository.makeLogin(UserLoginModel(email, password)).firstOrNull()
                 var uiState: UiStateView<Boolean> = UiStateView.Error("User name ou password incorretos")
 
                 loginModel?.let {

@@ -1,0 +1,77 @@
+package com.sm.keepmarket.data.datasource.firebase
+
+import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.sm.keepmarket.data.datasource.datasourceInterface.IUserDatasource
+import com.sm.keepmarket.data.model.UserEntity
+import com.sm.keepmarket.data.model.UserRegisterEntity
+import com.sm.keepmarket.domain.model.Constants.USERS
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.await
+
+class UserFirebaseDatasourceImpl(
+    private val auth: FirebaseAuth,
+    private val firestore: FirebaseFirestore
+) : IUserDatasource {
+
+    private val TAG = "UserFirebaseDatasourceImpl"
+
+    override suspend fun createNewUser(
+        userUUID: String,
+        userName: String,
+        email: String
+    ): Flow<UserEntity?> =
+        flow {
+            val userEntity = UserEntity(userUUID, userName, email)
+            val docRef = firestore.collection(USERS).document(userUUID)
+            docRef.set(userEntity).await()
+
+            emit(userEntity)
+        }.catch { e ->
+            Log.e(TAG, "Erro ao criar usuário", e)
+        }
+
+    override suspend fun registerUser(userRegisterEntity: UserRegisterEntity): Flow<UserEntity?> =
+        flow {
+            val authResult = auth.createUserWithEmailAndPassword(
+                userRegisterEntity.email,
+                userRegisterEntity.password
+            ).await()
+
+            val firebaseUser = authResult.user
+
+            if (firebaseUser != null) {
+                Log.d(TAG, "createUserWithEmail:success -> ${firebaseUser.uid}")
+                val userEntity = createNewUser(
+                    firebaseUser.uid,
+                    userRegisterEntity.name,
+                    userRegisterEntity.email
+                ).firstOrNull()
+
+                emit(userEntity)
+            } else {
+                Log.w(TAG, "createUserWithEmail: user null")
+                emit(null)
+            }
+        }.catch { e ->
+            Log.e(TAG, "createUserWithEmail:failure", e)
+            emit(null)
+        }
+
+
+    override suspend fun updateUser(userRegisterEntity: UserRegisterEntity): Flow<UserRegisterEntity?> {
+        return flow {
+            emit(null)
+        }
+    }
+
+    override suspend fun deleteUser(userEntity: UserEntity): Flow<UserEntity?> {
+        return flow {
+            emit(null)
+        }
+    }
+}

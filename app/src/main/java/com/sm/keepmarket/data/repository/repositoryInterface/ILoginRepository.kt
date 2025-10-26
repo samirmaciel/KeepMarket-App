@@ -1,13 +1,14 @@
 package com.sm.keepmarket.data.repository.repositoryInterface
 
+import com.sm.keepmarket.data.model.UserEntity
+import com.sm.keepmarket.data.model.UserLoginEntity
 import com.sm.keepmarket.domain.model.LoginModel
+import com.sm.keepmarket.domain.model.UserLoginModel
+import com.sm.keepmarket.domain.model.UserModel
 import kotlinx.coroutines.flow.Flow
 
 interface ILoginRepository {
 
-    suspend fun getCurrentLogin(): Flow<LoginModel?>
-    suspend fun getValidateLogin(login: String, password: String): Flow<LoginModel?>
-    suspend fun getAllLogin(): Flow<List<LoginModel>>
-    suspend fun insertLogin(loginModel: LoginModel)
-    suspend fun deleteLogin(loginModel: LoginModel)
+    suspend fun getCurrentUser(): Flow<UserModel?>
+    suspend fun makeLogin(userLoginModel: UserLoginModel): Flow<UserModel?>
 }
