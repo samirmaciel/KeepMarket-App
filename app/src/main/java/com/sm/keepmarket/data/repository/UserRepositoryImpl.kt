@@ -31,5 +31,17 @@ class UserRepositoryImpl(private val datasource: IUserDatasource): IUserReposito
         TODO("Not yet implemented")
     }
 
+    override suspend fun signOut(): Flow<Boolean> = flow {
+        datasource.signOut().collect {
+            emit(it)
+        }
+    }
+
+    override suspend fun deleteAccount(): Flow<Boolean> = flow {
+        datasource.deleteAccount().collect {
+            emit(it)
+        }
+    }
+
 
 }

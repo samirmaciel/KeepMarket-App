@@ -1,6 +1,7 @@
 package com.sm.keepmarket.data.datasource.firebase
 
 import android.util.Log
+import androidx.collection.emptyIntSet
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sm.keepmarket.data.datasource.datasourceInterface.IUserDatasource
@@ -99,4 +100,24 @@ class UserFirebaseDatasourceImpl(
             emit(null)
         }
     }
+
+    override suspend fun signOut(): Flow<Boolean> = flow {
+        auth.signOut()
+        emit(true)
+    }.catch { e ->
+        Log.e(TAG, "Erro ao sair da conta", e)
+        emit(false)
+    }
+
+    override suspend fun deleteAccount(): Flow<Boolean> =
+        flow {
+            val user = auth.currentUser ?: throw IllegalStateException("Usuário não autenticado")
+
+            user.delete().await()
+
+            emit(true)
+        }.catch { e ->
+            Log.e(TAG, "Erro ao deletar conta", e)
+            emit(false)
+        }
 }

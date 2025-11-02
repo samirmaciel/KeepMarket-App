@@ -10,4 +10,6 @@ interface IUserRepository {
     suspend fun getCurrentUser(): Flow<UserModel?>
     suspend fun updateUser(userRegisterModel: UserRegisterModel): Flow<UserModel?>
     suspend fun deleteUser(userModel: UserModel): Flow<UserModel?>
+    suspend fun signOut(): Flow<Boolean>
+    suspend fun deleteAccount(): Flow<Boolean>
 }

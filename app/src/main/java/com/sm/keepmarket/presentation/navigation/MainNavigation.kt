@@ -50,7 +50,9 @@ fun MainNavigation() {
                 ) { BottomMenu() }
             }) { padding ->
 
-            AppNavigation(padding)
+            AppNavigation(padding){ isBottomBarVisible ->
+                visible = isBottomBarVisible
+            }
         }
     }
 }

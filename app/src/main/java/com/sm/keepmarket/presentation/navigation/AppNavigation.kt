@@ -12,18 +12,51 @@ import androidx.navigation.toRoute
 import com.sm.keepmarket.presentation.navigation.Dest
 import com.sm.keepmarket.presentation.LocalNavHostController
 import com.sm.keepmarket.presentation.home.HomeView
+import com.sm.keepmarket.presentation.login.LoginView
 import com.sm.keepmarket.presentation.marketList.MarketListSelectionView
 import com.sm.keepmarket.presentation.marketList.MarketListView
 import com.sm.keepmarket.presentation.notifications.NotificationView
 import com.sm.keepmarket.presentation.pantryList.PantryListSelectionView
 import com.sm.keepmarket.presentation.pantryList.PantryListView
+import com.sm.keepmarket.presentation.register.RegisterView
 import com.sm.keepmarket.presentation.search.SearchView
+import com.sm.keepmarket.presentation.splash.SplashView
 
 @Composable
-fun AppNavigation(paddingValues: PaddingValues) {
+fun AppNavigation(paddingValues: PaddingValues, isBottomBarVisible: (Boolean) -> Unit) {
     val navController = LocalNavHostController.current
 
-    NavHost(navController = navController, startDestination = Dest.HomeView) {
+    NavHost(navController = navController, startDestination = Dest.SplashView) {
+
+        composable<Dest.SplashView>(
+            enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { -it }) },
+            popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) })
+        {
+            isBottomBarVisible(false)
+            SplashView()
+        }
+
+        composable<Dest.LoginView>(
+            enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { -it }) },
+            popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) })
+        {
+            isBottomBarVisible(false)
+            LoginView()
+        }
+
+        composable<Dest.RegisterView>(
+            enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            exitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { -it }) },
+            popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
+            popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) })
+        {
+            isBottomBarVisible(false)
+            RegisterView()
+        }
 
         composable<Dest.HomeView>(
             enterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
@@ -31,6 +64,7 @@ fun AppNavigation(paddingValues: PaddingValues) {
             popEnterTransition = { fadeIn() + slideInHorizontally(initialOffsetX = { -it }) },
             popExitTransition = { fadeOut() + slideOutHorizontally(targetOffsetX = { it }) })
          {
+             isBottomBarVisible(true)
             HomeView(paddingValues)
         }
 

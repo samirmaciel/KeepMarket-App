@@ -7,7 +7,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.sm.keepmarket.presentation.navigation.FirstNavigation
+import com.sm.keepmarket.presentation.navigation.MainNavigation
 import com.sm.keepmarket.presentation.theme.KeepMarketTheme
 
 val LocalNavHostController =
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                 CompositionLocalProvider(
                     LocalNavHostController provides navHostController,
                 ) {
-                    FirstNavigation()
+                    MainNavigation()
                 }
             }
         }

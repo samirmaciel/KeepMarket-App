@@ -26,18 +26,19 @@ class HomeViewModel(
     private val pantryRepository: IPantryRepository,
     private val highlightRepository: IHighlightRepository
 ) : ViewModel() {
-
     private val _FeaturedCardListState: MutableStateFlow<UiStateView<List<FeaturedCard>>> = MutableStateFlow(
         UiStateView.Loading
     )
     private val _HighlightListState: MutableStateFlow<UiStateView<List<Highlight>>> = MutableStateFlow(
         UiStateView.Loading
     )
+    private val _isLogged: MutableStateFlow<Boolean> = MutableStateFlow(true)
 
     private val _UserName: MutableStateFlow<String> = MutableStateFlow("")
     val featuredCardListState = _FeaturedCardListState.asStateFlow()
     val highlightListState = _HighlightListState.asStateFlow()
     val userName = _UserName.asStateFlow()
+    val isLogged = _isLogged.asStateFlow()
 
     fun getCurrentUser(){
         viewModelScope.launch {
@@ -177,6 +178,16 @@ class HomeViewModel(
                     UiStateView.Success(newList)
                 }
 
+            }
+        }
+    }
+
+    fun signOut(){
+        viewModelScope.launch {
+            userRepository.signOut().collect { signOutResult ->
+                _isLogged.update {
+                    !signOutResult
+                }
             }
         }
     }
