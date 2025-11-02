@@ -63,7 +63,7 @@ fun LoginView() {
         }
 
         if (loginUiState.state is UiStateView.Success && (loginUiState.state as UiStateView.Success<Boolean>).data) {
-            navController.navigate(Dest.MainNavigation)
+            navController.navigate(Dest.HomeView)
             return@Column
         }
 

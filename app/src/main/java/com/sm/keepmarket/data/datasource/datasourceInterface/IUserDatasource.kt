@@ -11,5 +11,7 @@ interface IUserDatasource {
     suspend fun registerUser(userRegisterEntity: UserRegisterEntity): Flow<UserEntity?>
     suspend fun updateUser(userRegisterEntity: UserRegisterEntity): Flow<UserRegisterEntity?>
     suspend fun deleteUser(userEntity: UserEntity): Flow<UserEntity?>
+    suspend fun signOut(): Flow<Boolean>
+    suspend fun deleteAccount(): Flow<Boolean>
 
 }

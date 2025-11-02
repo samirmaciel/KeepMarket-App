@@ -36,7 +36,7 @@ fun SplashView() {
 
         is UiStateView.Success<*> -> {
             if((splashState as UiStateView.Success<*>).data == true){
-                navController.navigate(Dest.MainNavigation)
+                navController.navigate(Dest.HomeView)
             }else{
                 navController.navigate(Dest.LoginView)
             }

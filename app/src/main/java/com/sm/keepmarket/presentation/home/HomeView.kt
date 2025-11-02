@@ -13,21 +13,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.presentation.LocalNavHostController
 import com.sm.keepmarket.R
+import com.sm.keepmarket.presentation.components.AlertMessage
 import com.sm.keepmarket.presentation.components.FeaturedCardButton
 import com.sm.keepmarket.presentation.navigation.Dest
 import com.sm.keepmarket.presentation.navigation.Dest.*
@@ -43,12 +52,19 @@ fun HomeView(paddingValues: PaddingValues) {
     val featureCardListState by viewModel.featuredCardListState.collectAsState()
     val highlightListState by viewModel.highlightListState.collectAsState()
     val userName by viewModel.userName.collectAsState()
+    val isLogged by viewModel.isLogged.collectAsState()
     val context = LocalContext.current
+    var showSignOutAlert by remember { mutableStateOf(false) }
 
     LaunchedEffect(context) {
         viewModel.getCurrentUser()
         viewModel.getAllFeaturedCardList()
         viewModel.getAllHighlight()
+    }
+
+    if (!isLogged){
+        nav.navigate(Dest.LoginView)
+        return
     }
 
     Column(
@@ -64,8 +80,21 @@ fun HomeView(paddingValues: PaddingValues) {
                 .fillMaxWidth()
                 .padding(16.dp), horizontalAlignment = Alignment.Start
         ) {
-            Text(stringResource(R.string.message_greeting, userName), style = MaterialTheme.typography.titleLarge)
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
+                Text(modifier = Modifier.weight(1f), text =stringResource(R.string.message_greeting, userName), style = MaterialTheme.typography.titleLarge)
+                IconButton(onClick = {showSignOutAlert = true}) {
+                    Icon(modifier = Modifier.size(50.dp), imageVector = Icons.Filled.ExitToApp, contentDescription = "Signout button")
+                }
+            }
+
             Text(stringResource(R.string.message_nice_day), style = MaterialTheme.typography.labelSmall)
+        }
+
+        if (showSignOutAlert){
+            AlertMessage("Deseja sair da sua conta?", onDismiss = {showSignOutAlert = false}, onConfirm = {
+                viewModel.signOut()
+                showSignOutAlert = false
+            })
         }
 
         CreateList(onCreateMarket = { marketName ->

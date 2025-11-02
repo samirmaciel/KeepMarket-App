@@ -7,9 +7,6 @@ sealed interface Dest {
 
     @Serializable
     data object SplashView : Dest
-
-    @Serializable
-    data object MainNavigation : Dest
     @Serializable
     data object HomeView : Dest
 
