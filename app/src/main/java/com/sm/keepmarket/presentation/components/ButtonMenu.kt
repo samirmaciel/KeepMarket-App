@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sm.keepmarket.presentation.LocalNavHostController
 import com.sm.keepmarket.R
-import com.sm.keepmarket.presentation.Dest
+import com.sm.keepmarket.presentation.navigation.Dest
 import com.sm.keepmarket.presentation.theme.ButtonDefault
 
 @Composable

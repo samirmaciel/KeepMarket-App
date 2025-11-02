@@ -8,7 +8,5 @@ import com.sm.keepmarket.domain.model.UserModel
 import kotlinx.coroutines.flow.Flow
 
 interface ILoginRepository {
-
-    suspend fun getCurrentUser(): Flow<UserModel?>
     suspend fun makeLogin(userLoginModel: UserLoginModel): Flow<UserModel?>
 }

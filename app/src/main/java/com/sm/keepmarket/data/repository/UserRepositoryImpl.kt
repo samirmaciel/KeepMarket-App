@@ -17,6 +17,12 @@ class UserRepositoryImpl(private val datasource: IUserDatasource): IUserReposito
         }
     }
 
+    override suspend fun getCurrentUser(): Flow<UserModel?> = flow {
+        datasource.getCurrentUser().collect {
+            emit(it?.toUserModel())
+        }
+    }
+
     override suspend fun updateUser(userRegisterModel: UserRegisterModel): Flow<UserModel?> {
         TODO("Not yet implemented")
     }

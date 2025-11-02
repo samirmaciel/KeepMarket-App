@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
-import com.sm.keepmarket.presentation.Dest
+import com.sm.keepmarket.presentation.navigation.Dest
 import com.sm.keepmarket.presentation.LocalNavHostController
 import com.sm.keepmarket.presentation.components.CustomButton
 import com.sm.keepmarket.presentation.components.InputTextField
@@ -51,7 +51,6 @@ fun LoginView() {
 
         val navController = LocalNavHostController.current
         val viewModel: LoginViewModel = koinViewModel()
-        val context = LocalContext.current
         val focusManager = LocalFocusManager.current
         val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -63,12 +62,8 @@ fun LoginView() {
             keyboardController?.hide()
         }
 
-        LaunchedEffect(context) {
-            viewModel.getCurrentLogin()
-        }
-
         if (loginUiState.state is UiStateView.Success && (loginUiState.state as UiStateView.Success<Boolean>).data) {
-            navController.navigate(Dest.SplashView)
+            navController.navigate(Dest.MainNavigation)
             return@Column
         }
 

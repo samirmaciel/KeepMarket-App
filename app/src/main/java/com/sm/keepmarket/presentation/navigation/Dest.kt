@@ -1,11 +1,15 @@
-package com.sm.keepmarket.presentation
+package com.sm.keepmarket.presentation.navigation
 
 import kotlinx.serialization.Serializable
+
 @Serializable
 sealed interface Dest {
 
     @Serializable
     data object SplashView : Dest
+
+    @Serializable
+    data object MainNavigation : Dest
     @Serializable
     data object HomeView : Dest
 

@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.presentation.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.presentation.components.FeaturedCardButton
-import com.sm.keepmarket.presentation.Dest
-import com.sm.keepmarket.presentation.Dest.*
+import com.sm.keepmarket.presentation.navigation.Dest
+import com.sm.keepmarket.presentation.navigation.Dest.*
 import com.sm.keepmarket.util.FeaturedType
 import com.sm.keepmarket.util.UiStateView
 import org.koin.androidx.compose.koinViewModel
@@ -42,9 +42,11 @@ fun HomeView(paddingValues: PaddingValues) {
     val viewModel: HomeViewModel = koinViewModel()
     val featureCardListState by viewModel.featuredCardListState.collectAsState()
     val highlightListState by viewModel.highlightListState.collectAsState()
+    val userName by viewModel.userName.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(context) {
+        viewModel.getCurrentUser()
         viewModel.getAllFeaturedCardList()
         viewModel.getAllHighlight()
     }
@@ -62,7 +64,7 @@ fun HomeView(paddingValues: PaddingValues) {
                 .fillMaxWidth()
                 .padding(16.dp), horizontalAlignment = Alignment.Start
         ) {
-            Text(stringResource(R.string.message_greeting, "User"), style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(R.string.message_greeting, userName), style = MaterialTheme.typography.titleLarge)
             Text(stringResource(R.string.message_nice_day), style = MaterialTheme.typography.labelSmall)
         }
 

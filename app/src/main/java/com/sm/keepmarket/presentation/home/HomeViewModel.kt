@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IPantryRepository
+import com.sm.keepmarket.data.repository.repositoryInterface.IUserRepository
 import com.sm.keepmarket.domain.model.FeaturedCard
 import com.sm.keepmarket.domain.model.Highlight
 import com.sm.keepmarket.domain.model.Market
@@ -20,6 +21,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 class HomeViewModel(
+    private val userRepository: IUserRepository,
     private val marketRepository: IMarketRepository,
     private val pantryRepository: IPantryRepository,
     private val highlightRepository: IHighlightRepository
@@ -31,8 +33,27 @@ class HomeViewModel(
     private val _HighlightListState: MutableStateFlow<UiStateView<List<Highlight>>> = MutableStateFlow(
         UiStateView.Loading
     )
+
+    private val _UserName: MutableStateFlow<String> = MutableStateFlow("")
     val featuredCardListState = _FeaturedCardListState.asStateFlow()
     val highlightListState = _HighlightListState.asStateFlow()
+    val userName = _UserName.asStateFlow()
+
+    fun getCurrentUser(){
+        viewModelScope.launch {
+            userRepository.getCurrentUser().collect {
+                it?.let { userModel ->
+                    _UserName.update {
+                        userModel.name.toString()
+                    }
+                } ?: run {
+                    _UserName.update {
+                        "Not founded"
+                    }
+                }
+            }
+        }
+    }
 
 
     fun getAllFeaturedCardList() {

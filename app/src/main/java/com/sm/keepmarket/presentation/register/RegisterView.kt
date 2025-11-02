@@ -30,7 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sm.keepmarket.R
-import com.sm.keepmarket.presentation.Dest
+import com.sm.keepmarket.presentation.navigation.Dest
 import com.sm.keepmarket.presentation.LocalNavHostController
 import com.sm.keepmarket.presentation.components.CustomButton
 import com.sm.keepmarket.presentation.components.InputTextField

@@ -19,12 +19,6 @@ class LoginViewModel(private val loginRepository: ILoginRepository): ViewModel()
     private val _LoginUIState: MutableStateFlow<LoginUiState> = MutableStateFlow(LoginUiState())
     val loginUiState = _LoginUIState.asStateFlow()
 
-
-    init {
-
-    }
-
-
     fun onUsernameChanged(value: String){
         _LoginUIState.update {
             it.copy(
@@ -43,26 +37,6 @@ class LoginViewModel(private val loginRepository: ILoginRepository): ViewModel()
         }
 
         _LoginUIState.update { it.copy(state = UiStateView.Idle) }
-    }
-
-    fun getCurrentLogin(){
-        viewModelScope.launch {
-            loginRepository.getCurrentUser().collect {
-                it?.let { loginModel ->
-                    _LoginUIState.update {
-                        it.copy(
-                            state = UiStateView.Success(true)
-                        )
-                    }
-                } ?: run {
-                    _LoginUIState.update {
-                        it.copy(
-                            state = UiStateView.Success(false)
-                        )
-                    }
-                }
-            }
-        }
     }
 
     fun login(){
