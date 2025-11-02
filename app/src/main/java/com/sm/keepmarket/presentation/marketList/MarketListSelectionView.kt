@@ -45,7 +45,7 @@ import androidx.compose.ui.window.Dialog
 import com.sm.keepmarket.presentation.LocalNavHostController
 import com.sm.keepmarket.R
 import com.sm.keepmarket.domain.model.Market
-import com.sm.keepmarket.presentation.Dest
+import com.sm.keepmarket.presentation.navigation.Dest
 import com.sm.keepmarket.presentation.modal.CreateNewListModal
 import com.sm.keepmarket.util.UiStateView
 import org.koin.androidx.compose.koinViewModel

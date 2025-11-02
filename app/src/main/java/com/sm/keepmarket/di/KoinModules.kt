@@ -56,12 +56,12 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModules = module {
-    viewModel{ HomeViewModel(get(), get(), get()) }
+    viewModel{ HomeViewModel(get(), get(), get(), get()) }
     viewModel{ PantryViewModel(get(), get()) }
     viewModel{ NotificationsViewModel(get()) }
     viewModel{ SearchViewModel(get()) }
     viewModel{ MarketListViewModel(get(), get(), get(), get()) }
-    viewModel{ SplashViewModel(get(), get()) }
+    viewModel{ SplashViewModel(get()) }
     viewModel{ MarketListSelectionViewModel(get()) }
     viewModel{ PantryListSelectionViewModel(get()) }
     viewModel{ LoginViewModel(get()) }

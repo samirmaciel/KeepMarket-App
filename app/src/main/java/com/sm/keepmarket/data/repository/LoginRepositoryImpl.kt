@@ -11,12 +11,6 @@ import kotlinx.coroutines.flow.flow
 
 class LoginRepositoryImpl(private val loginDataSource: ILoginDatasource) : ILoginRepository {
 
-    override suspend fun getCurrentUser(): Flow<UserModel?> = flow {
-        loginDataSource.getCurrentUser().collect {
-            emit(it?.toUserModel())
-        }
-    }
-
     override suspend fun makeLogin(userLoginModel: UserLoginModel): Flow<UserModel?> = flow {
         loginDataSource.makeLogin(userLoginModel.toUserLoginEntity()).collect {
             emit(it?.toUserModel())

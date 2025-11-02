@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface ILoginDatasource {
 
-    suspend fun getCurrentUser(): Flow<UserEntity?>
     suspend fun getUserByUID(userUUID: String): Flow<UserEntity?>
     suspend fun makeLogin(userLoginEntity: UserLoginEntity): Flow<UserEntity?>
 }

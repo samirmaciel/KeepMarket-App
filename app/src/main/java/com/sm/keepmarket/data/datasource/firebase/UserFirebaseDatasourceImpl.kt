@@ -20,6 +20,31 @@ class UserFirebaseDatasourceImpl(
 
     private val TAG = "UserFirebaseDatasourceImpl"
 
+    override suspend fun getCurrentUser(): Flow<UserEntity?> {
+        return flow {
+            val currentUser = auth.currentUser
+            var userEntity: UserEntity? = null
+
+            currentUser?.let {
+                userEntity = getUserByUID(it.uid).firstOrNull()
+            }
+
+            emit(userEntity)
+        }
+    }
+
+    override suspend fun getUserByUID(userUUID: String): Flow<UserEntity?> =
+        flow {
+
+            val docRef = firestore.collection(USERS).document(userUUID)
+            val documentSnapshot = docRef.get().await()
+            val userEntity = documentSnapshot.toObject(UserEntity::class.java)
+            emit(userEntity)
+        }.catch { e ->
+            Log.e(TAG, "Erro ao buscar usuário", e)
+            emit(null)
+        }
+
     override suspend fun createNewUser(
         userUUID: String,
         userName: String,
