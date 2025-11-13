@@ -1,31 +1,17 @@
 package com.sm.keepmarket.data.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import java.math.BigDecimal
-import java.time.LocalDateTime
 
-@Entity(tableName = "TB_MARKETITEMSTATE")
+import com.google.firebase.Timestamp
+
 data class MarketItemStateEntity(
-    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "ID")
-    val id: String,
-    @ColumnInfo(name = "MARKET_ID")
-    val marketId: String,
-    @ColumnInfo(name = "MARKETITEM_ID")
-    val marketItemId: String,
-    @ColumnInfo(name = "NAME")
-    val name: String,
-    @ColumnInfo(name = "PRICE")
-    val price: BigDecimal,
-    @ColumnInfo(name = "AMOUNT")
-    val amount: Int,
-    @ColumnInfo(name = "IS_CHECKED")
-    val isChecked: Boolean,
-    @ColumnInfo(name = "LAST_UPDATE")
-    val lastUpdate: LocalDateTime,
-    @ColumnInfo(name = "CREATED_DATE")
-    val createdDate: LocalDateTime,
-    @ColumnInfo(name = "ENABLED")
-    val enabled: Boolean
+    val id: String? = null,
+    val marketId: String? = null,
+    val marketItemId: String? = null,
+    val name: String? = null,
+    val price: String? = null,
+    val amount: Int? = null,
+    val checked: Boolean? = null,
+    val lastUpdate: Timestamp? = null,
+    val createdDate: Timestamp? = null,
+    val enabled: Boolean? = null
 )

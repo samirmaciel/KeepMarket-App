@@ -7,12 +7,12 @@ object HighlightMapper {
 
     fun toHighlight(entity: HighlightEntity): Highlight {
         return Highlight(
-            id = entity.id,
-            title = entity.title,
-            subTitle = entity.subTitle,
-            type = entity.type,
-            icon = entity.icon,
-            description = entity.description
+            id = entity.id!!,
+            title = entity.title!!,
+            subTitle = entity.subTitle!!,
+            type = entity.type!!,
+            icon = entity.icon!!,
+            description = entity.description!!
         )
     }
 

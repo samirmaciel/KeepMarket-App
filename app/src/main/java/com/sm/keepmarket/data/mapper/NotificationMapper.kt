@@ -7,9 +7,9 @@ object NotificationMapper {
 
     fun toNotification(entity: NotificationEntity): NotificationItem {
         return NotificationItem(
-            id = entity.id,
-            title = entity.title,
-            subTitle = entity.subTitle
+            id = entity.id!!,
+            title = entity.title!!,
+            subTitle = entity.subTitle!!
         )
     }
 

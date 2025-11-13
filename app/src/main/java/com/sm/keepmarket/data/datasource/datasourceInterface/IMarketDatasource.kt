@@ -5,8 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface IMarketDatasource {
 
-    suspend fun getAll(): Flow<List<MarketEntity>>
-    suspend fun getById(id: String): Flow<MarketEntity?>
-    suspend fun delete(marketEntity: MarketEntity)
-    suspend fun insert(marketEntity: MarketEntity)
+    suspend fun getAllByUserID(userID: String): Flow<List<MarketEntity>>
+    suspend fun getById(userID: String, marketID: String): Flow<MarketEntity?>
+    suspend fun deleteByID(userID: String,marketID: String)
+    suspend fun deleteAllByUserID(userID: String)
+    suspend fun insert(userID: String, marketEntity: MarketEntity)
 }

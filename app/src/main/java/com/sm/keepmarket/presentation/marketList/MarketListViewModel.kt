@@ -182,6 +182,8 @@ class MarketListViewModel(
                 )
             )
         }
+
+        updateItem(marketItem)
         saveItemState(marketItem.toItemState())
     }
 

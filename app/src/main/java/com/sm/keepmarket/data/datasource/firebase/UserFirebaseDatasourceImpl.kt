@@ -7,7 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.sm.keepmarket.data.datasource.datasourceInterface.IUserDatasource
 import com.sm.keepmarket.data.model.UserEntity
 import com.sm.keepmarket.data.model.UserRegisterEntity
-import com.sm.keepmarket.domain.model.Constants.USERS
+import com.sm.keepmarket.domain.model.Constants.USERS_INFO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
@@ -37,7 +37,7 @@ class UserFirebaseDatasourceImpl(
     override suspend fun getUserByUID(userUUID: String): Flow<UserEntity?> =
         flow {
 
-            val docRef = firestore.collection(USERS).document(userUUID)
+            val docRef = firestore.collection(USERS_INFO).document(userUUID)
             val documentSnapshot = docRef.get().await()
             val userEntity = documentSnapshot.toObject(UserEntity::class.java)
             emit(userEntity)
@@ -53,7 +53,7 @@ class UserFirebaseDatasourceImpl(
     ): Flow<UserEntity?> =
         flow {
             val userEntity = UserEntity(userUUID, userName, email)
-            val docRef = firestore.collection(USERS).document(userUUID)
+            val docRef = firestore.collection(USERS_INFO).document(userUUID)
             docRef.set(userEntity).await()
 
             emit(userEntity)
