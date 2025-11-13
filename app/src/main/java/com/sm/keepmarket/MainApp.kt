@@ -3,7 +3,6 @@ package com.sm.keepmarket
 import android.app.Application
 import com.google.firebase.FirebaseApp
 import com.sm.keepmarket.di.appDispatchersModule
-import com.sm.keepmarket.di.databaseModule
 import com.sm.keepmarket.di.datasourceModules
 import com.sm.keepmarket.di.firebase
 import com.sm.keepmarket.di.repositoryModules
@@ -22,7 +21,7 @@ class MainApp : Application() {
         startKoin {
             AndroidLogger()
             androidContext(this@MainApp)
-            modules(viewModelModules, repositoryModules, databaseModule, datasourceModules,
+            modules(viewModelModules, repositoryModules, datasourceModules,
                 appDispatchersModule, firebase
             )
 

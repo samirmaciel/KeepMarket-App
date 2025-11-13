@@ -46,6 +46,12 @@ class PantryViewModel(private val pantryRepository: IPantryRepository, private v
         }
     }
 
+    fun updatePantryItem(pantryItem: PantryItem){
+        viewModelScope.launch {
+            pantryItemRepository.insert(pantryItem)
+        }
+    }
+
     fun removeExpiredItems(){
         val oldPantryItemList = _UiState.value.pantry?.items
 
@@ -138,6 +144,7 @@ class PantryViewModel(private val pantryRepository: IPantryRepository, private v
         pantry.lastUpdate = LocalDateTime.now()
 
         updatePantry(pantry)
+        updatePantryItem(pantryItem)
 
         _UiState.update { currentState ->
             currentState.copy(

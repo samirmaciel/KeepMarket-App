@@ -4,8 +4,9 @@ import com.sm.keepmarket.data.model.HighlightEntity
 import kotlinx.coroutines.flow.Flow
 
 interface IHighlightDatasource {
-    suspend fun getAll(): Flow<List<HighlightEntity>>
-    suspend fun getById(id: String): Flow<HighlightEntity?>
-    suspend fun delete(highlight: HighlightEntity)
-    suspend fun insert(highlight: HighlightEntity)
+    suspend fun getAllByUserId(userID: String): Flow<List<HighlightEntity>>
+    suspend fun getById(userID: String, highlightID: String): Flow<HighlightEntity?>
+    suspend fun deleteAllByUserID(userID: String)
+    suspend fun deleteByID(userID: String, highlightID: String)
+    suspend fun insert(userID: String, highlightEntity: HighlightEntity)
 }

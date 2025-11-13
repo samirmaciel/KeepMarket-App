@@ -5,8 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface IPantryDatasource {
 
-    suspend fun getAll(): Flow<List<PantryEntity>>
-    suspend fun getById(id: String): Flow<PantryEntity?>
-    suspend fun delete(pantryEntity: PantryEntity)
-    suspend fun insert(pantryEntity: PantryEntity)
+    suspend fun getAllByUserID(userID: String): Flow<List<PantryEntity>>
+    suspend fun getById(userID: String, pantryID: String): Flow<PantryEntity?>
+    suspend fun deleteByID(userID: String, pantryID: String)
+    suspend fun deleteAllByUserID(userID: String)
+    suspend fun insert(userID: String, pantryEntity: PantryEntity)
 }

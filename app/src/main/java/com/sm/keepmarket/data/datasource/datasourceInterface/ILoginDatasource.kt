@@ -1,6 +1,5 @@
 package com.sm.keepmarket.data.datasource.datasourceInterface
 
-import com.sm.keepmarket.data.model.LoginEntity
 import com.sm.keepmarket.data.model.UserEntity
 import com.sm.keepmarket.data.model.UserLoginEntity
 import com.sm.keepmarket.domain.model.LoginModel
