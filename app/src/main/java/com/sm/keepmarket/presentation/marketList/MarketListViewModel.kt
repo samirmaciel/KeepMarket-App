@@ -50,14 +50,7 @@ class MarketListViewModel(
 
             for (marketItem in market.items) {
 
-                var itemState: MarketItemState? = null
-
-                itemStateList.forEach { marketItemState ->
-                    if (marketItem.id == marketItemState.marketItemId) {
-                        itemState = marketItemState
-                        return@forEach
-                    }
-                }
+                val itemState = itemStateList.filter { it.marketItemId == marketItem.id }.maxByOrNull { it.createdDate }
 
                 if (itemState != null) {
                     val updatedMarketItem = marketItem.copy(
