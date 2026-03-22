@@ -35,12 +35,14 @@ import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
-fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish: (Int, BigDecimal) -> Unit) {
+fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish: (String, Int, BigDecimal) -> Unit) {
 
+    var productName by remember { mutableStateOf(marketItem.productName) }
     var amount by remember { mutableIntStateOf(marketItem.amount) }
     var price by remember { mutableStateOf(TextFieldValue(CurrencyUtil.bigDecimalToCurrency(marketItem.price, Locale("pt", "BR"))))}
     var showAmountErrorMessage by remember { mutableStateOf(false) }
     var showPriceErrorMessage by remember { mutableStateOf(false) }
+    var showProductNameErrorMessage by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = { onDismiss() }) {
         Column(
@@ -49,6 +51,33 @@ fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish
                 .background(color = Color.White, shape = RoundedCornerShape(10.dp))
                 .padding(16.dp)
         ) {
+            OutlinedTextField(
+                value = productName,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text
+                ),
+                onValueChange = { newProductName ->
+
+                    if (productName.isEmpty()) {
+                        showAmountErrorMessage = false
+                    }
+
+                    productName = newProductName
+                },
+                label = { Text(stringResource(R.string.hint_product_name)) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            if (showProductNameErrorMessage) {
+                Text(
+                    modifier = Modifier.padding(top = 5.dp),
+                    text = stringResource(R.string.message_field_empty_error),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontSize = 10.sp,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+            }
+
 
             OutlinedTextField(
                 value = amount.toString(),
@@ -131,11 +160,15 @@ fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish
                             showPriceErrorMessage = true
                         }
 
-                        if(showAmountErrorMessage || showPriceErrorMessage){
+                        if ( productName.isEmpty()) {
+                            showProductNameErrorMessage = true
+                        }
+
+                        if(showAmountErrorMessage || showPriceErrorMessage || showProductNameErrorMessage){
                             return@Button
                         }
 
-                        onFinish(amount, value)
+                        onFinish(productName, amount, value)
 
                     }, colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
