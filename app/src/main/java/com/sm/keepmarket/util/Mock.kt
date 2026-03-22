@@ -137,6 +137,7 @@ object Mock {
             id = UUID.randomUUID().toString(),
             marketId = ownerId,
             name = "Milk",
+            productName = "Milk",
             createdDate = LocalDateTime.now()
         )
 
@@ -144,6 +145,7 @@ object Mock {
             id = UUID.randomUUID().toString(),
             marketId = ownerId,
             name = "Chicken",
+            productName = "Chicken",
             createdDate = LocalDateTime.now()
         )
 
@@ -151,6 +153,7 @@ object Mock {
             id = UUID.randomUUID().toString(),
             marketId = ownerId,
             name = "Apple",
+            productName = "Apple",
             createdDate = LocalDateTime.now()
         )
 

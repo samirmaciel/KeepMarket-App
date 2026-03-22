@@ -10,4 +10,5 @@ interface IMarketItemStateRepository {
     suspend fun getAllByMarketId(marketId: String): Flow<List<MarketItemState>>
     suspend fun getById(itemStateId: String): Flow<MarketItemState?>
     suspend fun getLastByName(itemStateName: String): Flow<MarketItemState?>
+    suspend fun getLastByProductName(itemStateProductName: String): Flow<MarketItemState?>
 }

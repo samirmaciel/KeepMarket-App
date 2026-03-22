@@ -82,10 +82,11 @@ fun MarketItemListView(
                     checked = false
                     showCheckMarketItemModal = false
                 },
-                onFinish = { amount, price ->
+                onFinish = { productName, amount, price ->
                     val newMarketItem = marketItem.copy(
                         isChecked = checked,
                         amount = amount,
+                        productName = productName,
                         price = price
                     )
 

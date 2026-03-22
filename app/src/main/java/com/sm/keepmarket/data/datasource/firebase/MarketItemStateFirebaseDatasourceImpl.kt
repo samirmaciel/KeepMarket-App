@@ -113,4 +113,26 @@ class MarketItemStateFirebaseDatasourceImpl(private val firestore: FirebaseFires
             Log.e(TAG, "Erro ao carregar lista de marketItemState", e)
             emit(null)
         }
+
+    override suspend fun getLastByProductName(
+        productName: String,
+        userID: String
+    ): Flow<MarketItemStateEntity?> =
+        flow {
+            val marketItemStateEntity: MarketItemStateEntity? = firestore
+                .collection("USERS")
+                .document(userID)
+                .collection("MARKET_ITEM_STATE")
+                .whereEqualTo("productName", productName)
+                .whereEqualTo("enabled", false)
+                .get()
+                .await()
+                .documents
+                .firstOrNull()?.toObject(MarketItemStateEntity::class.java)
+
+            emit(marketItemStateEntity)
+        }.catch { e ->
+            Log.e(TAG, "Erro ao carregar lista de marketItemState", e)
+            emit(null)
+        }
 }

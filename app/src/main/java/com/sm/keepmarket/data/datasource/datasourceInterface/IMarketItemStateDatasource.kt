@@ -11,5 +11,6 @@ interface IMarketItemStateDatasource {
     suspend fun deleteByID( marketItemStateID: String, userID: String)
     suspend fun deleteAllByMarketID(marketID: String, userID: String)
     suspend fun getLastByName(name: String, userID: String): Flow<MarketItemStateEntity?>
+    suspend fun getLastByProductName(productName: String, userID: String): Flow<MarketItemStateEntity?>
 
 }

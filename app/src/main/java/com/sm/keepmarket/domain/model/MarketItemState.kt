@@ -9,6 +9,7 @@ data class MarketItemState(
     val marketId: String,
     val marketItemId: String,
     val name: String,
+    val productName: String,
     val price: BigDecimal,
     val amount: Int,
     val isChecked: Boolean,
