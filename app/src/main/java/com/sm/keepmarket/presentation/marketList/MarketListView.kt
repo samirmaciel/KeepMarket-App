@@ -171,7 +171,7 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
             }
 
             UiState.LOADED -> {
-                LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
+                LazyColumn(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp).weight(1f)) {
                     items(uiState.value.market?.items ?: emptyList()) { item ->
                         MarketItemListView(
                             item,
@@ -190,7 +190,6 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
         Spacer(
             modifier = Modifier
                 .size(1.dp)
-                .weight(1f)
         )
 
         Row(
