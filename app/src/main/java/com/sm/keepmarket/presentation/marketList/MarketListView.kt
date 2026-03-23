@@ -143,22 +143,22 @@ fun MarketListView(marketListID: String, paddingValues: PaddingValues) {
                     .weight(1f)
             )
 
-            Button(
-                onClick = {
-
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary
-                ),
-                shape = RoundedCornerShape(5.dp)
-            ) {
-                Text(
-                    stringResource(R.string.label_uncheck_all_items),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onTertiary,
-                    fontSize = 12.sp
-                )
-            }
+//            Button(
+//                onClick = {
+//
+//                },
+//                colors = ButtonDefaults.buttonColors(
+//                    containerColor = MaterialTheme.colorScheme.tertiary
+//                ),
+//                shape = RoundedCornerShape(5.dp)
+//            ) {
+//                Text(
+//                    stringResource(R.string.label_uncheck_all_items),
+//                    style = MaterialTheme.typography.labelMedium,
+//                    color = MaterialTheme.colorScheme.onTertiary,
+//                    fontSize = 12.sp
+//                )
+//            }
         }
 
         when (uiState.value.state) {
