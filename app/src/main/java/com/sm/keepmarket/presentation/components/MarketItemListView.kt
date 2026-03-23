@@ -187,9 +187,10 @@ fun MarketItemListView(
         EditMarketItemModal(
             marketItem,
             onDismiss = { showEditItemModal = false },
-            onFinish = { name, amount, price ->
+            onFinish = { productName, name, amount, price ->
                 val newMarketItem = marketItem.copy(
                     name = name,
+                    productName = productName,
                     amount = amount,
                     price = price
                 )
