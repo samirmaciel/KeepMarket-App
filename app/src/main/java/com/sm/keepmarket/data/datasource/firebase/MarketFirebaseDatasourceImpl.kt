@@ -4,6 +4,8 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketDatasource
 import com.sm.keepmarket.data.model.MarketEntity
+import com.sm.keepmarket.domain.model.FireStoreCollections.MARKET
+import com.sm.keepmarket.domain.model.FireStoreCollections.USERS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
@@ -17,9 +19,9 @@ class MarketFirebaseDatasourceImpl(private val firestore: FirebaseFirestore): IM
     override suspend fun getAllByUserID(userID: String): Flow<List<MarketEntity>> =
         flow {
             val marketEntityList: List<MarketEntity> = firestore
-                .collection("USERS")
+                .collection(USERS)
                 .document(userID)
-                .collection("MARKET")
+                .collection(MARKET)
                 .get()
                 .await()
                 .documents
@@ -36,9 +38,9 @@ class MarketFirebaseDatasourceImpl(private val firestore: FirebaseFirestore): IM
     ): Flow<MarketEntity?> =
         flow {
             val marketEntity = firestore
-                .collection("USERS")
+                .collection(USERS)
                 .document(userID)
-                .collection("MARKET")
+                .collection(MARKET)
                 .document(marketID)
                 .get()
                 .await().toObject(MarketEntity::class.java)
@@ -51,9 +53,9 @@ class MarketFirebaseDatasourceImpl(private val firestore: FirebaseFirestore): IM
 
     override suspend fun deleteByID(userID: String, marketID: String) {
         firestore
-            .collection("USERS")
+            .collection(USERS)
             .document(userID)
-            .collection("MARKET")
+            .collection(MARKET)
             .document(marketID)
             .delete()
     }
@@ -64,9 +66,9 @@ class MarketFirebaseDatasourceImpl(private val firestore: FirebaseFirestore): IM
 
             marketEntity.id?.let {
                 firestore
-                    .collection("USERS")
+                    .collection(USERS)
                     .document(userID)
-                    .collection("MARKET")
+                    .collection(MARKET)
                     .document(it)
                     .delete()
             }
@@ -78,9 +80,9 @@ class MarketFirebaseDatasourceImpl(private val firestore: FirebaseFirestore): IM
         marketEntity: MarketEntity
     ) {
         firestore
-            .collection("USERS")
+            .collection(USERS)
             .document(userID)
-            .collection("MARKET")
+            .collection(MARKET)
             .document(marketEntity.id ?: throw IllegalArgumentException("Market ID should be not null"))
             .set(marketEntity)
     }

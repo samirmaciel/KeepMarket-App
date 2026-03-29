@@ -4,6 +4,8 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sm.keepmarket.data.datasource.datasourceInterface.IHighlightDatasource
 import com.sm.keepmarket.data.model.HighlightEntity
+import com.sm.keepmarket.domain.model.FireStoreCollections.HIGHLIGHT
+import com.sm.keepmarket.domain.model.FireStoreCollections.USERS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
@@ -18,9 +20,9 @@ class HighlightFirebaseDatasourceImpl(private val firestore: FirebaseFirestore):
     override suspend fun getAllByUserId(userID: String): Flow<List<HighlightEntity>> =
         flow {
             val highlightList: List<HighlightEntity> = firestore
-                .collection("USERS")
+                .collection(USERS)
                 .document(userID)
-                .collection("HIGHLIGHT")
+                .collection(HIGHLIGHT)
                 .get()
                 .await()
                 .documents
@@ -35,9 +37,9 @@ class HighlightFirebaseDatasourceImpl(private val firestore: FirebaseFirestore):
     override suspend fun getById(userID: String, highlightID: String): Flow<HighlightEntity?> =
         flow {
             val highlightEntity = firestore
-                .collection("USERS")
+                .collection(USERS)
                 .document(userID)
-                .collection("HIGHLIGHT")
+                .collection(HIGHLIGHT)
                 .document(highlightID)
                 .get()
                 .await().toObject(HighlightEntity::class.java)
@@ -55,9 +57,9 @@ class HighlightFirebaseDatasourceImpl(private val firestore: FirebaseFirestore):
 
             highlightEntity.id?.let {
                 firestore
-                    .collection("USERS")
+                    .collection(USERS)
                     .document(userID)
-                    .collection("HIGHLIGHT")
+                    .collection(HIGHLIGHT)
                     .document(it)
                     .delete()
             }
@@ -66,18 +68,18 @@ class HighlightFirebaseDatasourceImpl(private val firestore: FirebaseFirestore):
 
     override suspend fun deleteByID(userID: String, highlightID: String) {
         firestore
-            .collection("USERS")
+            .collection(USERS)
             .document(userID)
-            .collection("HIGHLIGHT")
+            .collection(HIGHLIGHT)
             .document(highlightID)
             .delete()
     }
 
     override suspend fun insert(userID: String, highlightEntity: HighlightEntity) {
         firestore
-            .collection("USERS")
+            .collection(USERS)
             .document(userID)
-            .collection("HIGHLIGHT")
+            .collection(HIGHLIGHT)
             .document(highlightEntity.id ?: throw IllegalArgumentException("Highlight ID should be not null"))
             .set(highlightEntity)
     }
