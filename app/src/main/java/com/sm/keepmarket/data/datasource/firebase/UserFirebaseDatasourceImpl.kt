@@ -1,13 +1,12 @@
 package com.sm.keepmarket.data.datasource.firebase
 
 import android.util.Log
-import androidx.collection.emptyIntSet
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sm.keepmarket.data.datasource.datasourceInterface.IUserDatasource
 import com.sm.keepmarket.data.model.UserEntity
 import com.sm.keepmarket.data.model.UserRegisterEntity
-import com.sm.keepmarket.domain.model.Constants.USERS_INFO
+import com.sm.keepmarket.domain.model.FireStoreCollections.USERS_INFO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
