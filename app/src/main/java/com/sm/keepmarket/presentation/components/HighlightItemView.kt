@@ -61,29 +61,33 @@ fun HighlightItemView(highlight: Highlight) {
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    modifier = Modifier,
-                    text = highlight.title,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontSize = 15.sp
-                )
-                Spacer(modifier = Modifier.size(10.dp))
-                Icon(
-                    modifier = Modifier.size(15.dp),
-                    painter = painterResource(highlight.icon),
-                    tint = Color.Unspecified,
-                    contentDescription = ""
-                )
-                Spacer(modifier = Modifier.size(10.dp))
-
-                if (!highlight.description.isNullOrBlank()) {
+                Column {
                     Text(
                         modifier = Modifier,
-                        text = highlight.description,
+                        text = highlight.title,
                         style = MaterialTheme.typography.titleLarge,
                         fontSize = 15.sp
                     )
+
+                    Row {
+                        if (!highlight.description.isNullOrBlank()) {
+                            Text(
+                                modifier = Modifier,
+                                text = highlight.description,
+                                style = MaterialTheme.typography.titleLarge,
+                                fontSize = 15.sp
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(10.dp))
+                        Icon(
+                            modifier = Modifier.size(15.dp),
+                            painter = painterResource(highlight.icon),
+                            tint = Color.Unspecified,
+                            contentDescription = ""
+                        )
+                    }
                 }
+
             }
             Text(
                 highlight.subTitle,
