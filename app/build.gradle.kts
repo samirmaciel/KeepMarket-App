@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat
+import java.util.Date
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -15,8 +18,8 @@ android {
         applicationId = "com.sm.keepmarket"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,13 +31,30 @@ android {
         }
 
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
+    applicationVariants.all {
+        outputs.all {
+
+            val date = SimpleDateFormat("yyyy-MM-dd_HH-mm").format(Date())
+
+            val appName = "KeepMarket"
+            val versionName = versionName
+            val buildTypeName = buildType.name
+
+            val newName = "${appName}_${buildTypeName}_v${versionName}_${date}.apk"
+
+            (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl)
+                .outputFileName = newName
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

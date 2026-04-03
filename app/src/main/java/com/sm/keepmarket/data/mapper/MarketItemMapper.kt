@@ -20,6 +20,7 @@ object MarketItemMapper {
             id = entity.id!!,
             marketId = entity.ownerID!!,
             name = entity.name!!,
+            productName = entity.productName!!,
             createdDate = createdDateTime!!
         )
     }
@@ -35,6 +36,7 @@ object MarketItemMapper {
             id = marketItem.id,
             ownerID = marketItem.marketId,
             name = marketItem.name,
+            productName = marketItem.productName,
             createdDate = createdDate
         )
     }

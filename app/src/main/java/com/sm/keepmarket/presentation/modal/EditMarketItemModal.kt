@@ -35,12 +35,14 @@ import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
-fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish: (String, Int, BigDecimal) -> Unit) {
+fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish: (String, String, Int, BigDecimal) -> Unit) {
 
+    var productName by remember { mutableStateOf(marketItem.productName) }
     var name by remember { mutableStateOf(marketItem.name) }
     var amount by remember { mutableIntStateOf(marketItem.amount) }
     var price by remember { mutableStateOf(TextFieldValue(CurrencyUtil.bigDecimalToCurrency(marketItem.price, Locale("pt", "BR")))) }
     var showNameErrorMessage by remember { mutableStateOf(false) }
+    var showProductNameErrorMessage by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = { onDismiss() }) {
         Column(
@@ -49,6 +51,28 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
                 .background(color = Color.White, shape = RoundedCornerShape(10.dp))
                 .padding(16.dp)
         ) {
+
+            OutlinedTextField(
+                value = productName,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
+                onValueChange = { newProductName ->
+                    productName = newProductName
+                },
+                label = { Text(stringResource(R.string.hint_product_name)) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            if (showProductNameErrorMessage) {
+                Text(
+                    modifier = Modifier.padding(top = 5.dp),
+                    text = stringResource(R.string.message_field_empty_error),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontSize = 10.sp,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+            }
 
             OutlinedTextField(
                 value = name,
@@ -118,12 +142,18 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
             ) {
                 Button(
                     onClick = {
+
+                        if (productName.isEmpty()) {
+                            showProductNameErrorMessage = true
+                            return@Button
+                        }
+
                         if (name.isEmpty()) {
                             showNameErrorMessage = true
                             return@Button
                         }
 
-                        onFinish(name, amount, CurrencyUtil.parseCurrencyToBigDecimal(price.text, Locale("pt", "BR")))
+                        onFinish(productName, name, amount, CurrencyUtil.parseCurrencyToBigDecimal(price.text, Locale("pt", "BR")))
                     }, colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = Color.White

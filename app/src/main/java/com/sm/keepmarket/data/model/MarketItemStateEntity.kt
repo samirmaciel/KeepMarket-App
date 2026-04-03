@@ -8,6 +8,7 @@ data class MarketItemStateEntity(
     val marketId: String? = null,
     val marketItemId: String? = null,
     val name: String? = null,
+    val productName: String? = null,
     val price: String? = null,
     val amount: Int? = null,
     val checked: Boolean? = null,

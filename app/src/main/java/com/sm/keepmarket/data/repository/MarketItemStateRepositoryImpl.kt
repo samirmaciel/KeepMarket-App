@@ -99,4 +99,25 @@ class MarketItemStateRepositoryImpl(private val marketItemStateDatasource: IMark
             }
         }.catch { e -> emit(null) }
     }
+
+    override suspend fun getLastByProductName(itemStateProductName: String): Flow<MarketItemState?> {
+        val userID = userRepository.getCurrentUser().firstOrNull()?.uuid
+
+        return flow {
+
+            if(userID == null){
+                throw IllegalArgumentException("Not found current User")
+            }
+
+            marketItemStateDatasource.getLastByProductName(itemStateProductName, userID).collect { itemStateEntity ->
+
+                itemStateEntity?.let {
+                    emit(MarketItemStateMapper.toModel(it))
+                } ?: run {
+                    emit(null)
+                }
+
+            }
+        }.catch { e -> emit(null) }
+    }
 }

@@ -4,6 +4,8 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sm.keepmarket.data.datasource.datasourceInterface.INotificationDatasource
 import com.sm.keepmarket.data.model.NotificationEntity
+import com.sm.keepmarket.domain.model.FireStoreCollections.NOTIFICATION
+import com.sm.keepmarket.domain.model.FireStoreCollections.USERS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
@@ -17,9 +19,9 @@ class NotificationsFirebaseDatasourceImpl(private val firestore: FirebaseFiresto
     override suspend fun getAllByUserID(userID: String): Flow<List<NotificationEntity>> =
         flow {
             val notificationEntity: List<NotificationEntity> = firestore
-                .collection("USERS")
+                .collection(USERS)
                 .document(userID)
-                .collection("NOTIFICATION")
+                .collection(NOTIFICATION)
                 .get()
                 .await()
                 .documents
@@ -36,9 +38,9 @@ class NotificationsFirebaseDatasourceImpl(private val firestore: FirebaseFiresto
 
             notificationEntity.id?.let {
                 firestore
-                    .collection("USERS")
+                    .collection(USERS)
                     .document(userID)
-                    .collection("NOTIFICATION")
+                    .collection(NOTIFICATION)
                     .document(it)
                     .delete()
             }
@@ -50,18 +52,18 @@ class NotificationsFirebaseDatasourceImpl(private val firestore: FirebaseFiresto
         userID: String
     ) {
         firestore
-            .collection("USERS")
+            .collection(USERS)
             .document(userID)
-            .collection("NOTIFICATION")
+            .collection(NOTIFICATION)
             .document(notificationEntity.id ?: throw IllegalArgumentException("Notification ID should be not null"))
             .set(notificationEntity)
     }
 
     override suspend fun deleteByID(notificationID: String, userID: String) {
         firestore
-            .collection("USERS")
+            .collection(USERS)
             .document(userID)
-            .collection("NOTIFICATION")
+            .collection(NOTIFICATION)
             .document(notificationID)
             .delete()
     }

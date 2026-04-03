@@ -4,6 +4,8 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sm.keepmarket.data.datasource.datasourceInterface.IPantryItemDatasource
 import com.sm.keepmarket.data.model.PantryItemEntity
+import com.sm.keepmarket.domain.model.FireStoreCollections.PANTRY_ITEM
+import com.sm.keepmarket.domain.model.FireStoreCollections.USERS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
@@ -21,9 +23,9 @@ class PantryItemFirebaseDatasourceImpl(private val firestore: FirebaseFirestore)
         =
         flow {
             val pantryItemEntity: List<PantryItemEntity> = firestore
-                .collection("USERS")
+                .collection(USERS)
                 .document(userID)
-                .collection("PANTRY_ITEM")
+                .collection(PANTRY_ITEM)
                 .whereEqualTo("pantryId", pantryID)
                 .get()
                 .await()
@@ -43,9 +45,9 @@ class PantryItemFirebaseDatasourceImpl(private val firestore: FirebaseFirestore)
     ): Flow<PantryItemEntity?> =
         flow {
             val pantryItemEntity = firestore
-                .collection("USERS")
+                .collection(USERS)
                 .document(userID)
-                .collection("PANTRY_ITEM")
+                .collection(PANTRY_ITEM)
                 .document(pantryItemID)
                 .get()
                 .await().toObject(PantryItemEntity::class.java)
@@ -58,9 +60,9 @@ class PantryItemFirebaseDatasourceImpl(private val firestore: FirebaseFirestore)
 
     override suspend fun deleteByID(pantryItemID: String, userID: String) {
         firestore
-            .collection("USERS")
+            .collection(USERS)
             .document(userID)
-            .collection("PANTRY_ITEM")
+            .collection(PANTRY_ITEM)
             .document(pantryItemID)
             .delete()
     }
@@ -71,9 +73,9 @@ class PantryItemFirebaseDatasourceImpl(private val firestore: FirebaseFirestore)
 
             pantryItemEntity.id?.let {
                 firestore
-                    .collection("USERS")
+                    .collection(USERS)
                     .document(userID)
-                    .collection("PANTRY_ITEM")
+                    .collection(PANTRY_ITEM)
                     .document(it)
                     .delete()
             }
@@ -85,9 +87,9 @@ class PantryItemFirebaseDatasourceImpl(private val firestore: FirebaseFirestore)
         userID: String
     ) {
         firestore
-            .collection("USERS")
+            .collection(USERS)
             .document(userID)
-            .collection("PANTRY_ITEM")
+            .collection(PANTRY_ITEM)
             .document(pantryItemEntity.id ?: throw IllegalArgumentException("PantryItem ID should be not null"))
             .set(pantryItemEntity)
     }

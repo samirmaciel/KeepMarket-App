@@ -50,14 +50,7 @@ class MarketListViewModel(
 
             for (marketItem in market.items) {
 
-                var itemState: MarketItemState? = null
-
-                itemStateList.forEach { marketItemState ->
-                    if (marketItem.id == marketItemState.marketItemId) {
-                        itemState = marketItemState
-                        return@forEach
-                    }
-                }
+                val itemState = itemStateList.filter { it.marketItemId == marketItem.id }.maxByOrNull { it.createdDate }
 
                 if (itemState != null) {
                     val updatedMarketItem = marketItem.copy(
@@ -117,6 +110,7 @@ class MarketListViewModel(
             id = UUID.randomUUID().toString(),
             marketId = market.id,
             name = name,
+            productName = name,
             createdDate = LocalDateTime.now()
         )
 
@@ -218,7 +212,7 @@ class MarketListViewModel(
         viewModelScope.launch {
             updatedItemStateList.forEach { newItemState ->
 
-                val lastItemState = marketItemStateRepository.getLastByName(newItemState.name).first()
+                val lastItemState = marketItemStateRepository.getLastByProductName(newItemState.productName).first()
 
                 var itemStateType: HighlightType? = null
 
@@ -242,14 +236,18 @@ class MarketListViewModel(
 
                     val newHighlight = Highlight(
                         id = UUID.randomUUID().toString(),
-                        title = newItemState.name,
+                        title = "${newItemState.name} (${newItemState.productName})",
                         subTitle = subTitle,
                         icon = icon,
                         type = itemStateType,
-                        description = CurrencyUtil.bigDecimalToCurrency( newItemState.price
+                        description = "${CurrencyUtil.bigDecimalToCurrency(newItemState.price, Locale("pt", "BR"))} (${CurrencyUtil.bigDecimalToCurrency( newItemState.price
                             .subtract(lastItemState?.price ?: BigDecimal.ZERO)
-                            .abs(), Locale("pt", "BR"))
+                            .abs(), Locale("pt", "BR"))})"
                     )
+
+                    CurrencyUtil.bigDecimalToCurrency( newItemState.price
+                        .subtract(lastItemState?.price ?: BigDecimal.ZERO)
+                        .abs(), Locale("pt", "BR"))
 
                     highlightRepository.insert(newHighlight)
                 }

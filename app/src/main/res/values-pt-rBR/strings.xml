@@ -15,6 +15,7 @@
     <string name="label_add_item">Adicionar Item</string>
     <string name="label_uncheck_all_items">Desmarcar todos items</string>
     <string name="hint_amount">Quantidade</string>
+    <string name="hint_product_name">Marca do produto</string>
     <string name="hint_unit_price">Preço unitário</string>
     <string name="label_check">Marcar</string>
     <string name="message_field_empty_error">Campo obrigatório</string>
