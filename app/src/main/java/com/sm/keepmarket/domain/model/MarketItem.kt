@@ -1,6 +1,7 @@
 package com.sm.keepmarket.domain.model
 
 import android.util.Log
+import com.sm.keepmarket.util.ProductUnitType
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.time.LocalDateTime
@@ -14,7 +15,8 @@ data class MarketItem(
     val productName: String,
     val createdDate: LocalDateTime,
     val price: BigDecimal = BigDecimal.ZERO,
-    val amount: Int = 0,
+    val amount: Double = 0.0,
+    val unitType: ProductUnitType = ProductUnitType.UNIT,
     val isChecked: Boolean = false
 ) {
     fun getTotalPrice(): BigDecimal = BigDecimal(amount).multiply(price)
@@ -34,8 +36,8 @@ fun MarketItem.toItemState(): MarketItemState {
         createdDate = LocalDateTime.now(),
         price = price,
         amount = amount,
+        unitType = unitType,
         isChecked = isChecked,
         lastUpdate = LocalDateTime.now(),
-        enabled = true
     )
 }

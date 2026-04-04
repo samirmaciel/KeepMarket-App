@@ -13,6 +13,7 @@ import com.sm.keepmarket.data.datasource.datasourceInterface.IHighlightDatasourc
 import com.sm.keepmarket.data.datasource.datasourceInterface.ILoginDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketItemStateDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.INotificationDatasource
+import com.sm.keepmarket.data.datasource.datasourceInterface.IProductDatasource
 import com.sm.keepmarket.data.datasource.datasourceInterface.IUserDatasource
 import com.sm.keepmarket.data.datasource.firebase.HighlightFirebaseDatasourceImpl
 import com.sm.keepmarket.data.datasource.firebase.MarketFirebaseDatasourceImpl
@@ -21,6 +22,7 @@ import com.sm.keepmarket.data.datasource.firebase.MarketItemStateFirebaseDatasou
 import com.sm.keepmarket.data.datasource.firebase.NotificationsFirebaseDatasourceImpl
 import com.sm.keepmarket.data.datasource.firebase.PantryFirebaseDatasourceImpl
 import com.sm.keepmarket.data.datasource.firebase.PantryItemFirebaseDatasourceImpl
+import com.sm.keepmarket.data.datasource.firebase.ProductFirebaseDatasourceImpl
 import com.sm.keepmarket.data.repository.HighlightRepositoryImpl
 import com.sm.keepmarket.data.repository.LoginRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemRepository
@@ -33,11 +35,13 @@ import com.sm.keepmarket.data.repository.MarketRepositoryImpl
 import com.sm.keepmarket.data.repository.NotificationRepositoryImpl
 import com.sm.keepmarket.data.repository.PantryItemRepositoryImpl
 import com.sm.keepmarket.data.repository.PantryRepositoryImpl
+import com.sm.keepmarket.data.repository.ProductRepositoryImpl
 import com.sm.keepmarket.data.repository.UserRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.ILoginRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemStateRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.INotificationRepository
+import com.sm.keepmarket.data.repository.repositoryInterface.IProductRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IUserRepository
 import com.sm.keepmarket.presentation.home.HomeViewModel
 import com.sm.keepmarket.presentation.login.LoginViewModel
@@ -57,7 +61,7 @@ val viewModelModules = module {
     viewModel{ PantryViewModel(get(), get()) }
     viewModel{ NotificationsViewModel(get()) }
     viewModel{ SearchViewModel(get()) }
-    viewModel{ MarketListViewModel(get(), get(), get(), get()) }
+    viewModel{ MarketListViewModel(get(), get(), get(), get(),get()) }
     viewModel{ SplashViewModel(get()) }
     viewModel{ MarketListSelectionViewModel(get()) }
     viewModel{ PantryListSelectionViewModel(get()) }
@@ -80,6 +84,7 @@ val repositoryModules = module {
     single<IMarketItemStateRepository> { MarketItemStateRepositoryImpl(get(), get()) }
     single<ILoginRepository> { LoginRepositoryImpl(get()) }
     single<IUserRepository> { UserRepositoryImpl(get()) }
+    single<IProductRepository> { ProductRepositoryImpl(get(), get()) }
 }
 
 val datasourceModules = module {
@@ -92,6 +97,7 @@ val datasourceModules = module {
     single<IMarketItemStateDatasource> { MarketItemStateFirebaseDatasourceImpl(get()) }
     single<ILoginDatasource> { LoginFirebaseDatasourceImpl(get(), get()) }
     single<IUserDatasource> { UserFirebaseDatasourceImpl(get(), get()) }
+    single<IProductDatasource> { ProductFirebaseDatasourceImpl(get()) }
 }
 
 val appDispatchersModule = module {

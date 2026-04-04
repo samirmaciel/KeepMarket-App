@@ -2,10 +2,11 @@ package com.sm.keepmarket.data.datasource.firebase
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.sm.keepmarket.data.datasource.datasourceInterface.IHighlightDatasource
 import com.sm.keepmarket.data.model.HighlightEntity
-import com.sm.keepmarket.domain.model.FireStoreCollections.HIGHLIGHT
-import com.sm.keepmarket.domain.model.FireStoreCollections.USERS
+import com.sm.keepmarket.domain.FireStoreCollections.HIGHLIGHT
+import com.sm.keepmarket.domain.FireStoreCollections.USERS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
@@ -23,6 +24,8 @@ class HighlightFirebaseDatasourceImpl(private val firestore: FirebaseFirestore):
                 .collection(USERS)
                 .document(userID)
                 .collection(HIGHLIGHT)
+                .orderBy("createdDate", Query.Direction.DESCENDING)
+                .limit(10)
                 .get()
                 .await()
                 .documents

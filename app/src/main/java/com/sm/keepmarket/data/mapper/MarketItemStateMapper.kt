@@ -3,6 +3,7 @@ package com.sm.keepmarket.data.mapper
 import com.google.firebase.Timestamp
 import com.sm.keepmarket.data.model.MarketItemStateEntity
 import com.sm.keepmarket.domain.model.MarketItemState
+import com.sm.keepmarket.util.ProductUnitType
 import java.time.ZoneId
 import java.util.Date
 
@@ -29,10 +30,10 @@ object MarketItemStateMapper {
             productName = marketItemState.productName,
             price = marketItemState.price.toPlainString(),
             amount = marketItemState.amount,
+            unitType = marketItemState.unitType.value,
             checked = marketItemState.isChecked,
             lastUpdate = lastUpdate,
             createdDate = createdDate,
-            enabled = marketItemState.enabled
         )
     }
 
@@ -57,9 +58,10 @@ object MarketItemStateMapper {
             productName = marketItemStateEntity.productName!!,
             price = marketItemStateEntity.price!!.toBigDecimal(),
             amount = marketItemStateEntity.amount!!,
+            unitType = ProductUnitType.valueOf(marketItemStateEntity.unitType!!),
             isChecked = marketItemStateEntity.checked!!,
             lastUpdate = lastUpdate!!,
-            createdDate = createdDateTime!!,
-            enabled = marketItemStateEntity.enabled!!)
+            createdDate = createdDateTime!!
+        )
     }
 }

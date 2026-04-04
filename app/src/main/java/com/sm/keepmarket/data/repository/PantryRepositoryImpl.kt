@@ -10,7 +10,6 @@ import com.sm.keepmarket.data.repository.repositoryInterface.IUserRepository
 import com.sm.keepmarket.domain.model.Market
 import com.sm.keepmarket.domain.model.Pantry
 import com.sm.keepmarket.util.FeaturedType
-import com.sm.keepmarket.util.Mock
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
