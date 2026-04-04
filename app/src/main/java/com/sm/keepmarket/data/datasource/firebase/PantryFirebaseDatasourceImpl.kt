@@ -5,8 +5,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.sm.keepmarket.data.datasource.datasourceInterface.IPantryDatasource
 import com.sm.keepmarket.data.model.MarketEntity
 import com.sm.keepmarket.data.model.PantryEntity
-import com.sm.keepmarket.domain.model.FireStoreCollections.PANTRY
-import com.sm.keepmarket.domain.model.FireStoreCollections.USERS
+import com.sm.keepmarket.domain.FireStoreCollections.PANTRY
+import com.sm.keepmarket.domain.FireStoreCollections.USERS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull

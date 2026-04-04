@@ -106,7 +106,7 @@ class HomeViewModel(
 
             highlightRepository.getAll().collect { highlightList ->
                 _HighlightListState.update {
-                    UiStateView.Success(highlightList.reversed())
+                    UiStateView.Success(highlightList)
                 }
             }
         }

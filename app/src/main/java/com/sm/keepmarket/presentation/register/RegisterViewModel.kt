@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sm.keepmarket.data.repository.repositoryInterface.IUserRepository
 import com.sm.keepmarket.domain.model.UserRegisterModel
-import com.sm.keepmarket.domain.model.ValidationInput
+import com.sm.keepmarket.domain.ValidationInput
 import com.sm.keepmarket.domain.model.ValidationModel
 import com.sm.keepmarket.presentation.login.InputState
 import com.sm.keepmarket.util.UiStateView

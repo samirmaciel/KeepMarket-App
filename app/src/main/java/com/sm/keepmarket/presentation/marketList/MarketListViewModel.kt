@@ -4,21 +4,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sm.keepmarket.R
 import com.sm.keepmarket.data.repository.HighlightRepositoryImpl
+import com.sm.keepmarket.data.repository.ProductRepositoryImpl
 import com.sm.keepmarket.data.repository.repositoryInterface.IHighlightRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketItemStateRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IMarketRepository
+import com.sm.keepmarket.data.repository.repositoryInterface.IProductRepository
 import com.sm.keepmarket.domain.model.Highlight
 import com.sm.keepmarket.domain.model.Market
 import com.sm.keepmarket.domain.model.MarketItem
 import com.sm.keepmarket.domain.model.MarketItemState
+import com.sm.keepmarket.domain.model.ProductModel
 import com.sm.keepmarket.domain.model.toItemState
+import com.sm.keepmarket.domain.model.toProductModel
 import com.sm.keepmarket.util.CurrencyUtil
 import com.sm.keepmarket.util.HighlightType
 import com.sm.keepmarket.util.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -31,6 +37,7 @@ class MarketListViewModel(
     private val marketRepository: IMarketRepository,
     private val marketItemRepository: IMarketItemRepository,
     private val marketItemStateRepository: IMarketItemStateRepository,
+    private val productRepository: IProductRepository,
     private val highlightRepository: IHighlightRepository
 ) : ViewModel() {
 
@@ -178,7 +185,21 @@ class MarketListViewModel(
         }
 
         updateItem(marketItem)
-        saveItemState(marketItem.toItemState())
+
+        viewModelScope.launch {
+            var itemState = marketItemStateRepository.getLastByProductName(marketItem.productName).firstOrNull()
+
+            if(itemState == null) itemState = marketItem.toItemState()
+
+            itemState = itemState.copy(
+                isChecked = marketItem.isChecked,
+                price = marketItem.price,
+                productName = marketItem.productName,
+                amount = marketItem.amount
+            )
+
+            saveItemState(itemState)
+        }
     }
 
     fun saveItemState(item: MarketItemState) {
@@ -200,64 +221,67 @@ class MarketListViewModel(
         }
     }
 
+    fun finishList(){
+        finishItemState()
+    }
+
     fun finishItemState(){
-        val updatedItemStateList = marketItemStateList.map {
-            if(it.isChecked){
-                it.copy(enabled = false)
-            } else {
-                it
-            }
-        }
 
         viewModelScope.launch {
-            updatedItemStateList.forEach { newItemState ->
+            marketItemStateList.forEach { itemState ->
 
-                val lastItemState = marketItemStateRepository.getLastByProductName(newItemState.productName).first()
+                val newProductModel = itemState.toProductModel()
+                val lastProductModel = productRepository.getLast(itemState.productName).firstOrNull()
 
-                var itemStateType: HighlightType? = null
-
-                lastItemState?.let {
-
-                    val lastPrice = lastItemState.price
-                    val newPrice = newItemState.price
-
-                    if(lastPrice < newPrice){
-                        itemStateType = HighlightType.PRICE_INCREASE
-                    } else if (lastPrice > newPrice){
-                        itemStateType = HighlightType.PRICE_DECREASE
-                    }
+                lastProductModel?.let {
+                    createHighlights(newProductModel, it)
                 }
 
-
-                if(itemStateType != null){
-
-                    val icon = getIcon(itemStateType)
-                    val subTitle = getSubTitle(itemStateType)
-
-                    val newHighlight = Highlight(
-                        id = UUID.randomUUID().toString(),
-                        title = "${newItemState.name} (${newItemState.productName})",
-                        subTitle = subTitle,
-                        icon = icon,
-                        type = itemStateType,
-                        description = "${CurrencyUtil.bigDecimalToCurrency(newItemState.price, Locale("pt", "BR"))} (${CurrencyUtil.bigDecimalToCurrency( newItemState.price
-                            .subtract(lastItemState?.price ?: BigDecimal.ZERO)
-                            .abs(), Locale("pt", "BR"))})"
-                    )
-
-                    CurrencyUtil.bigDecimalToCurrency( newItemState.price
-                        .subtract(lastItemState?.price ?: BigDecimal.ZERO)
-                        .abs(), Locale("pt", "BR"))
-
-                    highlightRepository.insert(newHighlight)
-                }
-
-                marketItemStateRepository.insert(newItemState)
+                productRepository.insert(newProductModel)
+                marketItemStateRepository.delete(itemState)
 
             }
 
             getMarket(_UiState.value.market?.id ?: "")
         }
+    }
+
+    private suspend fun createHighlights(newProductModel: ProductModel, lastProductModel: ProductModel){
+
+        val newPrice = newProductModel.price
+        val lastPrice = lastProductModel.price
+        var itemStateType: HighlightType? = null
+
+        if(lastPrice == newPrice) return
+
+        if(lastPrice < newPrice){
+            itemStateType = HighlightType.PRICE_INCREASE
+        } else if (lastPrice > newPrice){
+            itemStateType = HighlightType.PRICE_DECREASE
+        }
+
+        if(itemStateType == null) return
+
+        val icon = getIcon(itemStateType)
+        val subTitle = getSubTitle(itemStateType)
+
+        val newHighlight = Highlight(
+            id = UUID.randomUUID().toString(),
+            title = "${newProductModel.name} (${newProductModel.marketItemParent})",
+            subTitle = subTitle,
+            icon = icon,
+            type = itemStateType,
+            description = "${CurrencyUtil.bigDecimalToCurrency(newProductModel.price, Locale("pt", "BR"))} (${CurrencyUtil.bigDecimalToCurrency( newProductModel.price
+                .subtract(lastProductModel?.price ?: BigDecimal.ZERO)
+                .abs(), Locale("pt", "BR"))})",
+            createdDate = LocalDateTime.now()
+        )
+
+        CurrencyUtil.bigDecimalToCurrency( newProductModel.price
+            .subtract(lastProductModel?.price ?: BigDecimal.ZERO)
+            .abs(), Locale("pt", "BR"))
+
+        highlightRepository.insert(newHighlight)
     }
 
     private fun getSubTitle(highlightType: HighlightType): String {

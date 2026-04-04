@@ -10,9 +10,9 @@ data class MarketItemStateEntity(
     val name: String? = null,
     val productName: String? = null,
     val price: String? = null,
-    val amount: Int? = null,
+    val amount: Double? = null,
+    val unitType: String? = null,
     val checked: Boolean? = null,
     val lastUpdate: Timestamp? = null,
     val createdDate: Timestamp? = null,
-    val enabled: Boolean? = null
 )

@@ -6,7 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.sm.keepmarket.data.datasource.datasourceInterface.IUserDatasource
 import com.sm.keepmarket.data.model.UserEntity
 import com.sm.keepmarket.data.model.UserRegisterEntity
-import com.sm.keepmarket.domain.model.FireStoreCollections.USERS_INFO
+import com.sm.keepmarket.domain.FireStoreCollections.USERS_INFO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull

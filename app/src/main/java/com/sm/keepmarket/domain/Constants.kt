@@ -1,4 +1,4 @@
-package com.sm.keepmarket.domain.model
+package com.sm.keepmarket.domain
 
 object FireStoreCollections {
 

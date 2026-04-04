@@ -4,8 +4,8 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sm.keepmarket.data.datasource.datasourceInterface.IMarketItemStateDatasource
 import com.sm.keepmarket.data.model.MarketItemStateEntity
-import com.sm.keepmarket.domain.model.FireStoreCollections.MARKET_ITEM_STATE
-import com.sm.keepmarket.domain.model.FireStoreCollections.USERS
+import com.sm.keepmarket.domain.FireStoreCollections.MARKET_ITEM_STATE
+import com.sm.keepmarket.domain.FireStoreCollections.USERS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
@@ -25,7 +25,6 @@ class MarketItemStateFirebaseDatasourceImpl(private val firestore: FirebaseFires
                 .document(userID)
                 .collection(MARKET_ITEM_STATE)
                 .whereEqualTo("marketId", marketID)
-                .whereEqualTo("enabled", true)
                 .get()
                 .await()
                 .documents
@@ -126,7 +125,6 @@ class MarketItemStateFirebaseDatasourceImpl(private val firestore: FirebaseFires
                 .document(userID)
                 .collection(MARKET_ITEM_STATE)
                 .whereEqualTo("productName", productName)
-                .whereEqualTo("enabled", false)
                 .get()
                 .await()
                 .documents

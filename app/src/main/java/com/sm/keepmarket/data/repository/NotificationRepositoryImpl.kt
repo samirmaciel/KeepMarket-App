@@ -5,7 +5,6 @@ import com.sm.keepmarket.data.mapper.NotificationMapper
 import com.sm.keepmarket.data.repository.repositoryInterface.INotificationRepository
 import com.sm.keepmarket.data.repository.repositoryInterface.IUserRepository
 import com.sm.keepmarket.domain.model.NotificationItem
-import com.sm.keepmarket.util.Mock
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull

@@ -4,8 +4,8 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sm.keepmarket.data.datasource.datasourceInterface.INotificationDatasource
 import com.sm.keepmarket.data.model.NotificationEntity
-import com.sm.keepmarket.domain.model.FireStoreCollections.NOTIFICATION
-import com.sm.keepmarket.domain.model.FireStoreCollections.USERS
+import com.sm.keepmarket.domain.FireStoreCollections.NOTIFICATION
+import com.sm.keepmarket.domain.FireStoreCollections.USERS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull

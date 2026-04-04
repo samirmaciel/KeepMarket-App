@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sm.keepmarket.data.repository.repositoryInterface.INotificationRepository
 import com.sm.keepmarket.domain.model.NotificationItem
-import com.sm.keepmarket.util.Mock
 import com.sm.keepmarket.util.UiState
 import com.sm.keepmarket.util.UiStateView
 import kotlinx.coroutines.flow.MutableStateFlow

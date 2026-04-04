@@ -15,6 +15,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,14 +36,16 @@ import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
-fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish: (String, String, Int, BigDecimal) -> Unit) {
+fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish: (String, String, Double, BigDecimal) -> Unit) {
 
     var productName by remember { mutableStateOf(marketItem.productName) }
     var name by remember { mutableStateOf(marketItem.name) }
-    var amount by remember { mutableIntStateOf(marketItem.amount) }
+    var amount by remember { mutableDoubleStateOf(marketItem.amount) }
     var price by remember { mutableStateOf(TextFieldValue(CurrencyUtil.bigDecimalToCurrency(marketItem.price, Locale("pt", "BR")))) }
     var showNameErrorMessage by remember { mutableStateOf(false) }
     var showProductNameErrorMessage by remember { mutableStateOf(false) }
+    var showAmountErrorMessage by remember { mutableStateOf(false) }
+    var showPriceErrorMessage by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = { onDismiss() }) {
         Column(
@@ -104,17 +107,27 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
                 onValueChange = { amountValue ->
 
                     if(amountValue.isEmpty()){
-                        amount = 0
+                        amount = 0.0
                         return@OutlinedTextField
                     }
 
-                    val newAmount = amountValue.toInt()
+                    val newAmount = amountValue.toDouble()
 
                     amount = newAmount
                 },
                 label = { Text(stringResource(R.string.hint_amount)) },
                 modifier = Modifier.fillMaxWidth(),
             )
+
+            if (showAmountErrorMessage) {
+                Text(
+                    modifier = Modifier.padding(top = 5.dp),
+                    text = stringResource(R.string.message_field_empty_error),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontSize = 10.sp,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+            }
 
             OutlinedTextField(
                 value = price,
@@ -135,6 +148,16 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
                 modifier = Modifier.fillMaxWidth(),
             )
 
+            if (showPriceErrorMessage) {
+                Text(
+                    modifier = Modifier.padding(top = 5.dp),
+                    text = stringResource(R.string.message_field_empty_error),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontSize = 10.sp,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+            }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -148,8 +171,20 @@ fun EditMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish:
                             return@Button
                         }
 
+                        if (amount <= 0.0) {
+                            showAmountErrorMessage = true
+                            return@Button
+                        }
+
                         if (name.isEmpty()) {
                             showNameErrorMessage = true
+                            return@Button
+                        }
+
+                        val formatedPrice = CurrencyUtil.parseCurrencyToBigDecimal(price.text, Locale("pt", "BR"))
+
+                        if (formatedPrice <= BigDecimal.ZERO ) {
+                            showPriceErrorMessage = true
                             return@Button
                         }
 

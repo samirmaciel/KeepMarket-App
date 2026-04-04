@@ -15,6 +15,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,10 +36,10 @@ import java.math.BigDecimal
 import java.util.Locale
 
 @Composable
-fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish: (String, Int, BigDecimal) -> Unit) {
+fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish: (String, Double, BigDecimal) -> Unit) {
 
     var productName by remember { mutableStateOf(marketItem.productName) }
-    var amount by remember { mutableIntStateOf(marketItem.amount) }
+    var amount by remember { mutableDoubleStateOf(marketItem.amount) }
     var price by remember { mutableStateOf(TextFieldValue(CurrencyUtil.bigDecimalToCurrency(marketItem.price, Locale("pt", "BR"))))}
     var showAmountErrorMessage by remember { mutableStateOf(false) }
     var showPriceErrorMessage by remember { mutableStateOf(false) }
@@ -87,13 +88,13 @@ fun CheckMarketItemModal(marketItem: MarketItem, onDismiss: () -> Unit, onFinish
                 onValueChange = { amountValue ->
 
                     if(amountValue.isEmpty()){
-                        amount = 0
+                        amount = 0.0
                         return@OutlinedTextField
                     }
 
-                    val newAmount = amountValue.toInt()
+                    val newAmount = amountValue.toDouble()
 
-                    if (newAmount > 0) {
+                    if (newAmount > 0.0) {
                         showAmountErrorMessage = false
                     }
 
